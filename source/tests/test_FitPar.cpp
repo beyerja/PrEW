@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 #include <FitPar.h>
 
+#include <string>  
+#include <sstream>   
+
 using namespace PREW::Fit;
 
 TEST(TestFitPar, ReturnsCorrectIni) {
@@ -17,4 +20,14 @@ TEST(TestFitPar, ProperReset) {
   fp.m_val_mod = 20.5;
   fp.reset();
   EXPECT_EQ(fp.m_val_mod, 4000.77);
+}
+
+TEST(TestFitPar, ProperOStream) {
+  FitPar fp (-30.27);
+  fp.m_val_mod = 2.0;
+  std::stringstream buffer;
+  buffer << fp;
+  std::string result = buffer.str();
+  std::string expected = "Fit Parameter: initial value: -30.27 -> modified value: 2";
+  EXPECT_STREQ(result.c_str(), expected.c_str());
 }

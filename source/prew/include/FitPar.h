@@ -1,6 +1,8 @@
 #ifndef LIB_FITPAR_H
 #define LIB_FITPAR_H 1
 
+#include <iostream>
+
 namespace PREW {
 namespace Fit {
   
@@ -16,12 +18,14 @@ namespace Fit {
       // Constructors
       FitPar(double val_ini);
       
-      double const get_val_ini(); // Get initial value
+      double get_val_ini() const; // Get initial value
       
       void reset(); // Reset to inital value
   };
   
 }
 }
+
+std::ostream& operator<<(std::ostream& os, const PREW::Fit::FitPar& fp);
 
 #endif 
