@@ -20,10 +20,10 @@ add_executable(${BINARY}_run ${SOURCES})
 # just for example add some compiler flags
 target_compile_options(${BINARY}_run PUBLIC -std=c++1y -Wall -Wfloat-conversion)
 
-# ###############################################################################
-# ## dependencies ###############################################################
-# ###############################################################################
-# 
+###############################################################################
+## dependencies ###############################################################
+###############################################################################
+
 # # this defines the variables Boost_LIBRARIES that contain all library names
 # # that we need to link to
 # find_package(Boost 1.36.0 COMPONENTS filesystem system REQUIRED)
@@ -34,10 +34,12 @@ target_compile_options(${BINARY}_run PUBLIC -std=c++1y -Wall -Wfloat-conversion)
 #   # here you can add any library dependencies
 # )
 
+target_link_libraries(${BINARY}_run PUBLIC spdlog)
 
 ###############################################################################
 ## packaging ##################################################################
 ###############################################################################
+
 
 add_library(${BINARY}_lib STATIC ${SOURCES})
 

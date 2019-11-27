@@ -6,6 +6,10 @@ project(PrEW) # Project name
 
 # Header files that can be included using #include
 include_directories(source/prew/include)
+include_directories(spdlog/include)
+
+# External libraries
+link_directories(spdlog/build)
 
 # Code subdirectories with own CMakelists
 add_subdirectory(source/prew)
