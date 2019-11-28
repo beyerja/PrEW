@@ -13,11 +13,20 @@ namespace Fit {
         Bins cannot (!) be correlated except through common fit parameters.
     **/
   
+  // Input
   FitContainer * m_container {}; // Container with bins and parameters
+  
+  // Output
+  double m_chisq {};
+  
+  // Internal functions
+  double calc_chisq();
   
   public:
     // Constructors
     ChiSqMinimizer(FitContainer * container);
+    
+    double get_chisq() const;
   };
   
 }
