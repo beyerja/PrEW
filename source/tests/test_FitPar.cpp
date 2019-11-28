@@ -35,3 +35,13 @@ TEST(TestFitPar, ProperOStream) {
   std::string expected = "Fit Parameter: initial value: -30.27 -> modified value: 2";
   ASSERT_STREQ(result.c_str(), expected.c_str());
 }
+
+TEST(TestFitPar, EqualOperator) {
+  FitPar fp1 ("fp1", 0);
+  FitPar fp2 ("fp2", 0);
+  FitPar fp1_copy ("fp1", 1);
+  
+  ASSERT_EQ(fp1 == fp1, true);
+  ASSERT_EQ(fp1 == fp2, false);
+  ASSERT_EQ(fp1 == fp1_copy, true);
+}

@@ -25,6 +25,9 @@ namespace Fit {
       double get_val_ini() const;   // Get initial value
       
       void reset(); // Reset to inital value
+      
+      // Operators
+      bool operator==(const FitPar& fit_par) const;
   };
   
 }

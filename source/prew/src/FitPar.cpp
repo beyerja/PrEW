@@ -22,6 +22,16 @@ double FitPar::get_val_ini() const { return m_val_ini; }
 void FitPar::reset() { m_val_mod = m_val_ini; }
 
 //------------------------------------------------------------------------------
+// Operators
+
+bool FitPar::operator==(const FitPar& fit_par) const {
+  /** Unique identifir is fit parameter.
+      Changing the values won't change identity of parameter.
+  **/
+  return fit_par.get_name() == m_name;
+}
+
+//------------------------------------------------------------------------------
 
 }
 }
