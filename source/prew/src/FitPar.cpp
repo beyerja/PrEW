@@ -7,11 +7,13 @@ namespace Fit {
 // Constructors
 
 
-FitPar::FitPar(double val_ini) : m_val_ini(val_ini), m_val_mod(val_ini) {};
+FitPar::FitPar(std::string name, double val_ini) : 
+  m_name(name), m_val_ini(val_ini), m_val_mod(val_ini) {};
 
 //------------------------------------------------------------------------------
 // get functions
 
+std::string FitPar::get_name() const { return m_name; }
 double FitPar::get_val_ini() const { return m_val_ini; }
   
 //------------------------------------------------------------------------------

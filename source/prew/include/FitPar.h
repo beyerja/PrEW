@@ -8,7 +8,10 @@ namespace Fit {
   
   class FitPar {
     /** Class describing fit parameters that can be varied in a fit.
+        The unique identifier for a fit parameter is its name string.
     **/
+    
+    std::string m_name {}; // Name (Unique identifier)
     
     double m_val_ini {}; // Initial value
     
@@ -16,9 +19,10 @@ namespace Fit {
       double m_val_mod {}; // Modified value => Publicly accessible
       
       // Constructors
-      FitPar(double val_ini);
+      FitPar(std::string name, double val_ini);
       
-      double get_val_ini() const; // Get initial value
+      std::string get_name() const; // Get name
+      double get_val_ini() const;   // Get initial value
       
       void reset(); // Reset to inital value
   };
