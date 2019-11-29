@@ -1,5 +1,5 @@
-#ifndef LIB_CHISQMINIMIZER_H
-#define LIB_CHISQMINIMIZER_H 1
+#ifndef LIB_MINUITFACTORY_H
+#define LIB_MINUITFACTORY_H 1
 
 #include "Minuit2/Minuit2Minimizer.h"
 
