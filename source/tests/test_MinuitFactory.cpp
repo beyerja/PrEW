@@ -3,6 +3,8 @@
 
 #include "Math/Functor.h"
 
+#include <math.h>
+
 using namespace PREW::Fit;
 
 TEST(TestMinuitFactory, SimpleMinimizerCreation) {
