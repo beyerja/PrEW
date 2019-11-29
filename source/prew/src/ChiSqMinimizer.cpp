@@ -8,10 +8,11 @@ namespace Fit {
 //------------------------------------------------------------------------------
 // Constructors
 
-ChiSqMinimizer::ChiSqMinimizer(FitContainer * container) : 
+ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, MinuitFactory &factory) : 
   m_container(container) 
 {
   m_chisq = this->calc_chisq();
+  m_minimizer = factory.create_minimizer();
 };
 
 //------------------------------------------------------------------------------

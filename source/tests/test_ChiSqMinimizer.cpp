@@ -5,7 +5,8 @@ using namespace PREW::Fit;
 
 TEST(TestChiSqMinimizer, TrivialConstructor) {
   FitContainer container {};
-  ChiSqMinimizer chi_sq_minimizer (&container);
+  MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
+  ChiSqMinimizer chi_sq_minimizer (&container, factory);
   ASSERT_EQ(chi_sq_minimizer.get_chisq(), 0);
 }
 
@@ -18,7 +19,8 @@ TEST(TestChiSqMinimizer, SimpleConstructor) {
   FitContainer container {};
   container.m_fit_pars = fit_pars;
   container.m_fit_bins = fit_bins;
-  ChiSqMinimizer chi_sq_minimizer (&container);
+  MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
+  ChiSqMinimizer chi_sq_minimizer (&container, factory);
   ASSERT_EQ(chi_sq_minimizer.get_chisq(), 1);
 }
 
@@ -27,13 +29,14 @@ TEST(TestChiSqMinimizer, ManyBinsConstructor) {
   // (testing mainly calc_chisq)
   std::function<double()> trivial_prd = []() { return 0; }; // Prediction = 0
   std::vector<int> n_bins = {20, 200, 2000, 20000, 200000};
+  MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
   for ( auto n : n_bins ) {
     std::vector<FitPar> fit_pars {}; 
     std::vector<FitBin> fit_bins (n, FitBin(1.0, 1.0, trivial_prd));
     FitContainer container {};
     container.m_fit_pars = fit_pars;
     container.m_fit_bins = fit_bins;
-    ChiSqMinimizer chi_sq_minimizer (&container);
+    ChiSqMinimizer chi_sq_minimizer (&container, factory);
     ASSERT_EQ(chi_sq_minimizer.get_chisq(), n);
   }
 }
@@ -51,12 +54,13 @@ TEST(TestChiSqMinimizer, MultiBinPlusFitParConstructor) {
   FitContainer container {};
   container.m_fit_pars = fit_pars;
   container.m_fit_bins = fit_bins;
+  MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
   
-  ChiSqMinimizer chi_sq_minimizer (&container);
+  ChiSqMinimizer chi_sq_minimizer (&container, factory);
   ASSERT_EQ(chi_sq_minimizer.get_chisq(), 2);
   
   fp.m_val_mod = 0.5;
-  ChiSqMinimizer chi_sq_minimizer_mod (&container);
+  ChiSqMinimizer chi_sq_minimizer_mod (&container, factory);
   // ((1-1)/1)^2 + ((1-(-1))/1)^2 = 4
   ASSERT_EQ(chi_sq_minimizer_mod.get_chisq(), 4);
 }

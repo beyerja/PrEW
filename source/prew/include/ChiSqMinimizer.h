@@ -2,6 +2,11 @@
 #define LIB_CHISQMINIMIZER_H 1
 
 #include <FitContainer.h>
+#include <MinuitFactory.h>
+
+#include <memory>
+
+#include "Minuit2/Minuit2Minimizer.h"
 
 namespace PREW {
 namespace Fit {
@@ -15,6 +20,7 @@ namespace Fit {
   
   // Input
   FitContainer * m_container {}; // Container with bins and parameters
+  std::unique_ptr<ROOT::Minuit2::Minuit2Minimizer> m_minimizer; // Minimizer created by factory
   
   // Output
   double m_chisq {};
@@ -24,7 +30,7 @@ namespace Fit {
   
   public:
     // Constructors
-    ChiSqMinimizer(FitContainer * container);
+    ChiSqMinimizer(FitContainer * container, MinuitFactory &factory);
     
     double get_chisq() const;
   };
