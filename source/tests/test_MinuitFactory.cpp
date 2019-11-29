@@ -41,8 +41,8 @@ TEST(TestMinuitFactory, TestSimpleMinimization) {
   const ROOT::Math::Functor simple_function ([](const double *x) { return std::pow(x[0]-1.0, 2); }, 1);
   
   minimizer->SetFunction(simple_function);
-  double variable[1]  = { -1.5};
-  double step_size[1] = {0.001};
+  double variable[1]  = { -1.5}; // Initial value
+  double step_size[1] = {0.001}; // Initial error esitmate
   minimizer->SetVariable(0,"x",variable[0], step_size[0]);
   minimizer->Minimize();
   const double * result = minimizer->X();

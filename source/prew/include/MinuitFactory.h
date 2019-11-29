@@ -9,6 +9,8 @@ namespace Fit {
   class MinuitFactory {
     /** Class that creates instances of the Minuit2Minimizer class with the 
         properties given at construction.
+        Minuit2 is a library designed to perform chi-squared minimization 
+        including convariance finding.
     **/
   
     ROOT::Minuit2::EMinimizerType m_type {ROOT::Minuit2::kMigrad}; // Type of Minimizer
