@@ -20,21 +20,7 @@ namespace Fit {
       // Constructors
       MinuitFactory(ROOT::Minuit2::EMinimizerType type, unsigned int max_fcn_calls, unsigned int max_iters, double tolerance);
     
-      std::unique_ptr<ROOT::Minuit2::Minuit2Minimizer> create_minimizer() const;
-   // 
-   // ROOT::Math::Functor f(&RosenBrock,2); 
-   // double step[2] = {0.01,0.01};
-   // double variable[2] = { -1.,1.2};
-   // 
-   // min.SetFunction(f);
-   // 
-   // // Set the free variables to be minimized!
-   // min.SetVariable(0,"x",variable[0], step[0]);
-   // min.SetVariable(1,"y",variable[1], step[1]);
-   // 
-   // min.Minimize(); 
-   // 
-    
+      std::unique_ptr<ROOT::Minuit2::Minuit2Minimizer> create_minimizer() const;    
   };
   
 }
