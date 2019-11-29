@@ -7,8 +7,8 @@
 using namespace PREW::Fit;
 
 TEST(TestFitPar, ReturnsCorrectIni) {
-  FitPar fp1 ("fp1", 0.00055);
-  FitPar fp2 ("fp2", -200.5);
+  FitPar fp1 ("fp1", 0.00055, 0.01);
+  FitPar fp2 ("fp2", -200.5, 0.01);
   
   ASSERT_EQ(fp1.get_val_ini(), 0.00055);
   ASSERT_EQ(fp1.m_val_mod, 0.00055);
@@ -20,14 +20,14 @@ TEST(TestFitPar, ReturnsCorrectIni) {
 }
 
 TEST(TestFitPar, ProperReset) {
-  FitPar fp ("fp", 4000.77);
+  FitPar fp ("fp", 4000.77, 0.01);
   fp.m_val_mod = 20.5;
   fp.reset();
   ASSERT_EQ(fp.m_val_mod, 4000.77);
 }
 
 TEST(TestFitPar, ProperOStream) {
-  FitPar fp ("fp", -30.27);
+  FitPar fp ("fp", -30.27, 0.01);
   fp.m_val_mod = 2.0;
   std::stringstream buffer;
   buffer << fp;
@@ -37,9 +37,9 @@ TEST(TestFitPar, ProperOStream) {
 }
 
 TEST(TestFitPar, EqualOperator) {
-  FitPar fp1 ("fp1", 0);
-  FitPar fp2 ("fp2", 0);
-  FitPar fp1_copy ("fp1", 1);
+  FitPar fp1 ("fp1", 0, 0.01);
+  FitPar fp2 ("fp2", 0, 0.01);
+  FitPar fp1_copy ("fp1", 1, 0.01);
   
   ASSERT_EQ(fp1 == fp1, true);
   ASSERT_EQ(fp1 == fp2, false);

@@ -14,12 +14,13 @@ namespace Fit {
     std::string m_name {}; // Name (Unique identifier)
     
     double m_val_ini {}; // Initial value
+    double m_unc_ini {}; // Initial guess of uncertainty -> Needed for Minuit
     
     public:
       double m_val_mod {}; // Modified value => Publicly accessible
       
       // Constructors
-      FitPar(std::string name, double val_ini);
+      FitPar(std::string name, double val_ini, double unc_ini);
       
       std::string get_name() const; // Get name
       double get_val_ini() const;   // Get initial value

@@ -7,8 +7,8 @@ namespace Fit {
 // Constructors
 
 
-FitPar::FitPar(std::string name, double val_ini) : 
-  m_name(name), m_val_ini(val_ini), m_val_mod(val_ini) {};
+FitPar::FitPar(std::string name, double val_ini, double unc_ini) : 
+  m_name(name), m_val_ini(val_ini), m_unc_ini(unc_ini), m_val_mod(val_ini) {};
 
 //------------------------------------------------------------------------------
 // get functions
@@ -42,9 +42,9 @@ bool FitPar::operator==(const FitPar& fit_par) const {
 std::ostream& operator<<(std::ostream& os, const PREW::Fit::FitPar& fp) {
   /** Define what happens when "<<" is called on class
   **/
-      os << "Fit Parameter: initial value: " << fp.get_val_ini()
-         << " -> modified value: " << fp.m_val_mod;
-      return os;
+  os << "Fit Parameter: initial value: " << fp.get_val_ini()
+     << " -> modified value: " << fp.m_val_mod;
+  return os;
 }
 
 //------------------------------------------------------------------------------

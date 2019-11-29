@@ -44,7 +44,7 @@ TEST(TestChiSqMinimizer, ManyBinsConstructor) {
 TEST(TestChiSqMinimizer, MultiBinPlusFitParConstructor) {
   // Test with two FitBin's and predicition that uses FitPar
   // => Is change of FitPar value properly reflected in construction?
-  FitPar fp ("fp", 0.0);
+  FitPar fp ("fp", 0.0, 0.01);
   FitPar * fp_ptr = &fp;
   std::function<double()> bin_prd = [fp_ptr]() { return 2*fp_ptr->m_val_mod; };
   FitBin fb1 (1.0, 1.0, bin_prd); // Measurement = Unc = 1
