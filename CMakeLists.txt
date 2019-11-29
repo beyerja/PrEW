@@ -3,13 +3,18 @@ set(CMAKE_CXX_STANDARD 14)
 
 project(PrEW) # Project name
 
+# External libraries
+link_directories(spdlog/build)
+
+# Common packages
+find_package( ROOT 6.16 REQUIRED ) 
+include_directories( SYSTEM ${ROOT_INCLUDE_DIRS} )
+link_libraries( ${ROOT_LIBRARIES} )
+add_definitions( ${ROOT_DEFINITIONS} )
 
 # Header files that can be included using #include
 include_directories(source/prew/include)
 include_directories(spdlog/include)
-
-# External libraries
-link_directories(spdlog/build)
 
 # Code subdirectories with own CMakelists
 add_subdirectory(source/prew)
