@@ -5,7 +5,7 @@
 
 1. Make sure your software is up-to-date (ROOT, gcc, cmake, ...) *or* load using macro (only on NAF):
   ```sh
-    cd macro && source load_env.sh && cd ..
+    cd macros && source load_env.sh && cd ..
   ```
 2. Clone and build spdlog from github:
   ```sh
