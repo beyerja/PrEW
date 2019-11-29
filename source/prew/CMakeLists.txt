@@ -34,7 +34,10 @@ target_compile_options(${BINARY}_run PUBLIC -std=c++1y -Wall -Wfloat-conversion)
 #   # here you can add any library dependencies
 # )
 
-target_link_libraries(${BINARY}_run PUBLIC spdlog)
+target_link_libraries(${BINARY}_run PUBLIC 
+  spdlog # Logging
+  ROOT::Minuit2 # Minimization
+)
 
 ###############################################################################
 ## packaging ##################################################################
