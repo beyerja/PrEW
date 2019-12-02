@@ -8,7 +8,7 @@ namespace Fit {
 
 
 FitPar::FitPar(std::string name, double val_ini, double unc_ini) : 
-  m_name(name), m_val_ini(val_ini), m_unc_ini(unc_ini), m_val_mod(val_ini) {};
+  m_name(name), m_val_ini(val_ini), m_unc_ini(unc_ini), m_val_mod(val_ini) {}
 
 //------------------------------------------------------------------------------
 // get functions

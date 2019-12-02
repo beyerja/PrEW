@@ -13,7 +13,7 @@ ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, MinuitFactory &factory)
 {
   this->update_chisq();
   m_minimizer = factory.create_minimizer();
-};
+}
 
 //------------------------------------------------------------------------------
 // get functions

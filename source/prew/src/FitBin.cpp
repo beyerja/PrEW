@@ -7,7 +7,7 @@ namespace Fit {
 // Constructors
 
 FitBin::FitBin(double val_mst, double val_unc, std::function<double()> prd_fct) : 
-  m_val_mst(val_mst), m_val_unc(val_unc), m_prd_fct(prd_fct) {};
+  m_val_mst(val_mst), m_val_unc(val_unc), m_prd_fct(prd_fct) {}
 
 //------------------------------------------------------------------------------
 // get functions

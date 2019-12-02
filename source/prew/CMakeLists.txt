@@ -18,7 +18,11 @@ set(SOURCES ${SOURCES})
 add_executable(${BINARY}_run ${SOURCES})
 
 # just for example add some compiler flags
-target_compile_options(${BINARY}_run PUBLIC -std=c++1y -Wall -Wfloat-conversion)
+target_compile_options(${BINARY}_run PUBLIC -std=c++1y 
+                       # Compiler warning/error flags
+                       -Wall -Wfloat-conversion -Wextra -Wunreachable-code -Wuninitialized 
+                       -pedantic-errors -Wold-style-cast -Wno-error=unused-variable
+                       -Wfloat-equal)
 
 ###############################################################################
 ## dependencies ###############################################################

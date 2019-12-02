@@ -8,7 +8,7 @@ namespace Fit {
 // Constructors
 
 MinuitFactory::MinuitFactory(ROOT::Minuit2::EMinimizerType type, unsigned int max_fcn_calls, unsigned int max_iters, double tolerance) :
-  m_type(type), m_max_fcn_calls(max_fcn_calls), m_max_iters(max_iters), m_tolerance(tolerance) {};
+  m_type(type), m_max_fcn_calls(max_fcn_calls), m_max_iters(max_iters), m_tolerance(tolerance) {}
   
 //------------------------------------------------------------------------------
 // Core functions

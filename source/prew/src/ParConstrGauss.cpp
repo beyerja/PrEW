@@ -9,7 +9,7 @@ namespace Fit {
 // Constructors
 
 ParConstrGauss::ParConstrGauss(double val, double unc) :
-  m_val(val), m_unc(unc) {};
+  m_val(val), m_unc(unc) {}
       
 //------------------------------------------------------------------------------
 // Core functions
