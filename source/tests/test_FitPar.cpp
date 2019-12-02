@@ -45,3 +45,26 @@ TEST(TestFitPar, EqualOperator) {
   ASSERT_EQ(fp1 == fp2, false);
   ASSERT_EQ(fp1 == fp1_copy, true);
 }
+
+TEST(TestFitPar, ConstrCalcWithoutConstr) {
+  FitPar fp ("fp", 2, 4);
+  ASSERT_EQ(fp.calc_constr_chisq(), 0.0);
+}
+
+TEST(TestFitPar, GaussConstrCalc) {
+  FitPar fp ("fp", 2, 4);
+  fp.set_constrgauss(ParConstrGauss(1,2));
+  // constr: ( (1-2)/2 )^2 = 0.25
+  ASSERT_EQ(fp.calc_constr_chisq(), 0.25);
+}
+
+TEST(TestFitPar, GaussConstrModifiedValue) {
+  FitPar fp ("fp", 2, 4);
+  fp.set_constrgauss(ParConstrGauss(1,2));
+  // constr: ( (1-2)/2 )^2 = 0.25
+  ASSERT_EQ(fp.calc_constr_chisq(), 0.25);
+  
+  fp.m_val_mod = 5;
+  // constr: ( (5-1)/2 )^2 = 4
+  ASSERT_EQ(fp.calc_constr_chisq(), 4);
+}

@@ -17,6 +17,24 @@ std::string FitPar::get_name() const { return m_name; }
 double FitPar::get_val_ini() const { return m_val_ini; }
   
 //------------------------------------------------------------------------------
+// Constraints
+
+void FitPar::set_constrgauss(ParConstrGauss constrgauss) { 
+  /** Set a Gaussian constraint for this parameter.
+  **/
+  m_is_constraint = true;
+  m_constrgauss = constrgauss; 
+}
+
+double FitPar::calc_constr_chisq() const {
+  /** Calculate chi-squared term produced by external parameter constraint.
+  **/
+  double chisq=0;
+  if ( m_is_constraint ) chisq += m_constrgauss.calc_chisq(m_val_mod);
+  return chisq; 
+}
+
+//------------------------------------------------------------------------------
 // Modifying functions
 
 void FitPar::reset() { m_val_mod = m_val_ini; }

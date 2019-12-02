@@ -2,6 +2,7 @@
 #define LIB_FITPAR_H 1
 
 #include <iostream>
+#include <ParConstrGauss.h>
 
 namespace PREW {
 namespace Fit {
@@ -16,6 +17,9 @@ namespace Fit {
     double m_val_ini {}; // Initial value
     double m_unc_ini {}; // Initial guess of uncertainty -> Needed for Minuit
     
+    bool m_is_constraint {false};
+    ParConstrGauss m_constrgauss {};
+    
     public:
       double m_val_mod {}; // Modified value => Publicly accessible
       
@@ -24,6 +28,9 @@ namespace Fit {
       
       std::string get_name() const; // Get name
       double get_val_ini() const;   // Get initial value
+      
+      void set_constrgauss(ParConstrGauss constrgauss);
+      double calc_constr_chisq() const; // Chi-squared produced by constraint
       
       void reset(); // Reset to inital value
       
