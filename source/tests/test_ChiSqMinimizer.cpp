@@ -64,3 +64,24 @@ TEST(TestChiSqMinimizer, MultiBinPlusFitParConstructor) {
   // ((1-1)/1)^2 + ((1-(-1))/1)^2 = 4
   ASSERT_EQ(chi_sq_minimizer_mod.get_chisq(), 4);
 }
+
+TEST(TestChiSqMinimizer, ChiSqWithBinsAndConstr) {
+  // Test with one bin and one parameter constraint
+  std::function<double()> trivial_prd = []() { return 0; }; // Prediction = 0
+  FitContainer container {};
+  
+  FitBin fb (1.0, 1.0, trivial_prd); // Measurement = Unc = 1
+  std::vector<FitBin> fit_bins {fb};
+  container.m_fit_bins = fit_bins;
+  
+  FitPar fp ("fp", 0, 0.1); // Parameter starts at 0
+  fp.set_constrgauss(ParConstrGauss(1,2)); // Constraint to 0 with unc of 1
+  std::vector<FitPar> fit_pars {fp}; 
+  container.m_fit_pars = fit_pars;
+  
+  MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
+  ChiSqMinimizer chi_sq_minimizer (&container, factory);
+  
+  // Chi-sq = ((1-0)/1)^2 + ((0-1)/2)^2 = 1.25
+  ASSERT_EQ(chi_sq_minimizer.get_chisq(), 1.25);
+}
