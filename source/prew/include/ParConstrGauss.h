@@ -8,11 +8,12 @@ namespace Fit {
     /** Class implementating soft gaussian contraints  for fit parameters
     **/
     
-    double m_val {}; // central value of constraint (measured value)
-    double m_unc {}; // uncertainty of constraint
+    double m_val {0.0}; // central value of constraint (measured value)
+    double m_unc {1.0}; // uncertainty of constraint
 
     public:
       // Constructors
+      ParConstrGauss() = default;
       ParConstrGauss(double val, double unc);
       
       double calc_chisq(double par_val) const;

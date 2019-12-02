@@ -5,6 +5,11 @@
 
 using namespace PREW::Fit;
 
+TEST(TestParConstrGauss, DefaultConstructorTest) {
+  ParConstrGauss constr {}; // Gaussian constr. around 0 with unc. of 1
+  EXPECT_EQ(constr.calc_chisq(0), 0);
+}
+
 TEST(TestParConstrGauss, SimpleChiSqTest) {
   ParConstrGauss constr (0.0, 1.0); // Gaussian constr. around 0 with unc. of 1
   EXPECT_EQ(constr.calc_chisq(0), 0);
