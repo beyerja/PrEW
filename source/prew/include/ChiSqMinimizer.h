@@ -32,6 +32,9 @@ namespace Fit {
     // Constructors
     ChiSqMinimizer(FitContainer * container, MinuitFactory &factory);
     
+    void minimize();
+    
+    // Get function
     double get_chisq() const;
   };
   

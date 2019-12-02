@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <ChiSqMinimizer.h>
 
+#include <random>
+
 using namespace PREW::Fit;
 
 TEST(TestChiSqMinimizer, TrivialConstructor) {
@@ -84,4 +86,67 @@ TEST(TestChiSqMinimizer, ChiSqWithBinsAndConstr) {
   
   // Chi-sq = ((1-0)/1)^2 + ((0-1)/2)^2 = 1.25
   ASSERT_EQ(chi_sq_minimizer.get_chisq(), 1.25);
+}
+
+
+
+TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
+  /** Test if I manage to properly fit a parabola from ten gauss-fluctuated 
+      points.
+  **/
+  
+  double true_a = 2.5;
+  double true_b = -0.3;
+  double true_c = 4.3;
+  auto true_parabola = [true_a, true_b, true_c](double x) { return true_a*std::pow(x,2) + true_b* x + true_c; };
+  
+  FitContainer container {};
+  
+  container.m_fit_pars = std::vector<FitPar> {
+    FitPar ("a", 2.0, 0.5),
+    FitPar ("b", -0.5, 0.1),
+    FitPar ("c", 5, 0.2) 
+  };
+
+  auto full_prediction = [](double* a, double* b, double* c, double x) { return (*a)*std::pow(x,2) + (*b)* x + (*c); }; 
+  
+  // For bins with random gaussian fluctuation
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  double fluctuation = 0.1;
+  
+  unsigned int n_bins = 10;
+  std::vector<FitBin> fit_bins {};
+  double x_start = -5.0;
+  for (auto i_bin=0; i_bin<n_bins; i_bin++) {
+    double x_bin = -5.0 + double(i_bin);
+    std::function<double()> connected_prediction = std::bind(full_prediction, &container.m_fit_pars[0].m_val_mod, &container.m_fit_pars[1].m_val_mod, &container.m_fit_pars[2].m_val_mod, x_bin);
+    
+    std::normal_distribution<> measurement_func{true_parabola(x_bin),fluctuation};
+    double measurement = measurement_func(gen);
+    
+    fit_bins.push_back( FitBin( measurement, fluctuation, connected_prediction ) );
+  }
+  
+  container.m_fit_bins = fit_bins;
+
+  // Create Minimizer and minimize
+  MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
+  ChiSqMinimizer chi_sq_minimizer (&container, factory);
+  
+  // Here we go...
+  chi_sq_minimizer.minimize();
+  
+  // Test the result 
+  // Caution! The differences from the expected fluctuate randomly so this test may not pass some of the time!
+  double result_a = container.m_fit_pars[0].m_val_mod;
+  double result_b = container.m_fit_pars[1].m_val_mod;
+  double result_c = container.m_fit_pars[2].m_val_mod;
+  EXPECT_EQ( fabs(result_a-true_a)<0.1, true) << "True a: " << true_a << " , Result a: " << result_a;
+  EXPECT_EQ( fabs(result_b-true_b)<0.1, true) << "True b: " << true_b << " , Result b: " << result_b;
+  EXPECT_EQ( fabs(result_c-true_c)<0.1, true) << "True c: " << true_c << " , Result c: " << result_c;
+  
+  double result_chisq = chi_sq_minimizer.get_chisq();
+  int n_dof = n_bins - 3; // 3->#parameters
+  EXPECT_EQ( fabs(result_chisq/double(n_bins)-1.0)<1.5, true) << "Result chi^2/n_dof: " << result_chisq/double(n_bins);
 }
