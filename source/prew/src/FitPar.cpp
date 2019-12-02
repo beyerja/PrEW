@@ -15,6 +15,7 @@ FitPar::FitPar(std::string name, double val_ini, double unc_ini) :
 
 std::string FitPar::get_name() const { return m_name; }
 double FitPar::get_val_ini() const { return m_val_ini; }
+double FitPar::get_unc_ini() const { return m_unc_ini; }
   
 //------------------------------------------------------------------------------
 // Constraints

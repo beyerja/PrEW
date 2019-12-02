@@ -28,6 +28,7 @@ namespace Fit {
       
       std::string get_name() const; // Get name
       double get_val_ini() const;   // Get initial value
+      double get_unc_ini() const;   // Get initial value
       
       void set_constrgauss(ParConstrGauss constrgauss);
       double calc_constr_chisq() const; // Chi-squared produced by constraint

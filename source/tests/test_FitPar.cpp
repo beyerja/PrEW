@@ -11,10 +11,12 @@ TEST(TestFitPar, ReturnsCorrectIni) {
   FitPar fp2 ("fp2", -200.5, 0.01);
   
   ASSERT_EQ(fp1.get_val_ini(), 0.00055);
+  ASSERT_EQ(fp1.get_unc_ini(), 0.01);
   ASSERT_EQ(fp1.m_val_mod, 0.00055);
   ASSERT_STREQ(fp1.get_name().c_str(), "fp1");
   
   ASSERT_EQ(fp2.get_val_ini(), -200.5);
+  ASSERT_EQ(fp2.get_unc_ini(), 0.01);
   ASSERT_EQ(fp2.m_val_mod, -200.5);
   ASSERT_STREQ(fp2.get_name().c_str(), "fp2");
 }
