@@ -26,7 +26,7 @@ namespace Fit {
   double m_chisq {};
   
   // Internal functions
-  double calc_chisq();
+  void update_chisq();
   
   public:
     // Constructors
