@@ -111,8 +111,7 @@ TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
   auto full_prediction = [](double* a, double* b, double* c, double x) { return (*a)*std::pow(x,2) + (*b)* x + (*c); }; 
   
   // For bins with random gaussian fluctuation
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
+  std::mt19937 gen{1}; // Random seed = 1
   double fluctuation = 0.1;
   
   unsigned int n_bins = 10;
@@ -138,15 +137,17 @@ TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
   chi_sq_minimizer.minimize();
   
   // Test the result 
-  // Caution! The differences from the expected fluctuate randomly so this test may not pass some of the time!
+  // Fixed the differences to what the results came out for me with random seed 1
+  // => If they throw failures at first compile adjust the errors accordingly
+  // Important: Should be consistent between compilations on same system (-> Minimizer self-consistent)
   double result_a = container.m_fit_pars[0].m_val_mod;
   double result_b = container.m_fit_pars[1].m_val_mod;
   double result_c = container.m_fit_pars[2].m_val_mod;
-  EXPECT_EQ( fabs(result_a-true_a)<0.1, true) << "True a: " << true_a << " , Result a: " << result_a;
-  EXPECT_EQ( fabs(result_b-true_b)<0.1, true) << "True b: " << true_b << " , Result b: " << result_b;
-  EXPECT_EQ( fabs(result_c-true_c)<0.1, true) << "True c: " << true_c << " , Result c: " << result_c;
+  EXPECT_EQ( fabs(result_a-true_a)<0.002, true) << "True a: " << true_a << " , Result a: " << result_a;
+  EXPECT_EQ( fabs(result_b-true_b)<0.003, true) << "True b: " << true_b << " , Result b: " << result_b;
+  EXPECT_EQ( fabs(result_c-true_c)<0.03, true) << "True c: " << true_c << " , Result c: " << result_c;
   
   double result_chisq = chi_sq_minimizer.get_chisq();
   int n_dof = n_bins - 3; // 3->#parameters
-  EXPECT_EQ( fabs(result_chisq/double(n_bins)-1.0)<1.5, true) << "Result chi^2/n_dof: " << result_chisq/double(n_bins);
+  EXPECT_EQ( fabs(result_chisq/double(n_bins)-1.0)<0.2, true) << "Result chi^2/n_dof: " << result_chisq/double(n_bins);
 }
