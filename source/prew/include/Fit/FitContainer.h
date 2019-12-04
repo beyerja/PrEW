@@ -1,8 +1,8 @@
 #ifndef LIB_FITCONTAINER_H
 #define LIB_FITCONTAINER_H 1
 
-#include <FitPar.h>
-#include <FitBin.h>
+#include <Fit/FitPar.h>
+#include <Fit/FitBin.h>
 
 #include <vector>
 

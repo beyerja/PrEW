@@ -1,4 +1,4 @@
-#include <FitPar.h>
+#include <Fit/FitPar.h>
 
 namespace PREW {
 namespace Fit {

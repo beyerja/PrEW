@@ -2,7 +2,7 @@
 #define LIB_FITPAR_H 1
 
 #include <iostream>
-#include <ParConstrGauss.h>
+#include <Fit/ParConstrGauss.h>
 
 namespace PREW {
 namespace Fit {

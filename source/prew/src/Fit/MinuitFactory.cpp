@@ -1,4 +1,4 @@
-#include "MinuitFactory.h"
+#include <Fit/MinuitFactory.h>
 
 
 namespace PREW {

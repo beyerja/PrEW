@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <FitPar.h>
+#include <Fit/FitPar.h>
 
 #include <string>  
 #include <sstream>   

@@ -1,4 +1,4 @@
-#include "ParConstrGauss.h"
+#include <Fit/ParConstrGauss.h>
 
 #include <cmath>
 

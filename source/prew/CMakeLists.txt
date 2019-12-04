@@ -7,7 +7,7 @@ set(BINARY ${CMAKE_PROJECT_NAME})
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variables 
 # `sources`
-file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true include/*.h src/*.cpp)
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true include/*/*.h src/*/*.cpp src/main.cpp)
 
 set(SOURCES ${SOURCES})
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <ParConstrGauss.h>
+#include <Fit/ParConstrGauss.h>
 
 #include <math.h>
 

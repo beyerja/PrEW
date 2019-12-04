@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <ChiSqMinimizer.h>
+#include <Fit/ChiSqMinimizer.h>
 
 #include <random>
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <MinuitFactory.h>
+#include <Fit/MinuitFactory.h>
 
 #include "Math/Functor.h"
 

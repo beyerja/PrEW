@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <FitBin.h>
+#include <Fit/FitBin.h>
 
 using namespace PREW::Fit;
 

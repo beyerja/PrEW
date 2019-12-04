@@ -1,4 +1,4 @@
-#include <FitBin.h>
+#include <Fit/FitBin.h>
 
 namespace PREW {
 namespace Fit {

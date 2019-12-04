@@ -1,8 +1,8 @@
 #ifndef LIB_CHISQMINIMIZER_H
 #define LIB_CHISQMINIMIZER_H 1
 
-#include <FitContainer.h>
-#include <MinuitFactory.h>
+#include <Fit/FitContainer.h>
+#include <Fit/MinuitFactory.h>
 
 #include <memory>
 

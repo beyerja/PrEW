@@ -1,4 +1,4 @@
-#include <ChiSqMinimizer.h>
+#include <Fit/ChiSqMinimizer.h>
 
 #include <cmath>
 
