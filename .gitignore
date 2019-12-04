@@ -1,3 +1,2 @@
-/spdlog
-/googletest
+/external/*
 /build

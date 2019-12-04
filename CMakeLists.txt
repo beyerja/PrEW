@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 project(PrEW) # Project name
 
 # External libraries
-link_directories(spdlog/build)
+link_directories(external/spdlog/build)
 
 # Common packages
 find_package( ROOT 6.16 REQUIRED ) 
@@ -14,12 +14,12 @@ add_definitions( ${ROOT_DEFINITIONS} )
 
 # Header files that can be included using #include
 include_directories(source/prew/include)
-include_directories(spdlog/include)
+include_directories(external/spdlog/include)
 
 # Code subdirectories with own CMakelists
 add_subdirectory(source/prew)
 add_subdirectory(source/tests)
-add_subdirectory(googletest)
+add_subdirectory(external/googletest)
 
 # Install in local folder instead of system
 set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/bin)

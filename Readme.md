@@ -7,18 +7,22 @@
   ```sh
     cd macros && source load_env.sh && cd ..
   ```
-2. Clone and build spdlog from github:
+2. Create subdirectory for external packages:
   ```sh
-    git clone https://github.com/gabime/spdlog.git spdlog
-    cd spdlog && mkdir build && cd build
+    mkdir external
+  ```
+3. Clone and build spdlog from github:
+  ```sh
+    git clone https://github.com/gabime/spdlog.git external/spdlog
+    cd external/spdlog && mkdir build && cd build
     cmake .. && make -j
-    cd ../..
+    cd ../../..
   ```
-3. Clone the googletest repository from github:
+4. Clone the googletest repository from github:
   ```sh
-    git clone https://github.com/google/googletest.git googletest
+    git clone https://github.com/google/googletest.git external/googletest
   ```
-4. Compile the code:
+5. Compile the code:
   ```sh
     cd macros && chmod u+x compile.sh && ./compile.sh && cd ..
   ```
