@@ -39,7 +39,7 @@ target_compile_options(${BINARY}_run PUBLIC -std=c++1y
 # )
 
 target_link_libraries(${BINARY}_run PUBLIC 
-  spdlog # Logging
+  ${SPDLOG_LIB} # Logging
   ROOT::Minuit2 # Minimization
 )
 

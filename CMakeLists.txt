@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 project(PrEW) # Project name
 
 # External libraries
-link_directories(external/spdlog/build)
+find_library( SPDLOG_LIB spdlog HINTS external/spdlog/build )
 
 # Common packages
 find_package( ROOT 6.16 REQUIRED ) 
@@ -13,8 +13,10 @@ link_libraries( ${ROOT_LIBRARIES} )
 add_definitions( ${ROOT_DEFINITIONS} )
 
 # Header files that can be included using #include
-include_directories(source/prew/include)
-include_directories(external/spdlog/include)
+include_directories(
+  source/prew/include
+  external/spdlog/include
+)
 
 # Code subdirectories with own CMakelists
 add_subdirectory(source/prew)
