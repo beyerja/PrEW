@@ -3,6 +3,7 @@
 
 #include <Fit/FitContainer.h>
 #include <Fit/MinuitFactory.h>
+#include <Fit/FitResult.h>
 
 #include <memory>
 
@@ -24,9 +25,13 @@ namespace Fit {
   
   // Output
   double m_chisq {};
+  FitResult m_result {};
   
   // Internal functions
   void update_chisq();
+  
+  void collect_par_names();
+  void update_result();
   
   public:
     // Constructors
@@ -36,6 +41,7 @@ namespace Fit {
     
     // Get function
     double get_chisq() const;
+    FitResult get_result() const;
   };
   
 }
