@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+// External 
 #include "Math/Functor.h"
 
 
@@ -22,6 +23,7 @@ ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, MinuitFactory &factory)
 // get functions
 
 double ChiSqMinimizer::get_chisq() const { return m_chisq; }
+FitResult ChiSqMinimizer::get_result() const { return m_result; }
 
 //------------------------------------------------------------------------------
 // Core functionality
@@ -79,8 +81,44 @@ void ChiSqMinimizer::minimize() {
   m_minimizer->Minimize();
   // -------------------------------------------------------------------------//
   // -------------------------------------------------------------------------//
+  
+  // Form a usable output collection
+  this->collect_par_names();
+  this->update_result();
 }
 
+//------------------------------------------------------------------------------
+// Result collectiong
+
+void ChiSqMinimizer::collect_par_names() {
+  unsigned int n_pars = m_container->m_fit_pars.size();
+  m_result.m_par_names.resize(n_pars);
+  for ( unsigned int i_par=0; i_par<n_pars; i_par++ ){
+    m_result.m_par_names[i_par] = m_container->m_fit_pars[i_par].get_name();
+  }
+}
+
+void ChiSqMinimizer::update_result() {
+  /** Write the result of the minimization procedure into a output container.
+  **/
+  
+  unsigned int n_pars = m_container->m_fit_pars.size();
+  m_result.m_cov_matrix = std::vector<std::vector<double>>( n_pars, std::vector<double>(n_pars) );
+  m_result.m_cor_matrix = std::vector<std::vector<double>>( n_pars, std::vector<double>(n_pars) );
+  for ( unsigned int i_par=0; i_par<n_pars; i_par++ ){
+    for ( unsigned int j_par=0; j_par<n_pars; j_par++ ){
+      m_result.m_cov_matrix[i_par][j_par] = m_minimizer->CovMatrix(i_par, j_par);
+      m_result.m_cor_matrix[i_par][j_par] = m_minimizer->Correlation(i_par, j_par);
+    }
+  }
+  
+  m_result.m_pars_fin = std::vector<double>( m_minimizer->X(), m_minimizer->X()+n_pars );
+  m_result.m_uncs_fin = std::vector<double>( m_minimizer->Errors(), m_minimizer->Errors()+n_pars );
+  
+  m_result.m_chisq_fin = m_minimizer->MinValue(); 
+  m_result.m_edm_fin = m_minimizer->Edm();
+  m_result.m_cov_status = m_minimizer->CovMatrixStatus();
+}
 
 //------------------------------------------------------------------------------
 

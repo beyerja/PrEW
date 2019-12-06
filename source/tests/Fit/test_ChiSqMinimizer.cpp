@@ -10,6 +10,7 @@ TEST(TestChiSqMinimizer, TrivialConstructor) {
   MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05); // Simple Factory
   ChiSqMinimizer chi_sq_minimizer (&container, factory);
   ASSERT_EQ(chi_sq_minimizer.get_chisq(), 0);
+  ASSERT_EQ(chi_sq_minimizer.get_result() == FitResult(), true);
 }
 
 TEST(TestChiSqMinimizer, SimpleConstructor) {
@@ -140,14 +141,15 @@ TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
   // Fixed the differences to what the results came out for me with random seed 1
   // => If they throw failures at first compile adjust the errors accordingly
   // Important: Should be consistent between compilations on same system (-> Minimizer self-consistent)
-  double result_a = container.m_fit_pars[0].m_val_mod;
-  double result_b = container.m_fit_pars[1].m_val_mod;
-  double result_c = container.m_fit_pars[2].m_val_mod;
+  auto const result = chi_sq_minimizer.get_result();
+  double result_a = result.m_pars_fin[0];
+  double result_b = result.m_pars_fin[1];
+  double result_c = result.m_pars_fin[2];
   EXPECT_EQ( fabs(result_a-true_a)<0.002, true) << "True a: " << true_a << " , Result a: " << result_a;
   EXPECT_EQ( fabs(result_b-true_b)<0.003, true) << "True b: " << true_b << " , Result b: " << result_b;
   EXPECT_EQ( fabs(result_c-true_c)<0.03, true) << "True c: " << true_c << " , Result c: " << result_c;
   
-  double result_chisq = chi_sq_minimizer.get_chisq();
+  double result_chisq = result.m_chisq_fin;
   int n_dof = n_bins - 3; // 3->#parameters
   EXPECT_EQ( fabs(result_chisq/double(n_bins)-1.0)<0.2, true) << "Result chi^2/n_dof: " << result_chisq/double(n_bins);
 }
