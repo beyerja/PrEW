@@ -22,7 +22,14 @@
   ```sh
     git clone https://github.com/google/googletest.git external/googletest
   ```
-5. Compile the code:
+5. Clone the TinyXML2 repository from github and build:
+  ```sh
+    git clone https://github.com/leethomason/tinyxml2.git external/TinyXML2
+    cd external/TinyXML2 && mkdir build && cd build
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../lib .. && make install
+    cd ../../..
+  ```
+6. Compile the code:
   ```sh
     cd macros && chmod u+x compile.sh && ./compile.sh && cd ..
   ```

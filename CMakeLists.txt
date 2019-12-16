@@ -5,6 +5,7 @@ project(PrEW) # Project name
 
 # External libraries
 find_library( SPDLOG_LIB spdlog HINTS external/spdlog/build )
+find_library( TINYXML2_LIB tinyxml2 HINTS external/TinyXML2/lib/lib64 )
 
 # Common packages
 find_package( ROOT 6.16 REQUIRED ) 
@@ -16,6 +17,7 @@ add_definitions( ${ROOT_DEFINITIONS} )
 include_directories(
   source/prew/include
   external/spdlog/include
+  external/TinyXML2/lib/include
 )
 
 # Code subdirectories with own CMakelists

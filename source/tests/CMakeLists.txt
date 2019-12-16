@@ -31,6 +31,7 @@ target_link_libraries(${BINARY} PUBLIC
   ${CMAKE_PROJECT_NAME}_lib 
   gtest
   ROOT::Minuit2
+  ${TINYXML2_LIB} # XML Parsing
 )
 
 ###############################################################################

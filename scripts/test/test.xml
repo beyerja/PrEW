@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<Setup Name="ILC250">
+<!--
+  This is an example...
+-->
+
+  <!-- energy in in GeV, luminosity in fb^-1 -->
+  <EnergyRun Energy="250" Luminosity="4000">
+    <BeamPolarizations Electrons="0.8" Positrons="0.3"/>
+    
+    <PolarisationSetups>
+      <PolarisationRun Name="MP" ePol="-" pPol="+" LumiFraction="0.7"/>
+      <PolarisationRun Name="PP" ePol="+" pPol="+" LumiFraction="0.2"/>
+      <PolarisationRun Name="P0" ePol="+" pPol="0" LumiFraction="0.05"/>
+      <PolarisationRun Name="00" ePol="0" pPol="0" LumiFraction="0.05"/>
+    </PolarisationSetups>
+    
+    <Processes>
+      <Process Name="WWsemilep"/>
+    </Processes>
+  </EnergyRun>
+</Setup>
