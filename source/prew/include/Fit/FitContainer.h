@@ -17,8 +17,8 @@ namespace Fit {
         are to be used in the chi-squared minimization.
     **/
   
-    std::vector<FitPar> m_fit_pars {}; // Fit parameters 
-    std::vector<FitBin> m_fit_bins {}; // Bins (whose prediction is connected to the parameters)
+    ParVec m_fit_pars {}; // Fit parameters 
+    BinVec m_fit_bins {}; // Bins (whose prediction is connected to the parameters)
     
     // public:
       

@@ -39,6 +39,8 @@ namespace Fit {
       bool operator==(const FitPar& fit_par) const;
   };
   
+  typedef std::vector<FitPar> ParVec;
+  
 }
 }
 

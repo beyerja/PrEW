@@ -25,6 +25,8 @@ namespace Fit {
       
       double get_val_prd() const;
   };
+
+  typedef std::vector<FitBin> BinVec;
   
 }
 }
