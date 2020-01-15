@@ -4,6 +4,8 @@
 #include <iostream>
 #include <Fit/ParConstrGauss.h>
 
+#include <vector>
+
 namespace PREW {
 namespace Fit {
   
