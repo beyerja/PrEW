@@ -22,7 +22,11 @@
   ```sh
     git clone https://github.com/google/googletest.git external/googletest
   ```
-5. Compile the code:
+5. Unzip data files needed for testing:
+  ```sh
+    cd testdata && unzip *.zip && cd ..
+  ```
+6. Compile the code:
   ```sh
     cd macros && chmod u+x compile.sh && ./compile.sh && cd ..
   ```

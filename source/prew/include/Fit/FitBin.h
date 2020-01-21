@@ -18,7 +18,7 @@ namespace Fit {
     
     public:
       // Constructors
-      FitBin(double val_mst, double val_unc, std::function<double()> prd_fct);
+      FitBin(double val_mst, double val_unc, std::function<double()> prd_fct=NULL);
       
       double get_val_mst() const; // Get measured value
       double get_val_unc() const; // Get measurement uncertainty
