@@ -24,8 +24,8 @@ Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
   if ( nullptr == info ) {
     throw std::invalid_argument("Given InputInfo can not be cast to InfoRKFile!");
   }
-  std::string file_path = info->file_path;
-  int energy = info->energy;
+  std::string file_path = info->m_file_path;
+  int energy = info->m_energy;
   
   // Parameters to read out of tree
   std::string *process {};
