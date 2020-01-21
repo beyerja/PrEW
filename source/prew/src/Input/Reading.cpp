@@ -5,6 +5,7 @@
 #include <Input/Reading.h>
 #include <Input/InfoRKFile.h>
 
+#include "spdlog/spdlog.h"
 #include "TFile.h"
 #include "TTree.h"
 
@@ -46,6 +47,7 @@ Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
   // TMatrixT < double > * diff_TGC_coeff_LL = 0;
   
   // Open tree
+  spdlog::debug("Opening file: {}", file_path);
   TFile *file = new TFile( file_path.c_str(), "Read" );	
   std::string tree_name = "MinimizationProcesses" + std::to_string(energy) + "GeV";
   TTree *tree = static_cast<TTree*>( file->Get( tree_name.c_str() ) );
@@ -73,7 +75,6 @@ Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
   
   int n_processes = tree->GetEntries();
   for(int p=0; p<n_processes; p++){
-    return distributions;
     tree->GetEntry(p);
     
     Data::Distr1D distr_LL {};
@@ -127,6 +128,8 @@ Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
     distributions.push_back(distr_RL);
     distributions.push_back(distr_RR);
   }
+  
+  spdlog::debug("Number of distributions found: {}", distributions.size());
   
   file->Close();
   
