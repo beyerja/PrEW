@@ -10,7 +10,7 @@ namespace Input {
     /** Input info needed to read a file created by Robert Karl.
     **/
     
-    int energy {};
+    int m_energy {};
   };
   
 }

@@ -16,8 +16,8 @@ TEST(TestInputInfo, CastCheck) {
   InputInfo *a_ptr = i_ptr;
   InfoRKFile *c_ptr = static_cast<InfoRKFile*>(a_ptr);
   
-  ASSERT_EQ(c_ptr->file_path, "a"); 
-  ASSERT_EQ(c_ptr->energy, 250); 
+  ASSERT_EQ(c_ptr->m_file_path, "a"); 
+  ASSERT_EQ(c_ptr->m_energy, 250); 
 }
 
 //------------------------------------------------------------------------------
