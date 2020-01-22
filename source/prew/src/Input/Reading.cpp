@@ -82,20 +82,20 @@ Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
     Data::Distr1D distr_RL {};
     Data::Distr1D distr_RR {};
     
-    distr_LL.m_pol_config = "LL";
-    distr_LR.m_pol_config = "LR";
-    distr_RL.m_pol_config = "RL";
-    distr_RR.m_pol_config = "RR";
+    distr_LL.m_info.m_pol_config = "LL";
+    distr_LR.m_info.m_pol_config = "LR";
+    distr_RL.m_info.m_pol_config = "RL";
+    distr_RR.m_info.m_pol_config = "RR";
     
-    distr_LL.m_energy = energy;
-    distr_LR.m_energy = energy;
-    distr_RL.m_energy = energy;
-    distr_RR.m_energy = energy;
+    distr_LL.m_info.m_energy = energy;
+    distr_LR.m_info.m_energy = energy;
+    distr_RL.m_info.m_energy = energy;
+    distr_RR.m_info.m_energy = energy;
     
-    distr_LL.m_process_name = *process;
-    distr_LR.m_process_name = *process;
-    distr_RL.m_process_name = *process;
-    distr_RR.m_process_name = *process;
+    distr_LL.m_info.m_process_name = *process;
+    distr_LR.m_info.m_process_name = *process;
+    distr_RL.m_info.m_process_name = *process;
+    distr_RR.m_info.m_process_name = *process;
     
     CppUtils::Vec::Matrix2D<double> bin_center_mtx 
       = CppUtils::Root::matrix2D_from_TMatrixT( *bin_centers );

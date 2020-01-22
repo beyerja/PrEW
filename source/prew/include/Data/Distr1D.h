@@ -1,8 +1,9 @@
 #ifndef LIBRARY_DISTR1D_H
 #define LIBRARY_DISTR1D_H 1
 
-#include <Fit/FitBin.h>
 #include <CppUtils/Vec.h>
+#include <Data/DistrInfo.h>
+#include <Fit/FitBin.h>
 
 
 namespace PREW {
@@ -15,10 +16,7 @@ namespace Data {
            (Distributions with common arguments can be found easily)
     **/
     
-    std::string m_process_name {};  // Name of process
-    std::string m_distr_name {};    // Name of distribution
-    std::string m_pol_config {};    // Name of polarisation setting
-    double      m_energy {};        // Center of mass energy
+    DistrInfo m_info {}; // Info which identifies this distribution
     
     // Values of observables at bin center
     // => Are not stored with the bin because underlying fit framework 
