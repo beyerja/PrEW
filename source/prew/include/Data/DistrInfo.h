@@ -1,6 +1,8 @@
 #ifndef LIBRARY_DISTRINFO_H
 #define LIBRARY_DISTRINFO_H 1
 
+#include <string>
+
 namespace PREW {
 namespace Data {
 
