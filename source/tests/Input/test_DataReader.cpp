@@ -23,15 +23,17 @@ TEST(TestDataReader, ExceptionOnWrongInputStyle) {
   ASSERT_THROW(reader.read_file(), std::invalid_argument);
 }
 
-TEST(TestDataReader, TestFileReading) {
-  /** Check that reading of example file runs and gives right number of 
+TEST(TestDataReader, TestRKFileReading) {
+  /** Check that reading of an RK example file runs and gives right number of 
       distributions.
   **/
   InfoRKFile i {"../testdata/RK_examplefile_500_250_2018_04_03.root", 250};
   DataReader reader(&i, "RK");
   reader.read_file();
-  auto distributions = reader.get_distributions();
-  ASSERT_EQ(distributions.size(), 24);
+  auto measured_distributions = reader.get_meas_distrs();
+  auto predicted_distributions = reader.get_pred_distrs();
+  ASSERT_EQ(measured_distributions.size(), 0); // RK files don't contain measurement
+  ASSERT_EQ(predicted_distributions.size(), 24);
 }
 
 //------------------------------------------------------------------------------

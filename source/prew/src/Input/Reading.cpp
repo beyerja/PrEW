@@ -1,6 +1,6 @@
 #include <CppUtils/Vec.h>
 #include <CppUtils/Root.h>
-#include <Data/DiffDistr.h>
+#include <Data/PredDistr.h>
 #include <Fit/FitBin.h>
 #include <Input/Reading.h>
 #include <Input/InfoRKFile.h>
@@ -14,11 +14,11 @@ namespace Input {
   
 //------------------------------------------------------------------------------
 
-Data::DiffDistrVec Reading::read_RK_file(InputInfo *input_info) {
+Data::PredDistrVec Reading::read_RK_file(InputInfo *input_info) {
   /** Read input file that is in style of Robert Karls root files.
   **/
   
-  Data::DiffDistrVec distributions {};
+  Data::PredDistrVec distributions {};
 
   // Get all the information needed to read the file
   InfoRKFile* info = static_cast<InfoRKFile*>(input_info);
@@ -77,10 +77,10 @@ Data::DiffDistrVec Reading::read_RK_file(InputInfo *input_info) {
   for(int p=0; p<n_processes; p++){
     tree->GetEntry(p);
     
-    Data::DiffDistr distr_LL {};
-    Data::DiffDistr distr_LR {};
-    Data::DiffDistr distr_RL {};
-    Data::DiffDistr distr_RR {};
+    Data::PredDistr distr_LL {};
+    Data::PredDistr distr_LR {};
+    Data::PredDistr distr_RL {};
+    Data::PredDistr distr_RR {};
     
     distr_LL.m_info.m_pol_config = "LL";
     distr_LR.m_info.m_pol_config = "LR";
@@ -105,10 +105,10 @@ Data::DiffDistrVec Reading::read_RK_file(InputInfo *input_info) {
     distr_RR.m_bin_centers = bin_center_mtx;
     
     for (int bin=0; bin<n_bins; bin++) {
-      distr_LL.m_distribution.push_back( Fit::FitBin(diff_sigma_signal_LL[bin],0) );
-      distr_LR.m_distribution.push_back( Fit::FitBin(diff_sigma_signal_LR[bin],0) );
-      distr_RL.m_distribution.push_back( Fit::FitBin(diff_sigma_signal_RL[bin],0) );
-      distr_RR.m_distribution.push_back( Fit::FitBin(diff_sigma_signal_RR[bin],0) );
+      distr_LL.m_distribution.push_back( diff_sigma_signal_LL[bin] );
+      distr_LR.m_distribution.push_back( diff_sigma_signal_LR[bin] );
+      distr_RL.m_distribution.push_back( diff_sigma_signal_RL[bin] );
+      distr_RR.m_distribution.push_back( diff_sigma_signal_RR[bin] );
     }
     
     // TODO Add when know what to do with TGC parameters

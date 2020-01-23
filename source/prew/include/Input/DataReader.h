@@ -2,6 +2,7 @@
 #define LIBRARY_DATAREADER_H 1
 
 #include <Data/DiffDistr.h>
+#include <Data/PredDistr.h>
 #include <Input/InputInfo.h>
 #include <Input/Reading.h>
 
@@ -16,14 +17,16 @@ namespace Input {
     
     InputInfo *m_input_info {};
     std::string m_input_style {};
-    Data::DiffDistrVec m_distributions {};
+    Data::DiffDistrVec m_meas_distrs {};
+    Data::PredDistrVec m_pred_distrs {};
     
     public:
       // Constructors
       DataReader(InputInfo *input_info, std::string input_style);
       
       void read_file();
-      Data::DiffDistrVec get_distributions() const;
+      Data::DiffDistrVec get_meas_distrs() const;
+      Data::PredDistrVec get_pred_distrs() const;
   };
   
 }

@@ -2,6 +2,7 @@
 #include <Input/DataReader.h>
 
 #include <exception>
+#include "spdlog/spdlog.h"
 
 namespace PREW {
 namespace Input {
@@ -22,10 +23,12 @@ DataReader::DataReader(InputInfo *input_info, std::string input_style) :
 void DataReader::read_file() {
   /** Read the file whose info is provided in input_info according to the 
       given style of input file.
+      Could read measurement and or prediction depending on file type.
   **/
   
   if ( m_input_style == "RK" ) {
-    m_distributions = Reading::read_RK_file(m_input_info);
+    spdlog::debug("Reading RK style file, these only contain predictions.");
+    m_pred_distrs = Reading::read_RK_file(m_input_info);
   } else {
     throw std::invalid_argument(("Invalid file style " + m_input_style).c_str());
   }
@@ -34,9 +37,9 @@ void DataReader::read_file() {
 
 //------------------------------------------------------------------------------
 
-Data::DiffDistrVec DataReader::get_distributions() const {
-  return m_distributions;
-}
+Data::DiffDistrVec DataReader::get_meas_distrs() const { return m_meas_distrs; }
+
+Data::PredDistrVec DataReader::get_pred_distrs() const { return m_pred_distrs; }
 
 //------------------------------------------------------------------------------
 
