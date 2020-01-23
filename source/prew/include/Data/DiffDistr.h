@@ -1,5 +1,5 @@
-#ifndef LIBRARY_DISTR1D_H
-#define LIBRARY_DISTR1D_H 1
+#ifndef LIBRARY_DIFFDISTR_H
+#define LIBRARY_DIFFDISTR_H 1
 
 #include <CppUtils/Vec.h>
 #include <Data/DistrInfo.h>
@@ -9,7 +9,7 @@
 namespace PREW {
 namespace Data {
   
-  struct Distr1D {
+  struct DiffDistr {
     /** Class holding a differential distribution of a process for a 
         polarisation combination.
         -> Save all (necessary) information directly with distribution
@@ -25,7 +25,7 @@ namespace Data {
     Fit::BinVec m_distribution {}; // Observable values (e.g. cross section)
   };
   
-  typedef std::vector<Distr1D> Distr1DVec;
+  typedef std::vector<DiffDistr> DiffDistrVec;
 }
 }
 

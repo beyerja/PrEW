@@ -1,6 +1,6 @@
 #include <CppUtils/Vec.h>
 #include <CppUtils/Root.h>
-#include <Data/Distr1D.h>
+#include <Data/DiffDistr.h>
 #include <Fit/FitBin.h>
 #include <Input/Reading.h>
 #include <Input/InfoRKFile.h>
@@ -14,11 +14,11 @@ namespace Input {
   
 //------------------------------------------------------------------------------
 
-Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
+Data::DiffDistrVec Reading::read_RK_file(InputInfo *input_info) {
   /** Read input file that is in style of Robert Karls root files.
   **/
   
-  Data::Distr1DVec distributions {};
+  Data::DiffDistrVec distributions {};
 
   // Get all the information needed to read the file
   InfoRKFile* info = static_cast<InfoRKFile*>(input_info);
@@ -77,10 +77,10 @@ Data::Distr1DVec Reading::read_RK_file(InputInfo *input_info) {
   for(int p=0; p<n_processes; p++){
     tree->GetEntry(p);
     
-    Data::Distr1D distr_LL {};
-    Data::Distr1D distr_LR {};
-    Data::Distr1D distr_RL {};
-    Data::Distr1D distr_RR {};
+    Data::DiffDistr distr_LL {};
+    Data::DiffDistr distr_LR {};
+    Data::DiffDistr distr_RL {};
+    Data::DiffDistr distr_RR {};
     
     distr_LL.m_info.m_pol_config = "LL";
     distr_LR.m_info.m_pol_config = "LR";

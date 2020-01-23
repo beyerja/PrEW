@@ -34,7 +34,7 @@ void DataReader::read_file() {
 
 //------------------------------------------------------------------------------
 
-Data::Distr1DVec DataReader::get_distributions() const {
+Data::DiffDistrVec DataReader::get_distributions() const {
   return m_distributions;
 }
 
