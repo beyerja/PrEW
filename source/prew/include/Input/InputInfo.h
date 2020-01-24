@@ -11,7 +11,8 @@ namespace Input {
         multiple InputInfo.
     **/
     
-    std::string m_file_path {}; // Input file path, must be in all input infos
+    std::string m_file_path {};   // Input file path, must be in all input infos
+    std::string m_input_style {}; // Type of input file
   };
   
 }
