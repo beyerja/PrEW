@@ -1,6 +1,7 @@
 #ifndef LIBRARY_PREDDISTR_H
 #define LIBRARY_PREDDISTR_H
 
+#include <CppUtils/Vec.h>
 #include <Data/DistrInfo.h>
 
 #include <vector>
