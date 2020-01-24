@@ -21,14 +21,13 @@ namespace Input {
     **/
     
     InputInfo *m_input_info {};
-    std::string m_input_style {};
     Data::DiffDistrVec m_meas_distrs {};
     Data::PredDistrVec m_pred_distrs {};
     Data::CoefDistrVec m_coef_distrs {};
     
     public:
       // Constructors
-      DataReader(InputInfo *input_info, std::string input_style);
+      DataReader(InputInfo *input_info);
       
       void read_file();
       Data::DiffDistrVec get_meas_distrs() const;

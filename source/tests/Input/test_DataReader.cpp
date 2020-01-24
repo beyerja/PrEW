@@ -11,15 +11,15 @@ using namespace PREW::Input;
 TEST(TestDataReader, ExceptionOnWrongFile) {
   /** Check that exception is thrown on invalid file path.
   **/
-  InfoRKFile i {"./obviously_wrong_file_path.root", 250};
-  ASSERT_THROW(DataReader(&i, "RK"), std::invalid_argument);
+  InfoRKFile i {"./obviously_wrong_file_path.root", "RK", 250};
+  ASSERT_THROW(DataReader(static_cast<InputInfo*>(&i)), std::invalid_argument);
 }
 
 TEST(TestDataReader, ExceptionOnWrongInputStyle) {
   /** Check that exception is thrown if file exists but input style not known.
   **/
-  InfoRKFile i {"../testdata/RK_examplefile_500_250_2018_04_03.root", 250};
-  DataReader reader(&i, "cheese");
+  InfoRKFile i {"../testdata/RK_examplefile_500_250_2018_04_03.root", "cheese", 250};
+  DataReader reader(&i);
   ASSERT_THROW(reader.read_file(), std::invalid_argument);
 }
 
@@ -27,8 +27,8 @@ TEST(TestDataReader, TestRKFileReading) {
   /** Check that reading of an RK example file runs and gives right number of 
       distributions.
   **/
-  InfoRKFile i {"../testdata/RK_examplefile_500_250_2018_04_03.root", 250};
-  DataReader reader(&i, "RK");
+  InfoRKFile i {"../testdata/RK_examplefile_500_250_2018_04_03.root", "RK", 250};
+  DataReader reader(&i);
   reader.read_file();
   auto measured_distributions = reader.get_meas_distrs();
   auto predicted_distributions = reader.get_pred_distrs();
