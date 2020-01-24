@@ -32,8 +32,14 @@ TEST(TestDataReader, TestRKFileReading) {
   reader.read_file();
   auto measured_distributions = reader.get_meas_distrs();
   auto predicted_distributions = reader.get_pred_distrs();
-  ASSERT_EQ(measured_distributions.size(), 0); // RK files don't contain measurement
-  ASSERT_EQ(predicted_distributions.size(), 24);
+  auto prediction_coefficients = reader.get_coef_distrs();
+  
+  // RK files don't contain measurements
+  ASSERT_EQ(measured_distributions.size(), 0); 
+  // Contains distributions for 6 process with each 4 chiralities
+  ASSERT_EQ(predicted_distributions.size(), 6*4);
+  // Contains for 3 processes (*4) each 9 coefficients 
+  ASSERT_EQ(prediction_coefficients.size(), 3*4*9);
 }
 
 //------------------------------------------------------------------------------

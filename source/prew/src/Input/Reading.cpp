@@ -1,12 +1,14 @@
-#include <CppUtils/Vec.h>
 #include <CppUtils/Root.h>
+#include <CppUtils/Str.h>
+#include <CppUtils/Vec.h>
 #include <Data/PredDistr.h>
 #include <Fit/FitBin.h>
-#include <Input/Reading.h>
 #include <Input/InfoRKFile.h>
+#include <Input/Reading.h>
 
 #include "spdlog/spdlog.h"
 #include "TFile.h"
+#include "TMatrixT.h"
 #include "TTree.h"
 
 namespace PREW {
@@ -14,14 +16,17 @@ namespace Input {
   
 //------------------------------------------------------------------------------
 
-Data::PredDistrVec Reading::read_RK_file(InputInfo *input_info) {
+void Reading::read_RK_file(
+  const InputInfo *input_info, // TODO MAKE CONST
+  Data::PredDistrVec *pred_distrs, 
+  Data::CoefDistrVec *coef_distrs ) 
+{
   /** Read input file that is in style of Robert Karls root files.
+      Extracts predicted cross sections and coefficiencts for TGCs.
   **/
   
-  Data::PredDistrVec distributions {};
-
   // Get all the information needed to read the file
-  InfoRKFile* info = static_cast<InfoRKFile*>(input_info);
+  const InfoRKFile* info = static_cast<const InfoRKFile*>(input_info);
   if ( nullptr == info ) {
     throw std::invalid_argument("Given InputInfo can not be cast to InfoRKFile!");
   }
@@ -31,7 +36,7 @@ Data::PredDistrVec Reading::read_RK_file(InputInfo *input_info) {
   // Parameters to read out of tree
   std::string *process {};
   int n_bins {};
-  TMatrixT < double > * bin_centers = 0;
+  TMatrixT < double > *bin_centers = 0;
   
   const unsigned int number_init = 10000;
   double diff_sigma_signal_LR[number_init] {};
@@ -39,12 +44,11 @@ Data::PredDistrVec Reading::read_RK_file(InputInfo *input_info) {
   double diff_sigma_signal_RR[number_init] {};
   double diff_sigma_signal_LL[number_init] {};
   
-  // TODO Add when know what to do with TGC parameters
-  // string * diff_TGC_coeff_label = new string();
-  // TMatrixT < double > * diff_TGC_coeff_LR = 0;
-  // TMatrixT < double > * diff_TGC_coeff_RL = 0;
-  // TMatrixT < double > * diff_TGC_coeff_RR = 0;
-  // TMatrixT < double > * diff_TGC_coeff_LL = 0;
+  std::string * diff_TGC_coeff_label {};
+  TMatrixT<double> *diff_TGC_coeff_LR = 0;
+  TMatrixT<double> *diff_TGC_coeff_RL = 0;
+  TMatrixT<double> *diff_TGC_coeff_RR = 0;
+  TMatrixT<double> *diff_TGC_coeff_LL = 0;
   
   // Open tree
   spdlog::debug("Opening file: {}", file_path);
@@ -66,74 +70,85 @@ Data::PredDistrVec Reading::read_RK_file(InputInfo *input_info) {
   tree->SetBranchAddress("differential_sigma_RR", diff_sigma_signal_RR );
   tree->SetBranchAddress("differential_sigma_LL", diff_sigma_signal_LL );
   
-  // TODO Add when know what to do with TGC parameters
-  // tree->SetBranchAddress("differential_PNPC_label", &diff_TGC_coeff_label );
-  // tree->SetBranchAddress("differential_PNPC_LR", &diff_TGC_coeff_LR );
-  // tree->SetBranchAddress("differential_PNPC_RL", &diff_TGC_coeff_RL );
-  // tree->SetBranchAddress("differential_PNPC_RR", &diff_TGC_coeff_RR );
-  // tree->SetBranchAddress("differential_PNPC_LL", &diff_TGC_coeff_LL );
+  tree->SetBranchAddress("differential_PNPC_label", &diff_TGC_coeff_label );
+  tree->SetBranchAddress("differential_PNPC_LR", &diff_TGC_coeff_LR );
+  tree->SetBranchAddress("differential_PNPC_RL", &diff_TGC_coeff_RL );
+  tree->SetBranchAddress("differential_PNPC_RR", &diff_TGC_coeff_RR );
+  tree->SetBranchAddress("differential_PNPC_LL", &diff_TGC_coeff_LL );
   
   int n_processes = tree->GetEntries();
   for(int p=0; p<n_processes; p++){
     tree->GetEntry(p);
     
-    Data::PredDistr distr_LL {};
-    Data::PredDistr distr_LR {};
-    Data::PredDistr distr_RL {};
-    Data::PredDistr distr_RR {};
+    Data::DistrInfo basic_info {};
+    basic_info.m_energy = energy;
+    basic_info.m_process_name = *process;
     
-    distr_LL.m_info.m_pol_config = "LL";
-    distr_LR.m_info.m_pol_config = "LR";
-    distr_RL.m_info.m_pol_config = "RL";
-    distr_RR.m_info.m_pol_config = "RR";
+    Data::DistrInfo info_LL = basic_info,
+                    info_LR = basic_info,
+                    info_RL = basic_info,
+                    info_RR = basic_info;
+                    
+    info_LL.m_pol_config = "LL";
+    info_LR.m_pol_config = "LR";
+    info_RL.m_pol_config = "RL";
+    info_RR.m_pol_config = "RR";
+
+    Data::PredDistr pred_LL {}, pred_LR {}, pred_RL {}, pred_RR {};
+    pred_LL.m_info = info_LL;
+    pred_LR.m_info = info_LR;
+    pred_RL.m_info = info_RL;
+    pred_RR.m_info = info_RR;
     
-    distr_LL.m_info.m_energy = energy;
-    distr_LR.m_info.m_energy = energy;
-    distr_RL.m_info.m_energy = energy;
-    distr_RR.m_info.m_energy = energy;
-    
-    distr_LL.m_info.m_process_name = *process;
-    distr_LR.m_info.m_process_name = *process;
-    distr_RL.m_info.m_process_name = *process;
-    distr_RR.m_info.m_process_name = *process;
-    
+    // 
     CppUtils::Vec::Matrix2D<double> bin_center_mtx 
       = CppUtils::Root::matrix2D_from_TMatrixT( *bin_centers );
-    distr_LL.m_bin_centers = bin_center_mtx;
-    distr_LR.m_bin_centers = bin_center_mtx;
-    distr_RL.m_bin_centers = bin_center_mtx;
-    distr_RR.m_bin_centers = bin_center_mtx;
+    pred_LL.m_bin_centers = bin_center_mtx;
+    pred_LR.m_bin_centers = bin_center_mtx;
+    pred_RL.m_bin_centers = bin_center_mtx;
+    pred_RR.m_bin_centers = bin_center_mtx;
+    
+    std::vector<std::string> coef_labels = CppUtils::Str::string_to_vec( *diff_TGC_coeff_label, ";");
+    size_t n_coefs = coef_labels.size();
+    
+    Data::CoefDistrVec coefs_LL (n_coefs), coefs_LR (n_coefs), coefs_RL (n_coefs), coefs_RR (n_coefs);
+    for (auto & coef: coefs_LL) { coef.m_info = info_LL; }
+    for (auto & coef: coefs_LR) { coef.m_info = info_LR; }
+    for (auto & coef: coefs_RL) { coef.m_info = info_RL; }
+    for (auto & coef: coefs_RR) { coef.m_info = info_RR; }
+    // coef_LL.m_info = info_LL;
+    // coef_LR.m_info = info_LR;
+    // coef_RL.m_info = info_RL;
+    // coef_RR.m_info = info_RR;
     
     for (int bin=0; bin<n_bins; bin++) {
-      distr_LL.m_distribution.push_back( diff_sigma_signal_LL[bin] );
-      distr_LR.m_distribution.push_back( diff_sigma_signal_LR[bin] );
-      distr_RL.m_distribution.push_back( diff_sigma_signal_RL[bin] );
-      distr_RR.m_distribution.push_back( diff_sigma_signal_RR[bin] );
+      pred_LL.m_distribution.push_back( diff_sigma_signal_LL[bin] );
+      pred_LR.m_distribution.push_back( diff_sigma_signal_LR[bin] );
+      pred_RL.m_distribution.push_back( diff_sigma_signal_RL[bin] );
+      pred_RR.m_distribution.push_back( diff_sigma_signal_RR[bin] );
+      
+      for (size_t coef=0; coef<n_coefs; coef++) {
+        coefs_LL[coef].m_coefficients.push_back((*diff_TGC_coeff_LL)[bin][coef]);
+        coefs_LR[coef].m_coefficients.push_back((*diff_TGC_coeff_LR)[bin][coef]);
+        coefs_RL[coef].m_coefficients.push_back((*diff_TGC_coeff_RL)[bin][coef]);
+        coefs_RR[coef].m_coefficients.push_back((*diff_TGC_coeff_RR)[bin][coef]);
+      }
     }
     
-    // TODO Add when know what to do with TGC parameters
-    //     // Works for both angular_number = 1 and > 1
-    //     current_process.chiral_signal_scaling = ChiralStructure(1,1,1,1).create_duplicates(angular_number);
-    // 
-    //     // Parameters other than polarizations can only be fitted if differential is used => Always read differential version
-    //     current_process.coefficient_labels  = StrHelp::string_to_vec( *differential_PNPC_label, ";");
-    //     current_process.coefficients        = ChiralStructure::create_nxm_structures(*differential_PNPC_LL,*differential_PNPC_LR,*differential_PNPC_RR,*differential_PNPC_RL);				
-    // 
-    //     current_energy_processes.push_back(current_process);
-    //     // TODO TODO TODO LUMINOSITIES!!! => HOW IS THIS HANDLED??? WHY IS IT READ FROM TREE???
-    // 
+    pred_distrs->push_back(pred_LL);
+    pred_distrs->push_back(pred_LR);
+    pred_distrs->push_back(pred_RL);
+    pred_distrs->push_back(pred_RR);
     
-    distributions.push_back(distr_LL);
-    distributions.push_back(distr_LR);
-    distributions.push_back(distr_RL);
-    distributions.push_back(distr_RR);
+    for (auto & coef: coefs_LL) { coef_distrs->push_back(coef); }
+    for (auto & coef: coefs_LR) { coef_distrs->push_back(coef); }
+    for (auto & coef: coefs_RL) { coef_distrs->push_back(coef); }
+    for (auto & coef: coefs_RR) { coef_distrs->push_back(coef); }
   }
   
-  spdlog::debug("Number of distributions found: {}", distributions.size());
+  spdlog::debug("Number of distributions found: {}", pred_distrs->size());
   
   file->Close();
-  
-  return distributions;
 }
   
 //------------------------------------------------------------------------------

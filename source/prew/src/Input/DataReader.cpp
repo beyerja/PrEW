@@ -23,12 +23,13 @@ DataReader::DataReader(InputInfo *input_info, std::string input_style) :
 void DataReader::read_file() {
   /** Read the file whose info is provided in input_info according to the 
       given style of input file.
-      Could read measurement and or prediction depending on file type.
+      Could read measurement, prediction and/or coefficients depending on file
+      type.
   **/
   
   if ( m_input_style == "RK" ) {
-    spdlog::debug("Reading RK style file, these only contain predictions.");
-    m_pred_distrs = Reading::read_RK_file(m_input_info);
+    spdlog::debug("Reading RK style file, these only contain predictions and coefficients, no measurement.");
+    Reading::read_RK_file(m_input_info, &m_pred_distrs, &m_coef_distrs);
   } else {
     throw std::invalid_argument(("Invalid file style " + m_input_style).c_str());
   }
