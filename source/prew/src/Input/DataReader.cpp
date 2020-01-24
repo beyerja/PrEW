@@ -41,6 +41,8 @@ Data::DiffDistrVec DataReader::get_meas_distrs() const { return m_meas_distrs; }
 
 Data::PredDistrVec DataReader::get_pred_distrs() const { return m_pred_distrs; }
 
+Data::CoefDistrVec DataReader::get_coef_distrs() const { return m_coef_distrs; }
+
 //------------------------------------------------------------------------------
 
 }
