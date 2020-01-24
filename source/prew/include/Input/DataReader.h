@@ -30,9 +30,9 @@ namespace Input {
       DataReader(InputInfo *input_info);
       
       void read_file();
-      Data::DiffDistrVec get_meas_distrs() const;
-      Data::PredDistrVec get_pred_distrs() const;
-      Data::CoefDistrVec get_coef_distrs() const;
+      const Data::DiffDistrVec& get_meas_distrs() const;
+      const Data::PredDistrVec& get_pred_distrs() const;
+      const Data::CoefDistrVec& get_coef_distrs() const;
   };
   
 }
