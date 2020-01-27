@@ -18,7 +18,8 @@ namespace Data {
     
     // Values of observables at bin center
     CppUtils::Vec::Matrix2D<double> m_bin_centers {}; 
-    std::vector<double> m_distribution {}; // Predicted distribution
+    std::vector<double> m_sig_distr {}; // Predicted signal distribution
+    std::vector<double> m_bkg_distr {}; // Predicted background distribution
   };
   
   typedef std::vector<PredDistr> PredDistrVec;

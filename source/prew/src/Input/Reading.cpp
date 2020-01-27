@@ -100,7 +100,6 @@ void Reading::read_RK_file(
     pred_RL.m_info = info_RL;
     pred_RR.m_info = info_RR;
     
-    // 
     CppUtils::Vec::Matrix2D<double> bin_center_mtx 
       = CppUtils::Root::matrix2D_from_TMatrixT( *bin_centers );
     pred_LL.m_bin_centers = bin_center_mtx;
@@ -116,16 +115,12 @@ void Reading::read_RK_file(
     for (auto & coef: coefs_LR) { coef.m_info = info_LR; }
     for (auto & coef: coefs_RL) { coef.m_info = info_RL; }
     for (auto & coef: coefs_RR) { coef.m_info = info_RR; }
-    // coef_LL.m_info = info_LL;
-    // coef_LR.m_info = info_LR;
-    // coef_RL.m_info = info_RL;
-    // coef_RR.m_info = info_RR;
     
     for (int bin=0; bin<n_bins; bin++) {
-      pred_LL.m_distribution.push_back( diff_sigma_signal_LL[bin] );
-      pred_LR.m_distribution.push_back( diff_sigma_signal_LR[bin] );
-      pred_RL.m_distribution.push_back( diff_sigma_signal_RL[bin] );
-      pred_RR.m_distribution.push_back( diff_sigma_signal_RR[bin] );
+      pred_LL.m_sig_distr.push_back( diff_sigma_signal_LL[bin] );
+      pred_LR.m_sig_distr.push_back( diff_sigma_signal_LR[bin] );
+      pred_RL.m_sig_distr.push_back( diff_sigma_signal_RL[bin] );
+      pred_RR.m_sig_distr.push_back( diff_sigma_signal_RR[bin] );
       
       for (size_t coef=0; coef<n_coefs; coef++) {
         coefs_LL[coef].m_coefficients.push_back((*diff_TGC_coeff_LL)[bin][coef]);
