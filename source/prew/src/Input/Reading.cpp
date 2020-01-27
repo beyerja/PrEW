@@ -3,6 +3,7 @@
 #include <CppUtils/Vec.h>
 #include <Data/PredDistr.h>
 #include <Fit/FitBin.h>
+#include <GlobalVar/Chiral.h>
 #include <Input/InfoRKFile.h>
 #include <Input/Reading.h>
 
@@ -80,6 +81,7 @@ void Reading::read_RK_file(
   for(int p=0; p<n_processes; p++){
     tree->GetEntry(p);
     
+    // Info that identifies distribution
     Data::DistrInfo basic_info {};
     basic_info.m_energy = energy;
     basic_info.m_process_name = *process;
@@ -89,10 +91,10 @@ void Reading::read_RK_file(
                     info_RL = basic_info,
                     info_RR = basic_info;
                     
-    info_LL.m_pol_config = "LL";
-    info_LR.m_pol_config = "LR";
-    info_RL.m_pol_config = "RL";
-    info_RR.m_pol_config = "RR";
+    info_LL.m_pol_config = GlobalVar::Chiral::eLpL;
+    info_LR.m_pol_config = GlobalVar::Chiral::eLpR;
+    info_RL.m_pol_config = GlobalVar::Chiral::eRpL;
+    info_RR.m_pol_config = GlobalVar::Chiral::eRpR;
 
     Data::PredDistr pred_LL {}, pred_LR {}, pred_RL {}, pred_RR {};
     pred_LL.m_info = info_LL;
@@ -100,6 +102,7 @@ void Reading::read_RK_file(
     pred_RL.m_info = info_RL;
     pred_RR.m_info = info_RR;
     
+    // Reading of actual distribution and coefficients
     CppUtils::Vec::Matrix2D<double> bin_center_mtx 
       = CppUtils::Root::matrix2D_from_TMatrixT( *bin_centers );
     pred_LL.m_bin_centers = bin_center_mtx;
@@ -130,6 +133,7 @@ void Reading::read_RK_file(
       }
     }
     
+    // Saving distributions in given pointers
     pred_distrs->push_back(pred_LL);
     pred_distrs->push_back(pred_LR);
     pred_distrs->push_back(pred_RL);
