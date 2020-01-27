@@ -4,6 +4,7 @@
 #include <Data/DistrInfo.h>
 
 #include <string>
+#include <vector>
 
 namespace PREW {
 namespace Data {
