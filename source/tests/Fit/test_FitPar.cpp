@@ -1,10 +1,13 @@
-#include <gtest/gtest.h>
 #include <Fit/FitPar.h>
+#include <CppUtils/Num.h>
+
+#include <gtest/gtest.h>
 
 #include <string>  
 #include <sstream>   
 
 using namespace PREW::Fit;
+using namespace PREW::CppUtils;
 
 TEST(TestFitPar, ReturnsCorrectIni) {
   FitPar fp1 ("fp1", 0.00055, 0.01);
@@ -46,6 +49,22 @@ TEST(TestFitPar, EqualOperator) {
   ASSERT_EQ(fp1 == fp1, true);
   ASSERT_EQ(fp1 == fp2, false);
   ASSERT_EQ(fp1 == fp1_copy, true);
+}
+
+TEST(TestFitPar, CopyAssignmentOperator) {
+  FitPar fp1 ("fp1", 0, 0.01);
+  FitPar fp2 ("fp2", 1, 0.05);
+  FitPar fp2_copy = fp2;
+  ASSERT_EQ(fp1 == fp2, false); // Compares only name string
+  ASSERT_EQ(fp2 == fp2_copy, true);
+  ASSERT_EQ(Num::equal_to_eps(fp2.get_val_ini(), fp2_copy.get_val_ini()), true);
+  ASSERT_EQ(Num::equal_to_eps(fp2.get_unc_ini(), fp2_copy.get_unc_ini()), true);
+  
+  fp2 = fp1; // Overwrite fp1
+  ASSERT_EQ(fp1 == fp2, true);
+  ASSERT_EQ(fp2 == fp2_copy, false);
+  ASSERT_EQ(Num::equal_to_eps(fp2.get_val_ini(), fp2_copy.get_val_ini()), false);
+  ASSERT_EQ(Num::equal_to_eps(fp2.get_unc_ini(), fp2_copy.get_unc_ini()), false);
 }
 
 TEST(TestFitPar, ConstrCalcWithoutConstr) {

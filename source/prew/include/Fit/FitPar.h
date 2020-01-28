@@ -39,6 +39,7 @@ namespace Fit {
       
       // Operators
       bool operator==(const FitPar& fit_par) const;
+      FitPar& operator=(const FitPar& other) = default;
   };
   
   typedef std::vector<FitPar> ParVec;
