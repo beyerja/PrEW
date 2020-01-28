@@ -10,8 +10,8 @@ namespace PREW {
 namespace Data {
   
   struct DiffDistr {
-    /** Class holding a differential distribution of a process for a 
-        polarisation combination.
+    /** Class holding a differential distribution for one polarisation 
+        combination.
         Differential distributions can only be distributions of numbers of 
         events in the context of this framework. Everything else (e.g cross 
         section) would carry a systematic error that this framework is not made

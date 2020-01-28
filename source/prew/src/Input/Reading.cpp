@@ -84,7 +84,7 @@ void Reading::read_RK_file(
     // Info that identifies distribution
     Data::DistrInfo basic_info {};
     basic_info.m_energy = energy;
-    basic_info.m_process_name = *process;
+    basic_info.m_distr_name = *process;
     
     Data::DistrInfo info_LL = basic_info,
                     info_LR = basic_info,

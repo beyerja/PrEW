@@ -10,8 +10,8 @@ namespace PREW {
 namespace Data {
   
   struct PredDistr {
-    /** Class holding a predictions for differential distribution of a process
-        for one chirality.
+    /** Class holding a predictions for differential distribution for one 
+        chirality.
     **/
     
     DistrInfo m_info {}; // Info which identifies this distribution

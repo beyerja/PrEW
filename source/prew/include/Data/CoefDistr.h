@@ -11,7 +11,7 @@ namespace Data {
 
   struct CoefDistr {
     /** Class holding a coefficient for parameterised prediction of a 
-        distribution for one process & polarisation/chirality.
+        distribution for one polarisation/chirality.
     **/
     
     std::string m_coef_name {}; // Name that identifies this coefficient
