@@ -1,5 +1,5 @@
-#ifndef LIBRARY_DISTRINFO_H
-#define LIBRARY_DISTRINFO_H 1
+#ifndef LIB_DISTRINFO_H
+#define LIB_DISTRINFO_H 1
 
 #include <string>
 
@@ -12,6 +12,8 @@ namespace Data {
     std::string m_distr_name {};    // Name of distribution
     std::string m_pol_config {};    // Name of polarisation setting
     int         m_energy {};        // Center of mass energy
+    
+    bool operator==(const DistrInfo& other) const;
   };
   
 }
