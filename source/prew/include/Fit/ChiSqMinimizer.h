@@ -35,13 +35,13 @@ namespace Fit {
   
   public:
     // Constructors
-    ChiSqMinimizer(FitContainer * container, MinuitFactory &factory);
+    ChiSqMinimizer(FitContainer * container, const MinuitFactory &factory);
     
     void minimize();
     
     // Get function
     double get_chisq() const;
-    FitResult get_result() const;
+    const FitResult& get_result() const;
   };
   
 }

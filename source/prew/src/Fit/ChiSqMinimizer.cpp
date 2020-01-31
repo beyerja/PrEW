@@ -12,7 +12,7 @@ namespace Fit {
 //------------------------------------------------------------------------------
 // Constructors
 
-ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, MinuitFactory &factory) : 
+ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, const MinuitFactory &factory) : 
   m_container(container) 
 {
   this->update_chisq();
@@ -23,7 +23,7 @@ ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, MinuitFactory &factory)
 // get functions
 
 double ChiSqMinimizer::get_chisq() const { return m_chisq; }
-FitResult ChiSqMinimizer::get_result() const { return m_result; }
+const FitResult& ChiSqMinimizer::get_result() const { return m_result; }
 
 //------------------------------------------------------------------------------
 // Core functionality
@@ -88,7 +88,7 @@ void ChiSqMinimizer::minimize() {
 }
 
 //------------------------------------------------------------------------------
-// Result collectiong
+// Result collecting
 
 void ChiSqMinimizer::collect_par_names() {
   unsigned int n_pars = m_container->m_fit_pars.size();
