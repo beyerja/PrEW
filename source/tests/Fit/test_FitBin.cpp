@@ -3,9 +3,15 @@
 
 using namespace PREW::Fit;
 
+TEST(TestFitbin, TrivialConstructor) {
+  FitBin fb {};
+  ASSERT_EQ(fb.get_val_mst(), 0);
+  ASSERT_EQ(fb.get_val_unc(), 0);
+}
+  
 TEST(TestFitbin, ReturnsCorrectVals) {
-  FitBin fb1 (0.0035, 200.0, std::function<double()> {});
-  FitBin fb2 (-1110.022, 0.0, std::function<double()> {});
+  FitBin fb1 (0.0035, 200.0);
+  FitBin fb2 (-1110.022, 0.0);
   ASSERT_EQ(fb1.get_val_mst(), 0.0035);
   ASSERT_EQ(fb1.get_val_unc(), 200.0);
   ASSERT_EQ(fb2.get_val_mst(), -1110.022);

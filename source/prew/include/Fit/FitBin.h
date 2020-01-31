@@ -2,6 +2,7 @@
 #define LIB_FITBIN_H 1
 
 #include <functional>
+#include <vector>
 
 namespace PREW {
 namespace Fit {
@@ -18,7 +19,7 @@ namespace Fit {
     
     public:
       // Constructors
-      FitBin(double val_mst, double val_unc, std::function<double()> prd_fct=NULL);
+      FitBin(double val_mst=0, double val_unc=0, std::function<double()> prd_fct=NULL);
       
       double get_val_mst() const; // Get measured value
       double get_val_unc() const; // Get measurement uncertainty
