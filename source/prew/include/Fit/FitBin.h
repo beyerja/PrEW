@@ -8,7 +8,8 @@ namespace PREW {
 namespace Fit {
   
   class FitBin {
-    /** Class describing the prediction for a bin depending on a set of fit parameters.
+    /** Class describing the prediction for a bin depending on a set of fit 
+        parameters.
     **/
     
     double m_val_mst {}; // measured value
@@ -19,7 +20,13 @@ namespace Fit {
     
     public:
       // Constructors
-      FitBin(double val_mst=0, double val_unc=0, std::function<double()> prd_fct=NULL);
+      FitBin(
+        double val_mst=0, 
+        double val_unc=0, 
+        std::function<double()> prd_fct=NULL
+      );
+      
+      void set_prd_fct(std::function<double()> prd_fct); // Set prediction fct.
       
       double get_val_mst() const; // Get measured value
       double get_val_unc() const; // Get measurement uncertainty

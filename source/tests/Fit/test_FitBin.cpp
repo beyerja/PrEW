@@ -35,3 +35,16 @@ TEST(TestFitbin, CorrectChangedPrediction) {
   x = -3.5;
   ASSERT_EQ(fb.get_val_prd(), -3.5);
 }
+
+TEST(TestFitbin, PredictionFunctionSetting) {
+  // Test that setting of a prediction function works properly
+  FitBin fb {}; // Empty bin, no fit function
+  auto fct_1 = [](){return 2.5;};
+  auto fct_2 = [](){return -4000.0;};
+
+  fb.set_prd_fct(fct_1);
+  ASSERT_EQ(fb.get_val_prd(), 2.5);
+
+  fb.set_prd_fct(fct_2);
+  ASSERT_EQ(fb.get_val_prd(), -4000.0);
+}
