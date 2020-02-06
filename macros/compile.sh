@@ -3,7 +3,7 @@
 # -------------------------------------------------#
 # Bash script for compiling the processor of the
 # analysis.
-# To be run simply by using: ./run_make.sh [-rebuild]
+# To be run simply by using: ./compile.sh [-rebuild]
 # Be sure a modern software is sourced! (E.g. sourcing load_env.sh)
 # -------------------------------------------------#
 
