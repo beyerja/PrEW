@@ -99,5 +99,25 @@ std::function<double()> Linker::get_bonded_fnct_at_bin (
 
 //------------------------------------------------------------------------------
 
+std::vector<std::function<double()>> Linker::get_all_bonded_fncts_at_bin(
+  size_t bin,
+  Fit::ParVec *pars
+) const {
+  /** Get all bonded parametrisation functions for the given bin.
+      (More details in get_bonded_fnct_at_bin)
+  **/
+  
+  std::vector<std::function<double()>> bonded_fncts_at_bin {};
+  for (const auto & fnct_link: m_fncts_links) {
+    bonded_fncts_at_bin.push_back(
+      get_bonded_fnct_at_bin(fnct_link.m_fnct_name, bin, pars)
+    );
+  }
+  
+  return bonded_fncts_at_bin;
+}
+
+//------------------------------------------------------------------------------
+
 }
 }

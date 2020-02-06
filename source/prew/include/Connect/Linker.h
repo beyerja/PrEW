@@ -36,6 +36,11 @@ namespace Connect {
         size_t bin,
         Fit::ParVec *pars
       ) const;
+      
+      std::vector<std::function<double()>> get_all_bonded_fncts_at_bin(
+        size_t bin,
+        Fit::ParVec *pars
+      ) const;
   };
   
 }

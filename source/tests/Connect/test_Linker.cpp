@@ -171,11 +171,11 @@ TEST(TestLinker, MultiFunctionTest) {
   
   // --- Get functions from linker which are linked to parameters
   Linker linker = Linker(fnct_links, bin_centers, coefs);
+  auto all_bin_fncts = linker.get_all_bonded_fncts_at_bin(0,&pars);
+  ASSERT_EQ( all_bin_fncts.size(), 2 );
   
-  auto gaussian_bin = 
-    linker.get_bonded_fnct_at_bin("Gaussian1D",0,&pars);
-  auto quadratic_bin = 
-    linker.get_bonded_fnct_at_bin("Quadratic1DPolynomial",0,&pars);
+  auto gaussian_bin  = all_bin_fncts.at(0);
+  auto quadratic_bin = all_bin_fncts.at(1);
 
   // --- Check for expected output
   ASSERT_EQ(Num::equal_to_eps(gaussian_bin(), 0.3989422804, 1e-9), true)
