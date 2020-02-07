@@ -65,16 +65,20 @@ std::function<double()> LinkHelp::get_polfactor_lambda(
 
 //------------------------------------------------------------------------------
 
-double LinkHelp::get_modified_sigma(
+std::function<double()> LinkHelp::get_modified_sigma(
   double sigma,
   const std::vector<std::function<double()>>& alphas
 ) {
   /** Take a cross section (sigma) and alpha factor functions and return a 
       function that gives the modified cross section value.
   **/
-  double sigma_mod = sigma;
-  for (const auto & alpha: alphas) {sigma_mod *= alpha();}
-  return sigma_mod;
+  auto sigma_mod_fct = 
+    [sigma,alphas](){
+      double sigma_mod = sigma;
+      for (const auto & alpha: alphas) {sigma_mod *= alpha();}
+      return sigma_mod;
+    };
+  return sigma_mod_fct;
 }
 
 //------------------------------------------------------------------------------

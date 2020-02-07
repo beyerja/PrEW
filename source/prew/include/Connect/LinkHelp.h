@@ -20,7 +20,7 @@ namespace LinkHelp {
     Fit::ParVec *pars
   );
   
-  double get_modified_sigma(
+  std::function<double()> get_modified_sigma(
     double sigma,
     const std::vector<std::function<double()>>& alphas
   );

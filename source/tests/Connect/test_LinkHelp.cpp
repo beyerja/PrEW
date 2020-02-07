@@ -49,15 +49,18 @@ TEST(TestLinkHelp, PolFactorLambdas) {
 }
 
 TEST(TestLinkHelp, SigmaModification) {
-  // Test function that multiplies value with output of functions
+  /** Test function that returns lambda for value multiplied with output of 
+      functions.
+  **/
   std::vector<std::function<double()>> alpha_fcts {
     [](){return 2.5;},
     [](){return 3.0;}
   };
   double val = 2.0;
-  
-  double mod_val = LinkHelp::get_modified_sigma(val,alpha_fcts);
+
+  auto mod_val = LinkHelp::get_modified_sigma(val,alpha_fcts);
   // 2.5 * 3 * 2 = 15
-  ASSERT_EQ(Num::equal_to_eps(mod_val, 15.0, 1e-9), true)
-    << "Got " << mod_val << " expected " << 15.0;
+  ASSERT_EQ(Num::equal_to_eps(mod_val(), 15.0, 1e-9), true)
+    << "Got " << mod_val() << " expected " << 15.0;
 }
+//------------------------------------------------------------------------------
