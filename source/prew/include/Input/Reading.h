@@ -1,7 +1,8 @@
 #ifndef LIBRARY_READING_H
 #define LIBRARY_READING_H 1
 
-#include <Data/Distr1D.h>
+#include <Data/CoefDistr.h>
+#include <Data/PredDistr.h>
 #include <Input/InputInfo.h>
 
 namespace PREW {
@@ -13,7 +14,9 @@ namespace Reading {
   
   //----------------------------------------------------------------------------
 
-  Data::Distr1DVec read_RK_file(InputInfo *input_info);
+  void read_RK_file(const InputInfo *input_info, 
+                    Data::PredDistrVec *pred_distrs, 
+                    Data::CoefDistrVec *coef_distrs);
 
   //----------------------------------------------------------------------------
   

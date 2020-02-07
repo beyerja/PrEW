@@ -1,0 +1,34 @@
+#ifndef LIBRARY_DIFFDISTR_H
+#define LIBRARY_DIFFDISTR_H 1
+
+#include <CppUtils/Vec.h>
+#include <Data/DistrInfo.h>
+#include <Fit/FitBin.h>
+
+
+namespace PREW {
+namespace Data {
+  
+  struct DiffDistr {
+    /** Class holding a differential distribution for one polarisation 
+        combination.
+        Differential distributions can only be distributions of numbers of 
+        events in the context of this framework. Everything else (e.g cross 
+        section) would carry a systematic error that this framework is not made
+        to account for.
+    **/
+    
+    DistrInfo m_info {}; // Info which identifies this distribution
+    
+    // Values of observables at bin center
+    // => Are not stored with the bin because underlying fit framework 
+    //    doesn't need it
+    CppUtils::Vec::Matrix2D<double> m_bin_centers {}; 
+    Fit::BinVec m_distribution {}; // Distribution of number of events
+  };
+  
+  typedef std::vector<DiffDistr> DiffDistrVec;
+}
+}
+
+#endif

@@ -17,6 +17,13 @@ namespace Fit {
       ParConstrGauss(double val, double unc);
       
       double calc_chisq(double par_val) const;
+      
+      double get_val() const;
+      double get_unc() const;
+      
+      // Operators
+      bool operator==(const ParConstrGauss& other) const;
+      ParConstrGauss& operator=(const ParConstrGauss& other) = default;
   };
   
 }
