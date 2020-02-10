@@ -26,24 +26,24 @@ fi
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 home_folder=${dir}/..
 
-if [ -d ${home_folder}/build  ] ; then
+if [ -d "${home_folder}"/build  ] ; then
 	echo "Already have  --build-- directory to compile"
   # If requested remove build folder content
   if [ ${REBUILD} ]; then 
     echo "Rebuild requested => Recreating build directory"
-    rm -r ${home_folder}/build
-    mkdir ${home_folder}/build
+    rm -r "${home_folder}"/build
+    mkdir "${home_folder}"/build
   fi
 else
 	echo "no build directory => Recreating build directory"
-	mkdir ${home_folder}/build
+	mkdir "${home_folder}"/build
 fi
 
 # -------------------------------------------------#
 # Move to build directory and to build framework
 # (cmake + make)
 
-cd ${home_folder}/build
+cd "${home_folder}"/build
 
 echo "begin to config"
 echo
