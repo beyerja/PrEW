@@ -11,6 +11,27 @@ using namespace PREW::Fncts;
 //------------------------------------------------------------------------------
 // Check that polynomial functions are correctly implemented
 
+TEST(TestPolynomial, ConstantPar) {
+  // Test function that simply mirrors the parameter
+  std::vector<double> c {};
+  std::vector<double> p_vals {1.0};
+  std::vector<double*> p_ptrs {&(p_vals[0])};
+
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::constant_par({},c,p_ptrs), 1.0, 1e-9), true 
+  ) << "Expected " << 1.0 << " got " << Polynomial::constant_par({},c,p_ptrs);
+  
+  p_vals[0] = -0.5;
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::constant_par({},c,p_ptrs), -0.5, 1e-9), true 
+  ) << "Expected " << -0.5 << " got " << Polynomial::constant_par({},c,p_ptrs);
+  
+  p_vals[0] = 2000.;
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::constant_par({},c,p_ptrs), 2000., 1e-9), true 
+  ) << "Expected " << 2000. << " got " << Polynomial::constant_par({},c,p_ptrs);
+}
+
 TEST(TestPolynomial, Gaussian1D) {
   std::vector<double> c {};
   std::vector<double> p_vals {  1.0, // Offset
