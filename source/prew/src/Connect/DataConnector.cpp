@@ -180,7 +180,10 @@ void DataConnector::fill_bins(
 
   // Set the prediction of each distribution
   for ( size_t bin=0; bin<bin_centers.size(); bin++ ) {
+    spdlog::debug("Binding functions for bin {}.", bin);
+    
     // -------------------- Get chiral signal prediction -----------------------
+    spdlog::debug("Getting chiral signal predictions.");
     double sigma_sig_LR = pred_LR.m_sig_distr[bin];
     double sigma_sig_RL = pred_RL.m_sig_distr[bin];
     double sigma_sig_LL = pred_LL.m_sig_distr[bin];
@@ -202,6 +205,7 @@ void DataConnector::fill_bins(
     // -------------------------------------------------------------------------
 
     // -------------------- Get chiral background prediction -------------------
+    spdlog::debug("Getting chiral background predictions.");
     double sigma_bkg_LR = pred_LR.m_bkg_distr[bin];
     double sigma_bkg_RL = pred_RL.m_bkg_distr[bin];
     double sigma_bkg_LL = pred_LL.m_bkg_distr[bin];
@@ -223,6 +227,7 @@ void DataConnector::fill_bins(
     // -------------------------------------------------------------------------
 
     // -------------------- Get polarised signal prediction --------------------
+    spdlog::debug("Getting polarised signal predictions.");
     auto alphas_sig_pol = linker_sig_pol.get_all_bonded_fncts_at_bin(bin, pars);
 
     // No longer sigma because includes lumi => #Events
@@ -243,6 +248,7 @@ void DataConnector::fill_bins(
     // -------------------------------------------------------------------------
 
     // -------------------- Get polarised background prediction ----------------
+    spdlog::debug("Getting polarised background predictions.");
     auto alphas_bkg_pol = linker_bkg_pol.get_all_bonded_fncts_at_bin(bin, pars);
 
     // No longer sigma because includes lumi => #Events
@@ -263,6 +269,7 @@ void DataConnector::fill_bins(
     // -------------------------------------------------------------------------
 
     // -------------------- Get total polarised prediction ---------------------
+    spdlog::debug("Getting total polarised predictions.");
     std::function<double()> pred_pol  =
       [pred_sig_pol,pred_bkg_pol]() { return pred_sig_pol() + pred_bkg_pol(); };
     // -------------------------------------------------------------------------
