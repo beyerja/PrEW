@@ -152,4 +152,19 @@ TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
   double result_chisq = result.m_chisq_fin;
   int n_dof = n_bins - 3; // 3->#parameters
   EXPECT_EQ( fabs(result_chisq/double(n_bins)-1.0)<0.2, true) << "Result chi^2/n_dof: " << result_chisq/double(n_bins);
+  
+  // Fix parameter "a" to true value and test if all works well 
+  // and that "a" does not change
+  container.m_fit_pars[0].m_val_mod = true_a;
+  container.m_fit_pars[0].fix();
+  
+  // Here we go again...
+  chi_sq_minimizer.minimize();
+  auto const new_result = chi_sq_minimizer.get_result();
+  double new_result_a = new_result.m_pars_fin[0];
+  double new_result_b = new_result.m_pars_fin[1];
+  double new_result_c = new_result.m_pars_fin[2];
+  EXPECT_EQ( fabs(new_result_a-true_a)<1e-9, true) << "True a: " << true_a << " , Result a: " << new_result_a;
+  EXPECT_EQ( fabs(new_result_b-true_b)<0.03, true) << "True b: " << true_b << " , Result b: " << new_result_b;
+  EXPECT_EQ( fabs(new_result_c-true_c)<0.03, true) << "True c: " << true_c << " , Result c: " << new_result_c;
 }
