@@ -50,7 +50,6 @@ ToyGenerator::ToyGenerator(
     for (const auto& [pol_config, pol_pair]: pol_link.m_config_pol_links) {
       pol_configs_per_energies[energy].insert(pol_config);
     }
-    // TODO This as functionality of connector?????
   }
   
   // Check what was found
@@ -61,13 +60,16 @@ ToyGenerator::ToyGenerator(
       continue;
     }
     spdlog::debug(
-      "For E={} found {} distribution and {} pol. configurations.",
+      "For E={} found {} distributions and {} pol. configurations.",
+      energy,
       distr_per_energies.at(energy).size(), 
       pol_configs_per_energies.at(energy).size()
     );
   }
   
+
   // Loop over all distributions found at their respective energies
+  spdlog::debug("Start setting up basic toy distributions.");
   for (const int & energy: energies) {
     for (const auto & distr_name: distr_per_energies.at(energy)) {
       // Get distribution setup bin centers from first prediction
@@ -77,6 +79,10 @@ ToyGenerator::ToyGenerator(
         
       // Loop over all polarisations for the given energy
       for (const auto& pol_config: pol_configs_per_energies.at(energy)) {
+        spdlog::debug( 
+          "Setting up distribution for : {}, {}, {}.",
+          energy, distr_name, pol_config
+        );
         
         // Create a differential distribution for this polarisation config.
         // Fit bins empty for now, prediction to be set
