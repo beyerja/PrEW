@@ -11,17 +11,19 @@ using namespace PREW::CppUtils;
 
 TEST(TestFitPar, ReturnsCorrectIni) {
   FitPar fp1 ("fp1", 0.00055, 0.01);
-  FitPar fp2 ("fp2", -200.5, 0.01);
+  FitPar fp2 ("fp2", -200.5, 0.01, true);
   
   ASSERT_EQ(fp1.get_val_ini(), 0.00055);
   ASSERT_EQ(fp1.get_unc_ini(), 0.01);
   ASSERT_EQ(fp1.m_val_mod, 0.00055);
   ASSERT_STREQ(fp1.get_name().c_str(), "fp1");
+  ASSERT_EQ(fp1.is_fixed(), false);
   
   ASSERT_EQ(fp2.get_val_ini(), -200.5);
   ASSERT_EQ(fp2.get_unc_ini(), 0.01);
   ASSERT_EQ(fp2.m_val_mod, -200.5);
   ASSERT_STREQ(fp2.get_name().c_str(), "fp2");
+  ASSERT_EQ(fp2.is_fixed(), true);
 }
 
 TEST(TestFitPar, ProperReset) {
@@ -53,18 +55,20 @@ TEST(TestFitPar, EqualOperator) {
 
 TEST(TestFitPar, CopyAssignmentOperator) {
   FitPar fp1 ("fp1", 0, 0.01);
-  FitPar fp2 ("fp2", 1, 0.05);
+  FitPar fp2 ("fp2", 1, 0.05, true);
   FitPar fp2_copy = fp2;
   ASSERT_EQ(fp1 == fp2, false); // Compares only name string
   ASSERT_EQ(fp2 == fp2_copy, true);
   ASSERT_EQ(Num::equal_to_eps(fp2.get_val_ini(), fp2_copy.get_val_ini()), true);
   ASSERT_EQ(Num::equal_to_eps(fp2.get_unc_ini(), fp2_copy.get_unc_ini()), true);
+  ASSERT_EQ(fp2.is_fixed(), fp2_copy.is_fixed());
   
   fp2 = fp1; // Overwrite fp1
   ASSERT_EQ(fp1 == fp2, true);
   ASSERT_EQ(fp2 == fp2_copy, false);
   ASSERT_EQ(Num::equal_to_eps(fp2.get_val_ini(), fp2_copy.get_val_ini()), false);
   ASSERT_EQ(Num::equal_to_eps(fp2.get_unc_ini(), fp2_copy.get_unc_ini()), false);
+  ASSERT_EQ(fp2.is_fixed() == fp2_copy.is_fixed(), false);
 }
 
 TEST(TestFitPar, ConstrCalcWithoutConstr) {
@@ -88,4 +92,14 @@ TEST(TestFitPar, GaussConstrModifiedValue) {
   fp.m_val_mod = 5;
   // constr: ( (5-1)/2 )^2 = 4
   ASSERT_EQ(fp.calc_constr_chisq(), 4);
+}
+
+TEST(TestFitPar, ParFixing) {
+  FitPar fp ("fp", 0, 0, false); // Not fixed
+  ASSERT_EQ(fp.is_fixed(), false);
+  
+  fp.fix(); 
+  ASSERT_EQ(fp.is_fixed(), true);
+  fp.release(); 
+  ASSERT_EQ(fp.is_fixed(), false);
 }

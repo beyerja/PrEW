@@ -7,8 +7,15 @@ namespace Fit {
 // Constructors
 
 
-FitPar::FitPar(std::string name, double val_ini, double unc_ini) : 
-  m_name(name), m_val_ini(val_ini), m_unc_ini(unc_ini), m_val_mod(val_ini) {}
+FitPar::FitPar(
+  std::string name,
+  double val_ini,
+  double unc_ini,
+  bool is_fixed
+) : m_name(name), m_val_ini(val_ini), m_unc_ini(unc_ini), m_is_fixed(is_fixed) 
+{
+  m_val_mod = m_val_ini;
+}
 
 //------------------------------------------------------------------------------
 // get functions
@@ -16,6 +23,7 @@ FitPar::FitPar(std::string name, double val_ini, double unc_ini) :
 std::string FitPar::get_name() const { return m_name; }
 double FitPar::get_val_ini() const { return m_val_ini; }
 double FitPar::get_unc_ini() const { return m_unc_ini; }
+bool FitPar::is_fixed() const { return m_is_fixed; }
   
 //------------------------------------------------------------------------------
 // Constraints
@@ -37,6 +45,9 @@ double FitPar::calc_constr_chisq() const {
 
 //------------------------------------------------------------------------------
 // Modifying functions
+
+void FitPar::fix()     { m_is_fixed=true; }
+void FitPar::release() { m_is_fixed=false; }
 
 void FitPar::reset() { m_val_mod = m_val_ini; }
 

@@ -19,6 +19,8 @@ namespace Fit {
     double m_val_ini {}; // Initial value
     double m_unc_ini {}; // Initial guess of uncertainty -> Needed for Minuit
     
+    bool m_is_fixed {};
+    
     bool m_is_constraint {false};
     ParConstrGauss m_constrgauss {};
     
@@ -26,14 +28,23 @@ namespace Fit {
       double m_val_mod {}; // Modified value => Publicly accessible
       
       // Constructors
-      FitPar(std::string name, double val_ini, double unc_ini);
+      FitPar(
+        std::string name,
+        double val_ini,
+        double unc_ini,
+        bool is_fixed=false
+      );
       
       std::string get_name() const; // Get name
       double get_val_ini() const;   // Get initial value
       double get_unc_ini() const;   // Get initial value
+      bool is_fixed() const;   // Get info if parameter is fixed
       
       void set_constrgauss(ParConstrGauss constrgauss);
       double calc_constr_chisq() const; // Chi-squared produced by constraint
+      
+      void fix();     // fix the parameter
+      void release(); // release the parameter
       
       void reset(); // Reset to inital value
       
