@@ -40,6 +40,13 @@ TEST(TestDataReader, TestRKFileReading) {
   ASSERT_EQ(predicted_distributions.size(), 6*4);
   // Contains for 3 processes (*4) each 9 coefficients 
   ASSERT_EQ(prediction_coefficients.size(), 3*4*9);
+  
+  // There should be no background predictions
+  for (const auto & pred: predicted_distributions) {
+    double sum_bkg = 0;
+    for (const auto & bin: pred.m_bkg_distr) { sum_bkg += bin; }
+    ASSERT_EQ(sum_bkg, 0.0) << "RK style file should not contain bkg.";
+  }
 }
 
 //------------------------------------------------------------------------------

@@ -133,6 +133,12 @@ void Reading::read_RK_file(
       }
     }
     
+    // RK style files don't contain background distributions => 0-entry vectors
+    pred_LL.m_bkg_distr = std::vector<double>(pred_LL.m_sig_distr.size());
+    pred_LR.m_bkg_distr = std::vector<double>(pred_LR.m_sig_distr.size());
+    pred_RL.m_bkg_distr = std::vector<double>(pred_RL.m_sig_distr.size());
+    pred_RR.m_bkg_distr = std::vector<double>(pred_RR.m_sig_distr.size());
+    
     // Saving distributions in given pointers
     pred_distrs->push_back(pred_LL);
     pred_distrs->push_back(pred_LR);
