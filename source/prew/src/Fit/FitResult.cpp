@@ -5,7 +5,7 @@ namespace PREW {
 namespace Fit {
 
 //------------------------------------------------------------------------------
-// Constructors
+// Operators
 
 bool FitResult::operator==(const FitResult& result) const {
   bool are_equal = true &&
@@ -29,6 +29,10 @@ bool FitResult::operator==(const FitResult& result) const {
   }
   
   return are_equal;
+}
+
+bool FitResult::operator!=(const FitResult& result) const {
+  return ! (*this == result);
 }
 
 //------------------------------------------------------------------------------

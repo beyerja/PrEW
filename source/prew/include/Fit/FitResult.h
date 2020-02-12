@@ -20,6 +20,7 @@ namespace Fit {
     int m_cov_status {};
     
     bool operator==(const FitResult& result) const;
+    bool operator!=(const FitResult& result) const;
   };
   
 }
