@@ -25,3 +25,12 @@ TEST(TestFitResult, EqualOperatorTest) {
   ASSERT_EQ(r1 == r5, false);
   ASSERT_EQ(r5 == r6, false);
 }
+
+TEST(TestFitResult, StreamOperatorEmptyResult) {
+  FitResult r {};
+  std::stringstream buffer;
+  buffer << r;
+  std::string output = buffer.str();
+  std::string expected = "Parameters:\n\nCovariance matrix:\n\nCorrelation matrix:\n\nFit quality measures:\nChi^2 = 0.000000\nEDM   = 0.000000\nCov. matrix status : 0";
+  ASSERT_STREQ(output.c_str(),expected.c_str());
+}

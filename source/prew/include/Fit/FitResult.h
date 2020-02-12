@@ -25,4 +25,10 @@ namespace Fit {
 }
 }
 
+// Define operator for FitResult class
+template<typename OStream>
+OStream& operator<<(OStream& os, const PREW::Fit::FitResult& fr);
+
+#include <Fit/FitResult.tpp>
+
 #endif 
