@@ -75,7 +75,13 @@ void ChiSqMinimizer::minimize() {
   for ( unsigned int i_par=0; i_par<n_pars; i_par++ ){
     FitPar par = m_container->m_fit_pars[i_par];
     m_minimizer->SetVariable( i_par, par.get_name(), par.m_val_mod, par.get_unc_ini() );
-    if (par.is_fixed()) { m_minimizer->FixVariable(i_par); }
+    // Check if parameter is fixed or limited
+    if (par.is_fixed()) {
+      m_minimizer->FixVariable(i_par); 
+    } else if (par.is_limited()) {
+      m_minimizer->SetVariableLimits( 
+        i_par, par.get_upper_lim(), par.get_lower_lim());
+    }
   }
   
   // -------------------------------------------------------------------------//

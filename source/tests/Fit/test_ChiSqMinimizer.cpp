@@ -94,6 +94,7 @@ TEST(TestChiSqMinimizer, ChiSqWithBinsAndConstr) {
 TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
   /** Test if I manage to properly fit a parabola from ten gauss-fluctuated 
       points.
+      Includes tests for fixing of parameters and limiting paramters.
   **/
   
   double true_a = 2.5;
@@ -167,4 +168,27 @@ TEST(TestChiSqMinimizer, SecondOrderPolynomialFit) {
   EXPECT_EQ( fabs(new_result_a-true_a)<1e-9, true) << "True a: " << true_a << " , Result a: " << new_result_a;
   EXPECT_EQ( fabs(new_result_b-true_b)<0.03, true) << "True b: " << true_b << " , Result b: " << new_result_b;
   EXPECT_EQ( fabs(new_result_c-true_c)<0.03, true) << "True c: " << true_c << " , Result c: " << new_result_c;
+  
+  // Limit parameters and see that limiting works correctly
+  // => Set parameters to wrong values and limit into wrong space
+  container.m_fit_pars[0].release(); // First release fixed parameter
+  container.m_fit_pars[0].m_val_mod = -0.5;
+  container.m_fit_pars[1].m_val_mod = 4.0;
+  container.m_fit_pars[2].m_val_mod = -4.5;
+  container.m_fit_pars[0].set_limits(-1.0, 0); 
+  container.m_fit_pars[1].set_limits(1.5, 15); 
+  container.m_fit_pars[2].set_limits(-5.0, -4);
+  
+  // Here we go again...
+  chi_sq_minimizer.minimize();
+  auto const limited_result = chi_sq_minimizer.get_result();
+  double limited_result_a = limited_result.m_pars_fin[0];
+  double limited_result_b = limited_result.m_pars_fin[1];
+  double limited_result_c = limited_result.m_pars_fin[2];
+  EXPECT_EQ( limited_result_a >= -1.0, true);
+  EXPECT_EQ( limited_result_b >=  1.5, true);
+  EXPECT_EQ( limited_result_c >= -5.0, true);
+  EXPECT_EQ( limited_result_a <=    0, true);
+  EXPECT_EQ( limited_result_b <=   15, true);
+  EXPECT_EQ( limited_result_c <=   -4, true);
 }
