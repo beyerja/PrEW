@@ -42,12 +42,15 @@ ToyGenerator::ToyGenerator(
     // Find polarisation link for this energy 
     // => which polarisations exist?
     auto energy_condition = 
-      [energy](const Data::PolLink& link) {return link.m_energy==energy;};
-    Data::PolLink pol_link = 
-      CppUtils::Vec::element_by_condition( m_connector.get_pol_links(), energy_condition );
+      [energy](const Data::PolLink& link) {return link.get_energy()==energy;};
+    Data::PolLinkVec pol_links = 
+      CppUtils::Vec::subvec_by_condition( 
+        m_connector.get_pol_links(), energy_condition 
+      );
       
     // Find all available polarisations at energy from polarisation link
-    for (const auto& [pol_config, pol_pair]: pol_link.m_config_pol_links) {
+    for (const auto& pol_link: pol_links) {
+      std::string pol_config = pol_link.get_pol_config();
       pol_configs_per_energies[energy].insert(pol_config);
     }
   }
