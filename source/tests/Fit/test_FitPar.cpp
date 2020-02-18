@@ -103,3 +103,14 @@ TEST(TestFitPar, ParFixing) {
   fp.release(); 
   ASSERT_EQ(fp.is_fixed(), false);
 }
+
+TEST(TestFitPar, LimitSetting) {
+  FitPar fp ("fp", 0, 0); // Parameter without limits
+  ASSERT_EQ(fp.is_limited(), false);
+  ASSERT_EQ(fp.get_upper_lim(), 0);
+  ASSERT_EQ(fp.get_lower_lim(), 0);
+  
+  fp.set_limits(-1.5, 1000);
+  ASSERT_EQ(fp.get_lower_lim(), -1.5);
+  ASSERT_EQ(fp.get_upper_lim(), 1000);
+}

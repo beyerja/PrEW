@@ -24,6 +24,9 @@ std::string FitPar::get_name() const { return m_name; }
 double FitPar::get_val_ini() const { return m_val_ini; }
 double FitPar::get_unc_ini() const { return m_unc_ini; }
 bool FitPar::is_fixed() const { return m_is_fixed; }
+bool FitPar::is_limited() const { return m_is_limited; }
+double FitPar::get_lower_lim() const { return m_lower_lim; }
+double FitPar::get_upper_lim() const { return m_upper_lim; }
   
 //------------------------------------------------------------------------------
 // Constraints
@@ -45,6 +48,14 @@ double FitPar::calc_constr_chisq() const {
 
 //------------------------------------------------------------------------------
 // Modifying functions
+
+void FitPar::set_limits(double lower_lim, double upper_lim) {
+  /** Set upper and lower limit for allowed parameter space.
+  **/
+  m_is_limited = true;
+  m_lower_lim = lower_lim;
+  m_upper_lim = upper_lim;
+}
 
 void FitPar::fix()     { m_is_fixed=true; }
 void FitPar::release() { m_is_fixed=false; }

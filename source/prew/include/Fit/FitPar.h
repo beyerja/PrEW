@@ -21,6 +21,10 @@ namespace Fit {
     
     bool m_is_fixed {};
     
+    bool m_is_limited {false};
+    double m_upper_lim {};
+    double m_lower_lim {};
+    
     bool m_is_constraint {false};
     ParConstrGauss m_constrgauss {};
     
@@ -39,6 +43,11 @@ namespace Fit {
       double get_val_ini() const;   // Get initial value
       double get_unc_ini() const;   // Get initial value
       bool is_fixed() const;   // Get info if parameter is fixed
+      
+      void set_limits(double lower_lim, double upper_lim);
+      bool is_limited() const;
+      double get_lower_lim() const;
+      double get_upper_lim() const;
       
       void set_constrgauss(ParConstrGauss constrgauss);
       double calc_constr_chisq() const; // Chi-squared produced by constraint
