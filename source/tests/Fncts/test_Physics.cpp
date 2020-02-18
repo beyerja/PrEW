@@ -15,11 +15,13 @@ TEST(TestPhysics, PolarisationFactor) {
   // Test the polarisation factor function.
   std::vector<double> c {
     +1, // e- chirality = R
-    -1  // e+ chirality = L
+    -1, // e+ chirality = L
+    -1, // e- beam polarisation sign
+    +1  // e- beam polarisation sign
   };
   std::vector<double> p_vals {  
-    -0.2, // e- beam polarisation
-    0.6   // e+ beam polarisation
+    0.2, // e- beam polarisation amplitude
+    0.6  // e+ beam polarisation amplitude
   };
   std::vector<double*> p_ptrs {};
   for (double & p: p_vals) { p_ptrs.push_back(&p); }
