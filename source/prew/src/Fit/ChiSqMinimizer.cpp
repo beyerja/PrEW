@@ -113,7 +113,6 @@ void ChiSqMinimizer::update_result() {
   
   if (m_result != FitResult()) {
     spdlog::debug("FitResult not empty, will be overwritten.");
-    m_result = {};
   }
   
   unsigned int n_pars = m_container->m_fit_pars.size();
