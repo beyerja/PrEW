@@ -10,50 +10,52 @@ namespace Connect {
 //------------------------------------------------------------------------------
 
 std::function<double()> LinkHelp::get_polfactor_lambda(
-  const std::string                         & chirality, 
-  const std::pair<std::string, std::string> & pol_pair, 
+  const std::string   & chirality, 
+  const Data::PolLink & pol_link, 
   Fit::ParVec *pars
 ) {
   /** Get lambda function for the polarisation factor associated with a chiral
       cross section. Lambda function output will be dependent on polarisation
-      fit parameters (whose names are in the pol pair).
-      In pol_pair: First string is electron polarisation parameter name, 
-                   second is positron polarisation parameter name.
+      fit parameters (given in the pol_link).
       Underlying equation:
-        (1 + e-_chirality * P_e-) * (1 + e+_chirality * P_e+) / 4
+          (1 + e-_chirality * sgn(P_e-) * |P_e-|) / 2
+        * (1 + e+_chirality * sgn(P_e+) * |P_e+|) / 2
+        
   **/
   
-  // Individual beam polarisation fit parameter names
-  std::string e_pol = pol_pair.first;
-  std::string p_pol = pol_pair.second;
-  
-  // Sign associated with a given chirality
+  // Coefficients to be used in function building
   Data::CoefDistrVec pol_coefs {
     {"L", {}, {{-1}}},  // Left handed
-    {"R", {}, {{+1}}}   // Right handed
+    {"R", {}, {{+1}}},  // Right handed
+    {"e-sign", {}, {{pol_link.get_eM_sgn_factor()}}}, // Sign of e- polarisation
+    {"e+sign", {}, {{pol_link.get_eP_sgn_factor()}}}  // Sign of e+ polarisation
   };
   
   // Chirality considered in the current cross section
-  std::string e_chirality {}, p_chirality {};
+  std::string eM_chirality {}, eP_chirality {};
   if ( chirality == GlobalVar::Chiral::eLpR ) {
-    e_chirality = "L";
-    p_chirality = "R";
+    eM_chirality = "L";
+    eP_chirality = "R";
   } else if ( chirality == GlobalVar::Chiral::eRpL ) {
-    e_chirality = "R";
-    p_chirality = "L";
+    eM_chirality = "R";
+    eP_chirality = "L";
   } else if ( chirality == GlobalVar::Chiral::eLpL ) {
-    e_chirality = "L";
-    p_chirality = "L";
+    eM_chirality = "L";
+    eP_chirality = "L";
   } else if ( chirality == GlobalVar::Chiral::eRpR ) {
-    e_chirality = "R";
-    p_chirality = "R";
+    eM_chirality = "R";
+    eP_chirality = "R";
   } else {
     throw std::invalid_argument("Unknown chirality" + chirality);
   }
   
   // Instruction class for how to build lambda function
   Data::FnctLinkVec pol_fnct_link {
-    {"PolarisationFactor", {e_pol,p_pol}, {e_chirality,p_chirality} } };
+    {"PolarisationFactor", 
+      {pol_link.get_eM_pol(), pol_link.get_eP_pol()}, // Parameters to use
+      {eM_chirality,eP_chirality,"e-sign","e+sign"}   // Coefficients to use
+    } 
+  };
     
   // Use Linker class to get function (Need one dummy 0 bin)
   auto pol_factor = 

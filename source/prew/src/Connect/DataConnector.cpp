@@ -94,13 +94,12 @@ void DataConnector::fill_bins(
   CppUtils::Vec::Matrix2D<double> bin_centers = diff_distr.m_bin_centers;
   
   // Find polarisation link for this energy
-  auto energy_condition = 
-    [energy](const Data::PolLink& link) {return link.m_energy==energy;};
+  auto energy_pol_condition = 
+    [energy,pol_config](const Data::PolLink& link) {
+      return (link.get_energy()==energy) && (link.get_pol_config()==pol_config);
+    };
   Data::PolLink pol_link = 
-    CppUtils::Vec::element_by_condition( m_pol_links, energy_condition );
-
-  // Individual beam polarisations
-  auto pol_pair = pol_link.m_config_pol_links.at(pol_config);
+    CppUtils::Vec::element_by_condition(m_pol_links, energy_pol_condition);
 
   // Find corresponding predicted distributions, links and coefficients
   Data::PredDistrVec predictions  = 
@@ -169,13 +168,13 @@ void DataConnector::fill_bins(
 
   // --- Get polarisation factor alpha functions -------------------------------
   auto pol_factor_LR = 
-    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eLpR, pol_pair, pars);
+    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eLpR, pol_link, pars);
   auto pol_factor_RL = 
-    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eRpL, pol_pair, pars);
+    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eRpL, pol_link, pars);
   auto pol_factor_LL = 
-    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eLpL, pol_pair, pars);
+    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eLpL, pol_link, pars);
   auto pol_factor_RR = 
-    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eRpR, pol_pair, pars);
+    LinkHelp::get_polfactor_lambda(GlobalVar::Chiral::eRpR, pol_link, pars);
   // ---------------------------------------------------------------------------
 
   // Set the prediction of each distribution
