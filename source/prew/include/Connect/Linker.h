@@ -3,9 +3,9 @@
 
 #include <CppUtils/Vec.h>
 #include <Data/CoefDistr.h>
-#include <Data/FnctLink.h>
+#include <Data/FctLink.h>
 #include <Fit/FitPar.h>
-#include <Fncts/FnctMap.h>
+#include <Fcts/FctMap.h>
 
 #include <functional>
 #include <string>
@@ -19,25 +19,25 @@ namespace Connect {
         each bin of the distribution.
     **/
     
-    Data::FnctLinkVec m_fncts_links {};
+    Data::FctLinkVec m_fcts_links {};
     CppUtils::Vec::Matrix2D<double> m_bin_centers {};
     Data::CoefDistrVec m_coefs {};
     
     public:
       // Constructors
-      Linker( Data::FnctLinkVec fncts_links,
+      Linker( Data::FctLinkVec fcts_links,
               CppUtils::Vec::Matrix2D<double> bin_centers,
               Data::CoefDistrVec coefs
              );
       
       // Core functionality
-      std::function<double()> get_bonded_fnct_at_bin(
-        const std::string &fnct_name,
+      std::function<double()> get_bonded_fct_at_bin(
+        const std::string &fct_name,
         size_t bin,
         Fit::ParVec *pars
       ) const;
       
-      std::vector<std::function<double()>> get_all_bonded_fncts_at_bin(
+      std::vector<std::function<double()>> get_all_bonded_fcts_at_bin(
         size_t bin,
         Fit::ParVec *pars
       ) const;

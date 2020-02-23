@@ -2,7 +2,7 @@
 #include <CppUtils/Num.h>
 #include <CppUtils/Vec.h>
 #include <Data/CoefDistr.h>
-#include <Data/FnctLink.h>
+#include <Data/FctLink.h>
 #include <Fit/FitPar.h>
 
 #include <gtest/gtest.h>
@@ -38,7 +38,7 @@ TEST(TestLinker, GaussianTest) {
   };
   
   // --- Instructions on how to connect to prediction:
-  FnctLinkVec fnct_links {
+  FctLinkVec fct_links {
     {"Gaussian1D", // Only one function here: Gaussian
       {"A","mu","sigma"}, // Parameter map
       {} // Coefficient map
@@ -46,13 +46,13 @@ TEST(TestLinker, GaussianTest) {
   };
   
   // --- Get functions from linker which are linked to parameters
-  Linker linker = Linker(fnct_links, bin_centers, coefs);
+  Linker linker = Linker(fct_links, bin_centers, coefs);
   
-  auto gaussian_bin0 = linker.get_bonded_fnct_at_bin("Gaussian1D",0,&pars);
-  auto gaussian_bin1 = linker.get_bonded_fnct_at_bin("Gaussian1D",1,&pars);
-  auto gaussian_bin2 = linker.get_bonded_fnct_at_bin("Gaussian1D",2,&pars);
-  auto gaussian_bin3 = linker.get_bonded_fnct_at_bin("Gaussian1D",3,&pars);
-  auto gaussian_bin4 = linker.get_bonded_fnct_at_bin("Gaussian1D",4,&pars);
+  auto gaussian_bin0 = linker.get_bonded_fct_at_bin("Gaussian1D",0,&pars);
+  auto gaussian_bin1 = linker.get_bonded_fct_at_bin("Gaussian1D",1,&pars);
+  auto gaussian_bin2 = linker.get_bonded_fct_at_bin("Gaussian1D",2,&pars);
+  auto gaussian_bin3 = linker.get_bonded_fct_at_bin("Gaussian1D",3,&pars);
+  auto gaussian_bin4 = linker.get_bonded_fct_at_bin("Gaussian1D",4,&pars);
   
   // --- Check (changing) function output
   // Looked up exact expected values in WolframAlpha -> compare
@@ -102,7 +102,7 @@ TEST(TestLinker, GaussianManyValuesTest) {
   };
   
   // --- Instructions on how to connect to prediction:
-  FnctLinkVec fnct_links {
+  FctLinkVec fct_links {
     {"Gaussian1D", // Only one function here: Gaussian
       {"A","mu","sigma"}, // Parameter map
       {} // Coefficient map
@@ -110,13 +110,13 @@ TEST(TestLinker, GaussianManyValuesTest) {
   };
   
   // --- Get functions from linker which are linked to parameters
-  Linker linker = Linker(fnct_links, bin_centers, coefs);
+  Linker linker = Linker(fct_links, bin_centers, coefs);
   
   // Get all bin functions
   std::vector<std::function<double()>> gaussian_at_bins {};
   for (int bin=0; bin<bin_centers.size(); bin++) {
     gaussian_at_bins.push_back(
-      linker.get_bonded_fnct_at_bin("Gaussian1D",bin,&pars)
+      linker.get_bonded_fct_at_bin("Gaussian1D",bin,&pars)
     );
   }
   
@@ -164,18 +164,18 @@ TEST(TestLinker, MultiFunctionTest) {
   };
   
   // --- Instructions on how to connect to prediction:
-  FnctLinkVec fnct_links {
+  FctLinkVec fct_links {
     {"Gaussian1D", {"P1","mu","sigma"}, {}},
     {"Quadratic1DPolynomial", {"P1","P2","P3"}, {}} // Notice P1 overlap!
   };
   
   // --- Get functions from linker which are linked to parameters
-  Linker linker = Linker(fnct_links, bin_centers, coefs);
-  auto all_bin_fncts = linker.get_all_bonded_fncts_at_bin(0,&pars);
-  ASSERT_EQ( all_bin_fncts.size(), 2 );
+  Linker linker = Linker(fct_links, bin_centers, coefs);
+  auto all_bin_fcts = linker.get_all_bonded_fcts_at_bin(0,&pars);
+  ASSERT_EQ( all_bin_fcts.size(), 2 );
   
-  auto gaussian_bin  = all_bin_fncts.at(0);
-  auto quadratic_bin = all_bin_fncts.at(1);
+  auto gaussian_bin  = all_bin_fcts.at(0);
+  auto quadratic_bin = all_bin_fcts.at(1);
 
   // --- Check for expected output
   ASSERT_EQ(Num::equal_to_eps(gaussian_bin(), 0.3989422804, 1e-9), true)

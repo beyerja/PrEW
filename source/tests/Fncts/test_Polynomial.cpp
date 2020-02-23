@@ -1,12 +1,12 @@
 #include <CppUtils/Num.h>
-#include <Fncts/Polynomial.h>
+#include <Fcts/Polynomial.h>
 
 #include <gtest/gtest.h>
 
 #include <vector>
 
 using namespace PREW::CppUtils;
-using namespace PREW::Fncts;
+using namespace PREW::Fcts;
 
 //------------------------------------------------------------------------------
 // Check that polynomial functions are correctly implemented

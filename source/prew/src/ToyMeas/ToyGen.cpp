@@ -5,7 +5,7 @@
 #include <Data/DistrUtils.h>
 #include <GlobalVar/Chiral.h>
 #include <ToyMeas/Flct.h>
-#include <ToyMeas/ToyGenerator.h>
+#include <ToyMeas/ToyGen.h>
 
 #include "spdlog/spdlog.h"
 
@@ -19,12 +19,16 @@ namespace ToyMeas {
 //------------------------------------------------------------------------------
 // Constructors
 
-ToyGenerator::ToyGenerator(
+ToyGen::ToyGen(
   const Connect::DataConnector & connector,
   const Fit::ParVec & pars
 ) : m_connector(connector), m_pars(pars) 
 {
-  // TODO DESCRIPTION!!!
+  /** Toy generator constructor sets up the distributions with linked 
+      predictions for every predicted distribution in the connector.
+      These linked predictions are later used to create toy measurements by
+      fluctuating the prediction in each bin.
+  **/
   
   if (m_connector.get_pred_distrs().size() == 0) {
     spdlog::warn("No predicted distributions supplied!");
@@ -58,7 +62,6 @@ ToyGenerator::ToyGenerator(
   
   // Check what was found
   for (const int & energy: energies) {
-    // TODO Map function to check if element exists TODO
     if (pol_configs_per_energies.find(energy)==pol_configs_per_energies.end()) {
       spdlog::warn("For E={} no pol. config. found!", energy);
       continue;
@@ -114,33 +117,31 @@ ToyGenerator::ToyGenerator(
 //------------------------------------------------------------------------------
 // Functions to get distributions which were generated from predictions
 
-Data::DiffDistrVec ToyGenerator::get_expected_distrs ( int energy ) const {
-  // TODO TODO TODO COMMENT!!!
+Data::DiffDistrVec ToyGen::get_expected_distrs ( int energy ) const {
+  /** Return all predicted distributions at the given energy as measured 
+      distributions:
+        - measured value = prediction
+        - uncertainty = square-root of the prediction
+  **/
+  // Get all distributions at the given energy
   auto distrs = Data::DistrUtils::subvec_energy(m_diff_distrs, energy);
   
-  Data::DiffDistrVec output_distrs {};
-  for ( const auto & distr: distrs ) {
-    Data::DiffDistr output_distr {
-      distr.m_info,
-      distr.m_bin_centers,
-      {} // Bin contents to be set now
-    };
-    
-    for ( const auto & bin : distr.m_distribution ) {
-      output_distr.m_distribution.push_back(
-        Fit::FitBin(bin.get_val_prd(), std::sqrt(bin.get_val_prd()))
-      );
+  // Set the measuremed values to the predicted values (w/ poisson unc.)
+  for ( auto & distr: distrs ) {
+    for ( auto & bin : distr.m_distribution ) {
+      bin.set_val_mst( bin.get_val_prd() );
+      bin.set_val_unc( std::sqrt(bin.get_val_prd()) );
     }
-    output_distrs.push_back(output_distr);
   }
   
-  return output_distrs;
+  return distrs;
 }
 
-Data::DiffDistrVec ToyGenerator::get_fluctuated_distrs ( int energy ) const {
+Data::DiffDistrVec ToyGen::get_fluctuated_distrs ( int energy ) const {
   /** Get poisson fluctuated versions of the expected distributions at the given
       energy.
   **/
+  // Get the distributions at this energy (with measurement = prediction)
   Data::DiffDistrVec distrs = this->get_expected_distrs(energy);
   
   // Fluctuate each bin with a Poisson distribution on its value and adjust unc.

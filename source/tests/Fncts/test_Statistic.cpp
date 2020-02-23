@@ -1,12 +1,12 @@
 #include <CppUtils/Num.h>
-#include <Fncts/Statistic.h>
+#include <Fcts/Statistic.h>
 
 #include <gtest/gtest.h>
 
 #include <vector>
 
 using namespace PREW::CppUtils;
-using namespace PREW::Fncts;
+using namespace PREW::Fcts;
 
 //------------------------------------------------------------------------------
 // Check that statistical functions are correctly implemented

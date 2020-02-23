@@ -1,9 +1,9 @@
-#include <Fncts/Polynomial.h>
+#include <Fcts/Polynomial.h>
 
 #include <math.h>
 
 namespace PREW {
-namespace Fncts {
+namespace Fcts {
 
 //------------------------------------------------------------------------------
 
