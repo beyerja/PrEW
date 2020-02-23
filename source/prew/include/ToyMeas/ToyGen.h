@@ -16,20 +16,6 @@ namespace ToyMeas {
         their poissonian uncertainty.
     **/
     
-
-    // TODO 
-    // Similar to DataToFit
-    // Takes same input expect: No measurement & no output pointer
-    // => Creates its own internal FitContainer (with correctly connected FitBin predictions)
-    //      -> NOPE, needs to use combination of DiffDistrVec and ParVec instead because connection to DistrInfo still needed
-    // => Has function that creates vector DiffDistrVec in which predictions of FitBins are varied with Poissonian
-    // => Has function that can manipulate one of the FitPar values (by name of FitPar)
-    // TODO
-    
-    // TODO
-    // The function to create a toy distribution must take energy as input argument!
-    // TODO
-    
     // Provided as input
     Connect::DataConnector  m_connector {};
     Fit::ParVec             m_pars {};

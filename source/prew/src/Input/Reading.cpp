@@ -18,8 +18,8 @@ namespace Input {
 //------------------------------------------------------------------------------
 
 void Reading::read_RK_file(
-  const InputInfo *input_info, // TODO MAKE CONST
-  Data::PredDistrVec *pred_distrs, 
+  const InputInfo *input_info,
+  Data::PredDistrVec *pred_distrs,
   Data::CoefDistrVec *coef_distrs ) 
 {
   /** Read input file that is in style of Robert Karls root files.
