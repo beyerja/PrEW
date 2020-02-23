@@ -10,7 +10,7 @@
 namespace PREW { 
 namespace ToyMeas {
 
-  class ToyGenerator {
+  class ToyGen {
     /** Class that can create a toy measurements from generator level 
         distributions by fluctuating the expected number of events within 
         their poissonian uncertainty.
@@ -34,11 +34,11 @@ namespace ToyMeas {
     Connect::DataConnector  m_connector {};
     Fit::ParVec             m_pars {};
     
-    // Created by ToyGenerator: diff. distrs. from predictions
+    // Created by ToyGen: diff. distrs. from predictions
     Data::DiffDistrVec      m_diff_distrs {};
     
     public:
-      ToyGenerator(
+      ToyGen(
         const Connect::DataConnector & connector,
         const Fit::ParVec & pars
       );

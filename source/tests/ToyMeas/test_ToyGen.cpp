@@ -7,7 +7,7 @@
 #include <Data/PolLink.h>
 #include <Fit/FitPar.h>
 #include <GlobalVar/Chiral.h>
-#include <ToyMeas/ToyGenerator.h>
+#include <ToyMeas/ToyGen.h>
 
 #include <gtest/gtest.h>
 #include "spdlog/spdlog.h"
@@ -22,7 +22,7 @@ using namespace PREW::ToyMeas;
 //------------------------------------------------------------------------------
 // Check that statistical functions are correctly implemented
 
-TEST(TestToyGenerator, SimpleConstructor) {
+TEST(TestToyGen, SimpleConstructor) {
   /** Copy-paste of DataConnector test with slightly varied values,
       tests that bin predicitions are in the end properly transformed into bin
       content of a faked differential distribution.
@@ -61,7 +61,7 @@ TEST(TestToyGenerator, SimpleConstructor) {
   
   DataConnector connector {pred_distrs,coef_distrs,pred_links,pol_links};
   
-  ToyGenerator test_gen = ToyGenerator( connector, input_pars );
+  ToyGen test_gen = ToyGen( connector, input_pars );
                 
   // Do I get correctly sized distributions?
   auto expected_distrs = test_gen.get_expected_distrs(500);

@@ -5,7 +5,7 @@
 #include <Data/DistrUtils.h>
 #include <GlobalVar/Chiral.h>
 #include <ToyMeas/Flct.h>
-#include <ToyMeas/ToyGenerator.h>
+#include <ToyMeas/ToyGen.h>
 
 #include "spdlog/spdlog.h"
 
@@ -19,7 +19,7 @@ namespace ToyMeas {
 //------------------------------------------------------------------------------
 // Constructors
 
-ToyGenerator::ToyGenerator(
+ToyGen::ToyGen(
   const Connect::DataConnector & connector,
   const Fit::ParVec & pars
 ) : m_connector(connector), m_pars(pars) 
@@ -114,7 +114,7 @@ ToyGenerator::ToyGenerator(
 //------------------------------------------------------------------------------
 // Functions to get distributions which were generated from predictions
 
-Data::DiffDistrVec ToyGenerator::get_expected_distrs ( int energy ) const {
+Data::DiffDistrVec ToyGen::get_expected_distrs ( int energy ) const {
   // TODO TODO TODO COMMENT!!!
   auto distrs = Data::DistrUtils::subvec_energy(m_diff_distrs, energy);
   
@@ -137,7 +137,7 @@ Data::DiffDistrVec ToyGenerator::get_expected_distrs ( int energy ) const {
   return output_distrs;
 }
 
-Data::DiffDistrVec ToyGenerator::get_fluctuated_distrs ( int energy ) const {
+Data::DiffDistrVec ToyGen::get_fluctuated_distrs ( int energy ) const {
   /** Get poisson fluctuated versions of the expected distributions at the given
       energy.
   **/
