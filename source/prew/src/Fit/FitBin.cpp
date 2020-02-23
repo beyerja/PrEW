@@ -12,6 +12,8 @@ FitBin::FitBin(double val_mst, double val_unc, std::function<double()> prd_fct) 
 //------------------------------------------------------------------------------
 // set functions
 
+void FitBin::set_val_mst(double val_mst) { m_val_mst = val_mst; }
+void FitBin::set_val_unc(double val_unc) { m_val_unc = val_unc; }
 void FitBin::set_prd_fct(std::function<double()> prd_fct) {m_prd_fct = prd_fct;}
 
 //------------------------------------------------------------------------------
