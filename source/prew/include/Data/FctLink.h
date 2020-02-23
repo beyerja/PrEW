@@ -7,17 +7,17 @@
 namespace PREW {
 namespace Data {
   
-  struct FnctLink {
+  struct FctLink {
     /** Class that stores the names of parameters and coefficients 
         which are supposed to be used when using the given function.
     **/
     
-    std::string m_fnct_name {};
+    std::string m_fct_name {};
     std::vector<std::string> m_pars {};
     std::vector<std::string> m_coefs {};
   };
   
-  using FnctLinkVec = std::vector<FnctLink>;
+  using FctLinkVec = std::vector<FctLink>;
 }
 }
 

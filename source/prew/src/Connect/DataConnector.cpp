@@ -136,24 +136,24 @@ void DataConnector::fill_bins(
 
   // --- Get linkers for chiral alpha functions ------- ------------------------
   Connect::Linker linker_sig_LR = 
-    Connect::Linker(links_LR.m_fncts_links_sig, bin_centers, coefs_LR);
+    Connect::Linker(links_LR.m_fcts_links_sig, bin_centers, coefs_LR);
   Connect::Linker linker_bkg_LR = 
-    Connect::Linker(links_LR.m_fncts_links_bkg, bin_centers, coefs_LR);
+    Connect::Linker(links_LR.m_fcts_links_bkg, bin_centers, coefs_LR);
 
   Connect::Linker linker_sig_RL = 
-    Connect::Linker(links_RL.m_fncts_links_sig, bin_centers, coefs_RL);
+    Connect::Linker(links_RL.m_fcts_links_sig, bin_centers, coefs_RL);
   Connect::Linker linker_bkg_RL = 
-    Connect::Linker(links_RL.m_fncts_links_bkg, bin_centers, coefs_RL);
+    Connect::Linker(links_RL.m_fcts_links_bkg, bin_centers, coefs_RL);
 
   Connect::Linker linker_sig_LL = 
-    Connect::Linker(links_LL.m_fncts_links_sig, bin_centers, coefs_LL);
+    Connect::Linker(links_LL.m_fcts_links_sig, bin_centers, coefs_LL);
   Connect::Linker linker_bkg_LL = 
-    Connect::Linker(links_LL.m_fncts_links_bkg, bin_centers, coefs_LL);
+    Connect::Linker(links_LL.m_fcts_links_bkg, bin_centers, coefs_LL);
 
   Connect::Linker linker_sig_RR = 
-    Connect::Linker(links_RR.m_fncts_links_sig, bin_centers, coefs_RR);
+    Connect::Linker(links_RR.m_fcts_links_sig, bin_centers, coefs_RR);
   Connect::Linker linker_bkg_RR = 
-    Connect::Linker(links_RR.m_fncts_links_bkg, bin_centers, coefs_RR);
+    Connect::Linker(links_RR.m_fcts_links_bkg, bin_centers, coefs_RR);
   // ---------------------------------------------------------------------------
 
   // --- Get linkers for polarised alpha functions -----------------------------
@@ -161,9 +161,9 @@ void DataConnector::fill_bins(
   auto coefs_pol = Data::DistrUtils::subvec_pol(coefficients, pol_config);
 
   Connect::Linker linker_sig_pol = 
-    Connect::Linker(links_pol.m_fncts_links_sig, bin_centers, coefs_pol);
+    Connect::Linker(links_pol.m_fcts_links_sig, bin_centers, coefs_pol);
   Connect::Linker linker_bkg_pol = 
-    Connect::Linker(links_pol.m_fncts_links_bkg, bin_centers, coefs_pol);
+    Connect::Linker(links_pol.m_fcts_links_bkg, bin_centers, coefs_pol);
   // ---------------------------------------------------------------------------
 
   // --- Get polarisation factor alpha functions -------------------------------
@@ -188,10 +188,10 @@ void DataConnector::fill_bins(
     double sigma_sig_LL = pred_LL.m_sig_distr[bin];
     double sigma_sig_RR = pred_RR.m_sig_distr[bin];
 
-    auto alphas_sig_LR = linker_sig_LR.get_all_bonded_fncts_at_bin(bin, pars);
-    auto alphas_sig_RL = linker_sig_RL.get_all_bonded_fncts_at_bin(bin, pars);
-    auto alphas_sig_LL = linker_sig_LL.get_all_bonded_fncts_at_bin(bin, pars);
-    auto alphas_sig_RR = linker_sig_RR.get_all_bonded_fncts_at_bin(bin, pars);
+    auto alphas_sig_LR = linker_sig_LR.get_all_bonded_fcts_at_bin(bin, pars);
+    auto alphas_sig_RL = linker_sig_RL.get_all_bonded_fcts_at_bin(bin, pars);
+    auto alphas_sig_LL = linker_sig_LL.get_all_bonded_fcts_at_bin(bin, pars);
+    auto alphas_sig_RR = linker_sig_RR.get_all_bonded_fcts_at_bin(bin, pars);
 
     auto sigma_sig_LR_mod =
         LinkHelp::get_modified_sigma(sigma_sig_LR, alphas_sig_LR);
@@ -210,10 +210,10 @@ void DataConnector::fill_bins(
     double sigma_bkg_LL = pred_LL.m_bkg_distr[bin];
     double sigma_bkg_RR = pred_RR.m_bkg_distr[bin];
 
-    auto alphas_bkg_LR = linker_bkg_LR.get_all_bonded_fncts_at_bin(bin, pars);
-    auto alphas_bkg_RL = linker_bkg_RL.get_all_bonded_fncts_at_bin(bin, pars);
-    auto alphas_bkg_LL = linker_bkg_LL.get_all_bonded_fncts_at_bin(bin, pars);
-    auto alphas_bkg_RR = linker_bkg_RR.get_all_bonded_fncts_at_bin(bin, pars);
+    auto alphas_bkg_LR = linker_bkg_LR.get_all_bonded_fcts_at_bin(bin, pars);
+    auto alphas_bkg_RL = linker_bkg_RL.get_all_bonded_fcts_at_bin(bin, pars);
+    auto alphas_bkg_LL = linker_bkg_LL.get_all_bonded_fcts_at_bin(bin, pars);
+    auto alphas_bkg_RR = linker_bkg_RR.get_all_bonded_fcts_at_bin(bin, pars);
 
     auto sigma_bkg_LR_mod =
         LinkHelp::get_modified_sigma(sigma_bkg_LR, alphas_bkg_LR);
@@ -227,7 +227,7 @@ void DataConnector::fill_bins(
 
     // -------------------- Get polarised signal prediction --------------------
     spdlog::debug("Getting polarised signal predictions.");
-    auto alphas_sig_pol = linker_sig_pol.get_all_bonded_fncts_at_bin(bin, pars);
+    auto alphas_sig_pol = linker_sig_pol.get_all_bonded_fcts_at_bin(bin, pars);
 
     // No longer sigma because includes lumi => #Events
     auto pred_sig_pol =
@@ -248,7 +248,7 @@ void DataConnector::fill_bins(
 
     // -------------------- Get polarised background prediction ----------------
     spdlog::debug("Getting polarised background predictions.");
-    auto alphas_bkg_pol = linker_bkg_pol.get_all_bonded_fncts_at_bin(bin, pars);
+    auto alphas_bkg_pol = linker_bkg_pol.get_all_bonded_fcts_at_bin(bin, pars);
 
     // No longer sigma because includes lumi => #Events
     auto pred_bkg_pol =

@@ -1,6 +1,6 @@
 #include <Connect/Linker.h>
 #include <CppUtils/Vec.h>
-#include <Fncts/FnctMap.h>
+#include <Fcts/FctMap.h>
 
 #include "spdlog/spdlog.h"
 
@@ -15,18 +15,18 @@ namespace Connect {
 //------------------------------------------------------------------------------
 // Constructors
 
-Linker::Linker( Data::FnctLinkVec fncts_links,
+Linker::Linker( Data::FctLinkVec fcts_links,
                 CppUtils::Vec::Matrix2D<double> bin_centers,
                 Data::CoefDistrVec coefs 
-) : m_fncts_links(fncts_links),
+) : m_fcts_links(fcts_links),
     m_bin_centers(bin_centers),
     m_coefs(coefs) 
 {}
 
 //------------------------------------------------------------------------------
 
-std::function<double()> Linker::get_bonded_fnct_at_bin (
-  const std::string &fnct_name,
+std::function<double()> Linker::get_bonded_fct_at_bin (
+  const std::string &fct_name,
   size_t bin,
   Fit::ParVec *pars
 ) const {
@@ -44,16 +44,16 @@ std::function<double()> Linker::get_bonded_fnct_at_bin (
 
   // Find link of function (names of pars and coefs to be used)
   auto name_condition = 
-    [fnct_name](const Data::FnctLink &link) {
-      return link.m_fnct_name == fnct_name;
+    [fct_name](const Data::FctLink &link) {
+      return link.m_fct_name == fct_name;
     };
-  Data::FnctLink fnct_link = 
-    CppUtils::Vec::element_by_condition(m_fncts_links, name_condition);
+  Data::FctLink fct_link = 
+    CppUtils::Vec::element_by_condition(m_fcts_links, name_condition);
 
   // Find needed coefficient values
-  spdlog::debug("Looking for {} coefficients.", fnct_link.m_coefs.size());
+  spdlog::debug("Looking for {} coefficients.", fct_link.m_coefs.size());
   std::vector<double> bin_coefs {};
-  for ( const auto & coef_name: fnct_link.m_coefs ) {
+  for ( const auto & coef_name: fct_link.m_coefs ) {
     // Find coefficient distribution with given name
     auto name_condition = [coef_name](const Data::CoefDistr& coef_distr) 
                             {return coef_distr.m_coef_name==coef_name;};
@@ -64,9 +64,9 @@ std::function<double()> Linker::get_bonded_fnct_at_bin (
   spdlog::debug("Found {} coefficients.", bin_coefs.size());
   
   // Find pointers to needed parameters
-  spdlog::debug("Looking for {} parameters.", fnct_link.m_pars.size());
+  spdlog::debug("Looking for {} parameters.", fct_link.m_pars.size());
   std::vector<double*> bin_pars {};
-  for ( auto & par_name: fnct_link.m_pars ) {
+  for ( auto & par_name: fct_link.m_pars ) {
     // Find the index of the correct parameter and connect the modifiable 
     // parameter value in with the function
     for (size_t i_par=0; i_par<pars->size(); i_par++) {
@@ -80,41 +80,41 @@ std::function<double()> Linker::get_bonded_fnct_at_bin (
   spdlog::debug("Found {} parameters.", bin_pars.size());
   
   // Check if requested function exists
-  if ( Fncts::prew_fnct_map.find(fnct_name) == Fncts::prew_fnct_map.end() ) {
-    throw std::invalid_argument("Function not known: " + fnct_name);
+  if ( Fcts::prew_fct_map.find(fct_name) == Fcts::prew_fct_map.end() ) {
+    throw std::invalid_argument("Function not known: " + fct_name);
   }
   
   // Fix the arguments of the requested function:
   // Bin center and coefficient values are fixed, parameter pointers are fixed.
-  std::function<double()> bound_fnct = 
+  std::function<double()> bound_fct = 
    std::bind( 
-     Fncts::prew_fnct_map.at(fnct_name),
+     Fcts::prew_fct_map.at(fct_name),
      bin_center,
      bin_coefs,
      bin_pars
    );
 
-  return bound_fnct;
+  return bound_fct;
 }
 
 //------------------------------------------------------------------------------
 
-std::vector<std::function<double()>> Linker::get_all_bonded_fncts_at_bin(
+std::vector<std::function<double()>> Linker::get_all_bonded_fcts_at_bin(
   size_t bin,
   Fit::ParVec *pars
 ) const {
   /** Get all bonded parametrisation functions for the given bin.
-      (More details in get_bonded_fnct_at_bin)
+      (More details in get_bonded_fct_at_bin)
   **/
   
-  std::vector<std::function<double()>> bonded_fncts_at_bin {};
-  for (const auto & fnct_link: m_fncts_links) {
-    bonded_fncts_at_bin.push_back(
-      get_bonded_fnct_at_bin(fnct_link.m_fnct_name, bin, pars)
+  std::vector<std::function<double()>> bonded_fcts_at_bin {};
+  for (const auto & fct_link: m_fcts_links) {
+    bonded_fcts_at_bin.push_back(
+      get_bonded_fct_at_bin(fct_link.m_fct_name, bin, pars)
     );
   }
   
-  return bonded_fncts_at_bin;
+  return bonded_fcts_at_bin;
 }
 
 //------------------------------------------------------------------------------

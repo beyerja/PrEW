@@ -2,7 +2,7 @@
 #define LIB_PREDLINK_H 1
 
 #include <Data/DistrInfo.h>
-#include <Data/FnctLink.h>
+#include <Data/FctLink.h>
 
 #include <vector>
 
@@ -16,8 +16,8 @@ namespace Data {
     **/
 
     DistrInfo m_info {};
-    FnctLinkVec m_fncts_links_sig {}; // Modification of signal Xsection
-    FnctLinkVec m_fncts_links_bkg {}; // Modification of bkg Xsection 
+    FctLinkVec m_fcts_links_sig {}; // Modification of signal Xsection
+    FctLinkVec m_fcts_links_bkg {}; // Modification of bkg Xsection 
     
   };
   

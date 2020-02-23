@@ -1,7 +1,7 @@
 #include <Connect/Linker.h>
 #include <Connect/LinkHelp.h>
 #include <Data/CoefDistr.h>
-#include <Data/FnctLink.h>
+#include <Data/FctLink.h>
 #include <GlobalVar/Chiral.h>
 
 namespace PREW {
@@ -50,7 +50,7 @@ std::function<double()> LinkHelp::get_polfactor_lambda(
   }
   
   // Instruction class for how to build lambda function
-  Data::FnctLinkVec pol_fnct_link {
+  Data::FctLinkVec pol_fct_link {
     {"PolarisationFactor", 
       {pol_link.get_eM_pol(), pol_link.get_eP_pol()}, // Parameters to use
       {eM_chirality,eP_chirality,"e-sign","e+sign"}   // Coefficients to use
@@ -59,8 +59,8 @@ std::function<double()> LinkHelp::get_polfactor_lambda(
     
   // Use Linker class to get function (Need one dummy 0 bin)
   auto pol_factor = 
-    Connect::Linker(pol_fnct_link, {{0}}, pol_coefs)
-    .get_bonded_fnct_at_bin("PolarisationFactor",0,pars);
+    Connect::Linker(pol_fct_link, {{0}}, pol_coefs)
+    .get_bonded_fct_at_bin("PolarisationFactor",0,pars);
 
   return pol_factor;
 }

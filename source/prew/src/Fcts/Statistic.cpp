@@ -1,10 +1,10 @@
-#include <Fncts/Statistic.h>
+#include <Fcts/Statistic.h>
 
 #include <exception>
 #include <math.h>
 
 namespace PREW {
-namespace Fncts {
+namespace Fcts {
 
 //------------------------------------------------------------------------------
 

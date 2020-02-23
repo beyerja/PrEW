@@ -1,7 +1,7 @@
-#include <Fncts/Physics.h>
+#include <Fcts/Physics.h>
 
 namespace PREW {
-namespace Fncts {
+namespace Fcts {
 
 //------------------------------------------------------------------------------
 
