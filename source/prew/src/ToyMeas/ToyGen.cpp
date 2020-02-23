@@ -126,25 +126,15 @@ Data::DiffDistrVec ToyGen::get_expected_distrs ( int energy ) const {
   // Get all distributions at the given energy
   auto distrs = Data::DistrUtils::subvec_energy(m_diff_distrs, energy);
   
-  // Create measured distributions for all distributions at that energy
-  Data::DiffDistrVec output_distrs {};
-  for ( const auto & distr: distrs ) {
-    Data::DiffDistr output_distr {
-      distr.m_info,
-      distr.m_bin_centers,
-      {} // Bin contents to be set now
-    };
-    
-    // Set the "measurement" to the prediction
-    for ( const auto & bin : distr.m_distribution ) {
-      output_distr.m_distribution.push_back(
-        Fit::FitBin(bin.get_val_prd(), std::sqrt(bin.get_val_prd()))
-      );
+  // Set the measuremed values to the predicted values (w/ poisson unc.)
+  for ( auto & distr: distrs ) {
+    for ( auto & bin : distr.m_distribution ) {
+      bin.set_val_mst( bin.get_val_prd() );
+      bin.set_val_unc( std::sqrt(bin.get_val_prd()) );
     }
-    output_distrs.push_back(output_distr);
   }
   
-  return output_distrs;
+  return distrs;
 }
 
 Data::DiffDistrVec ToyGen::get_fluctuated_distrs ( int energy ) const {
