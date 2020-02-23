@@ -26,6 +26,8 @@ namespace Fit {
         std::function<double()> prd_fct=NULL
       );
       
+      void set_val_mst(double val_mst);
+      void set_val_unc(double val_unc);
       void set_prd_fct(std::function<double()> prd_fct); // Set prediction fct.
       
       double get_val_mst() const; // Get measured value

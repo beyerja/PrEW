@@ -4,6 +4,7 @@
 #include <Data/DistrInfo.h>
 #include <Data/DistrUtils.h>
 #include <GlobalVar/Chiral.h>
+#include <ToyMeas/Flct.h>
 #include <ToyMeas/ToyGenerator.h>
 
 #include "spdlog/spdlog.h"
@@ -134,6 +135,21 @@ Data::DiffDistrVec ToyGenerator::get_expected_distrs ( int energy ) const {
   }
   
   return output_distrs;
+}
+
+Data::DiffDistrVec ToyGenerator::get_fluctuated_distrs ( int energy ) const {
+  /** Get poisson fluctuated versions of the expected distributions at the given
+      energy.
+  **/
+  Data::DiffDistrVec distrs = this->get_expected_distrs(energy);
+  
+  // Fluctuate each bin with a Poisson distribution on its value and adjust unc.
+  for (auto & distr: distrs) {
+    for (auto & bin: distr.m_distribution) {
+      Flct::poisson_fluctuate(bin);
+    }
+  }
+  return distrs;
 }
 
 //------------------------------------------------------------------------------
