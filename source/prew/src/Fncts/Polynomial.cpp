@@ -7,6 +7,20 @@ namespace Fncts {
 
 //------------------------------------------------------------------------------
 
+double Polynomial::constant_par ( 
+  const std::vector<double>   &/*x*/,
+  const std::vector<double>   &/*c*/,
+  const std::vector<double*>  &p
+) {
+  /** Simple constant dependence on first parameter p[0].
+      No bin centers or coefficients required.
+  **/
+  return (*(p[0]));
+}
+
+
+//------------------------------------------------------------------------------
+
 double Polynomial::quadratic_1D ( 
   const std::vector<double> &x,
   const std::vector<double> &/*c*/,
@@ -21,6 +35,8 @@ double Polynomial::quadratic_1D (
   
   return (*(p[0])) + (*(p[1])) * x[0] + (*(p[2])) * std::pow( x[0], 2);
 }
+
+//------------------------------------------------------------------------------
 
 }
 }

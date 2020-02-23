@@ -18,6 +18,18 @@ TEST(TestFitbin, ReturnsCorrectVals) {
   ASSERT_EQ(fb2.get_val_unc(), 0.0);
 }
 
+TEST(TestFitbin, ValSetting) {
+  FitBin fb {};
+  fb.set_val_mst(2.4);
+  fb.set_val_unc(0.3);
+  ASSERT_EQ(fb.get_val_mst(), 2.4);
+  ASSERT_EQ(fb.get_val_unc(), 0.3);
+  fb.set_val_mst(-7.0);
+  fb.set_val_unc(10.5);
+  ASSERT_EQ(fb.get_val_mst(), -7.0);
+  ASSERT_EQ(fb.get_val_unc(), 10.5);
+}
+
 TEST(TestFitbin, CorrectTrivialPrediction) {
   std::function<double()> trivial_prd = []() { return 2.1; };
   FitBin fb (0, 0, trivial_prd);

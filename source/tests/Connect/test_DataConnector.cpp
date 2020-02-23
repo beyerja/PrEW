@@ -42,7 +42,9 @@ TEST(TestDataConnector, ReadFunctions) {
   PredLinkVec  pred_links {
     { info_LR, { {"Gaussian1D", {"A_LR", "mu", "sigma"}} }, {} },
   };
-  PolLinkVec   pol_links { {500, { {"e-p+", {"ePol", "pPol"}} }} };
+  PolLinkVec pol_links { 
+    PolLink(500, "e-p+", "ePol", "pPol", "-", "+")
+   };
   
   DataConnector connector {pred_distrs,coef_distrs,pred_links,pol_links};
 
@@ -75,8 +77,8 @@ TEST(TestDataConnector, DistrFilling) {
     {"A_LR", 1, 0},
     {"mu", 0, 0},
     {"sigma", 0.5, 0},
-    {"ePol", -0.80, 0},
-    {"pPol", +0.30, 0}
+    {"ePol", 0.80, 0},
+    {"pPol", 0.30, 0}
   };
   CoefDistrVec coef_distrs {};
   PredLinkVec  pred_links {
@@ -87,7 +89,7 @@ TEST(TestDataConnector, DistrFilling) {
     { info_pol, { {"Gaussian1D", {"A_pol", "mu", "sigma"}} }, {} }
   };
   PolLinkVec   pol_links {
-    {500, { {"e-p+", {"ePol", "pPol"}} }}
+    PolLink(500, "e-p+", "ePol", "pPol", "-", "+")
   };
   
   // Connector has task to connect all of that

@@ -4,6 +4,7 @@
 
 // External 
 #include "Math/Functor.h"
+#include "spdlog/spdlog.h"
 
 
 namespace PREW {
@@ -37,6 +38,7 @@ void ChiSqMinimizer::update_chisq() {
     m_chisq += std::pow( ( bin.get_val_mst() - bin.get_val_prd() ) /  bin.get_val_unc() , 2 );
   }
   for ( auto & par : m_container->m_fit_pars ) {
+    if (par.is_fixed()) { continue; } // Skip fixed parameters
     m_chisq += par.calc_constr_chisq();
   }
 }
@@ -72,7 +74,14 @@ void ChiSqMinimizer::minimize() {
   m_minimizer->SetFunction(recalc_chisq);
   for ( unsigned int i_par=0; i_par<n_pars; i_par++ ){
     FitPar par = m_container->m_fit_pars[i_par];
-    m_minimizer->SetVariable( i_par, par.get_name(), par.get_val_ini(), par.get_unc_ini() );
+    m_minimizer->SetVariable( i_par, par.get_name(), par.m_val_mod, par.get_unc_ini() );
+    // Check if parameter is fixed or limited
+    if (par.is_fixed()) {
+      m_minimizer->FixVariable(i_par); 
+    } else if (par.is_limited()) {
+      m_minimizer->SetVariableLimits( 
+        i_par, par.get_upper_lim(), par.get_lower_lim());
+    }
   }
   
   // -------------------------------------------------------------------------//
@@ -101,6 +110,10 @@ void ChiSqMinimizer::collect_par_names() {
 void ChiSqMinimizer::update_result() {
   /** Write the result of the minimization procedure into a output container.
   **/
+  
+  if (m_result != FitResult()) {
+    spdlog::debug("FitResult not empty, will be overwritten.");
+  }
   
   unsigned int n_pars = m_container->m_fit_pars.size();
   m_result.m_cov_matrix = std::vector<std::vector<double>>( n_pars, std::vector<double>(n_pars) );

@@ -29,3 +29,4 @@
  ```sh
  cd macros && chmod u+x compile.sh && ./compile.sh && cd ..
  ```
+ The compilation can also be done in multithreaded mode using `./compile.sh --jobs=N_jobs`.

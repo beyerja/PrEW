@@ -44,8 +44,8 @@ TEST(TestToyGenerator, SimpleConstructor) {
     {"A_LR", 1, 0},
     {"mu", 0, 0},
     {"sigma", 0.5, 0},
-    {"ePol", -0.60, 0},
-    {"pPol", +0.20, 0}
+    {"ePol", 0.60, 0},
+    {"pPol", 0.20, 0}
   };
   CoefDistrVec coef_distrs {};
   PredLinkVec  pred_links {
@@ -56,7 +56,7 @@ TEST(TestToyGenerator, SimpleConstructor) {
     { info_pol, { {"Gaussian1D", {"A_pol", "mu", "sigma"}} }, {} }
   };
   PolLinkVec   pol_links {
-    {500, { {"e-p+", {"ePol", "pPol"}} }}
+    PolLink(500, "e-p+", "ePol", "pPol", "-", "+")
   };
   
   DataConnector connector {pred_distrs,coef_distrs,pred_links,pol_links};
@@ -69,9 +69,17 @@ TEST(TestToyGenerator, SimpleConstructor) {
   ASSERT_EQ(expected_distrs[0].m_distribution.size(), 2);
   
   // Is the distribution content accurate?
+  double bin0_expected = 1.44095492471;
   double bin0_content = expected_distrs[0].m_distribution[0].get_val_mst();
-  ASSERT_EQ( Num::equal_to_eps(bin0_content, 1.44095492471, 1e-9), true )
-    << "Expected " << 1.44095492471 << " got " << bin0_content;
+  ASSERT_EQ( Num::equal_to_eps(bin0_content, bin0_expected, 1e-9), true )
+    << "Expected " << bin0_expected << " got " << bin0_content;
+    
+  // Do toy fluctuations work?
+  auto fluctuated_distrs = test_gen.get_fluctuated_distrs(500);
+  ASSERT_EQ(fluctuated_distrs.size(), 1);
+  ASSERT_EQ(fluctuated_distrs[0].m_distribution.size(), 2);
+  double bin0_fluctuated = fluctuated_distrs[0].m_distribution[0].get_val_mst();
+  ASSERT_EQ( Num::equal_to_eps(bin0_fluctuated, bin0_expected, 1e-9), false );
 }
 
 //------------------------------------------------------------------------------

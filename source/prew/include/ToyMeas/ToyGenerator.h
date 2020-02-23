@@ -44,6 +44,7 @@ namespace ToyMeas {
       );
       
       Data::DiffDistrVec get_expected_distrs ( int energy ) const;
+      Data::DiffDistrVec get_fluctuated_distrs ( int energy ) const;
   };
 }
 }

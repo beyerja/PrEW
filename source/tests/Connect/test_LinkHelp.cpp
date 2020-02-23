@@ -1,5 +1,6 @@
 #include <Connect/LinkHelp.h>
 #include <CppUtils/Num.h>
+#include <Data/PolLink.h>
 #include <Fit/FitPar.h>
 #include <GlobalVar/Chiral.h>
 
@@ -10,6 +11,7 @@
 
 using namespace PREW::Connect;
 using namespace PREW::CppUtils;
+using namespace PREW::Data;
 using namespace PREW::Fit;
 using namespace PREW::GlobalVar;
 
@@ -19,15 +21,15 @@ using namespace PREW::GlobalVar;
 TEST(TestLinkHelp, PolFactorLambdas) {
   // Test function that returns lambda for polarisation factor
   ParVec pars {
-    {"ePol", -1.0, 0.0}, // e- Pol.: -100%
-    {"pPol", +1.0, 0.0}, // e+ Pol.: +100%
+    {"ePol", 1.0, 0.0}, // e- Pol.: 100% -> Sign in PolLink (-)
+    {"pPol", 1.0, 0.0}, // e+ Pol.: 100% -> Sign in PolLink (+)
   };
-  std::pair<std::string,std::string> pol_pair {"ePol","pPol"};
+  PolLink pol_link {500, "test", "ePol", "pPol", "-", "+"};
   
-  auto factor_LR = LinkHelp::get_polfactor_lambda(Chiral::eLpR,pol_pair,&pars);
-  auto factor_RL = LinkHelp::get_polfactor_lambda(Chiral::eRpL,pol_pair,&pars);
-  auto factor_LL = LinkHelp::get_polfactor_lambda(Chiral::eLpL,pol_pair,&pars);
-  auto factor_RR = LinkHelp::get_polfactor_lambda(Chiral::eRpR,pol_pair,&pars);
+  auto factor_LR = LinkHelp::get_polfactor_lambda(Chiral::eLpR,pol_link,&pars);
+  auto factor_RL = LinkHelp::get_polfactor_lambda(Chiral::eRpL,pol_link,&pars);
+  auto factor_LL = LinkHelp::get_polfactor_lambda(Chiral::eLpL,pol_link,&pars);
+  auto factor_RR = LinkHelp::get_polfactor_lambda(Chiral::eRpR,pol_link,&pars);
   
   ASSERT_EQ(factor_LR(),1);
   ASSERT_EQ(factor_RL(),0);
@@ -35,8 +37,8 @@ TEST(TestLinkHelp, PolFactorLambdas) {
   ASSERT_EQ(factor_RR(),0);
   
   // Change polarisations and check that factors changed
-  pars[0].m_val_mod = -0.8; // e- Pol.: -80%
-  pars[1].m_val_mod = +0.3; // e+ Pol.: +30%
+  pars[0].m_val_mod = 0.8; // e- Pol.: -80%
+  pars[1].m_val_mod = 0.3; // e+ Pol.: +30%
   
   ASSERT_EQ(Num::equal_to_eps(factor_LR(), 0.585, 1e-9), true)
     << "Got " << factor_LR() << " expected " << 0.585;

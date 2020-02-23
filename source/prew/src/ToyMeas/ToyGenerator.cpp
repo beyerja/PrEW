@@ -4,6 +4,7 @@
 #include <Data/DistrInfo.h>
 #include <Data/DistrUtils.h>
 #include <GlobalVar/Chiral.h>
+#include <ToyMeas/Flct.h>
 #include <ToyMeas/ToyGenerator.h>
 
 #include "spdlog/spdlog.h"
@@ -42,15 +43,17 @@ ToyGenerator::ToyGenerator(
     // Find polarisation link for this energy 
     // => which polarisations exist?
     auto energy_condition = 
-      [energy](const Data::PolLink& link) {return link.m_energy==energy;};
-    Data::PolLink pol_link = 
-      CppUtils::Vec::element_by_condition( m_connector.get_pol_links(), energy_condition );
+      [energy](const Data::PolLink& link) {return link.get_energy()==energy;};
+    Data::PolLinkVec pol_links = 
+      CppUtils::Vec::subvec_by_condition( 
+        m_connector.get_pol_links(), energy_condition 
+      );
       
     // Find all available polarisations at energy from polarisation link
-    for (const auto& [pol_config, pol_pair]: pol_link.m_config_pol_links) {
+    for (const auto& pol_link: pol_links) {
+      std::string pol_config = pol_link.get_pol_config();
       pol_configs_per_energies[energy].insert(pol_config);
     }
-    // TODO This as functionality of connector?????
   }
   
   // Check what was found
@@ -61,13 +64,16 @@ ToyGenerator::ToyGenerator(
       continue;
     }
     spdlog::debug(
-      "For E={} found {} distribution and {} pol. configurations.",
+      "For E={} found {} distributions and {} pol. configurations.",
+      energy,
       distr_per_energies.at(energy).size(), 
       pol_configs_per_energies.at(energy).size()
     );
   }
   
+
   // Loop over all distributions found at their respective energies
+  spdlog::debug("Start setting up basic toy distributions.");
   for (const int & energy: energies) {
     for (const auto & distr_name: distr_per_energies.at(energy)) {
       // Get distribution setup bin centers from first prediction
@@ -77,6 +83,10 @@ ToyGenerator::ToyGenerator(
         
       // Loop over all polarisations for the given energy
       for (const auto& pol_config: pol_configs_per_energies.at(energy)) {
+        spdlog::debug( 
+          "Setting up distribution for : {}, {}, {}.",
+          energy, distr_name, pol_config
+        );
         
         // Create a differential distribution for this polarisation config.
         // Fit bins empty for now, prediction to be set
@@ -125,6 +135,21 @@ Data::DiffDistrVec ToyGenerator::get_expected_distrs ( int energy ) const {
   }
   
   return output_distrs;
+}
+
+Data::DiffDistrVec ToyGenerator::get_fluctuated_distrs ( int energy ) const {
+  /** Get poisson fluctuated versions of the expected distributions at the given
+      energy.
+  **/
+  Data::DiffDistrVec distrs = this->get_expected_distrs(energy);
+  
+  // Fluctuate each bin with a Poisson distribution on its value and adjust unc.
+  for (auto & distr: distrs) {
+    for (auto & bin: distr.m_distribution) {
+      Flct::poisson_fluctuate(bin);
+    }
+  }
+  return distrs;
 }
 
 //------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 #ifndef LIB_LINKHELP_H
 #define LIB_LINKHELP_H 1
 
+#include <Data/PolLink.h>
 #include <Fit/FitPar.h>
 
 #include <functional>
@@ -15,8 +16,8 @@ namespace LinkHelp {
   **/
   
   std::function<double()> get_polfactor_lambda(
-    const std::string                         & chirality, 
-    const std::pair<std::string, std::string> & pol_pair, 
+    const std::string   & chirality, 
+    const Data::PolLink & pol_link, 
     Fit::ParVec *pars
   );
   
