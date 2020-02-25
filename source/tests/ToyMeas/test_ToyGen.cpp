@@ -23,9 +23,8 @@ using namespace PREW::ToyMeas;
 // Check that statistical functions are correctly implemented
 
 TEST(TestToyGen, SimpleConstructor) {
-  /** Copy-paste of DataConnector test with slightly varied values,
-      tests that bin predicitions are in the end properly transformed into bin
-      content of a faked differential distribution.
+  /** Copy-paste of DataConnector test with slightly varied values.
+      Test all functionalities of toy generator on very simple use case.
   **/
   DistrInfo info_pol {"test", "e-p+", 500};
   DistrInfo info_LR {"test", Chiral::eLpR, 500};
@@ -74,12 +73,34 @@ TEST(TestToyGen, SimpleConstructor) {
   ASSERT_EQ( Num::equal_to_eps(bin0_content, bin0_expected, 1e-9), true )
     << "Expected " << bin0_expected << " got " << bin0_content;
     
+  //----------------------------------------------------------------------------
   // Do toy fluctuations work?
   auto fluctuated_distrs = test_gen.get_fluctuated_distrs(500);
   ASSERT_EQ(fluctuated_distrs.size(), 1);
   ASSERT_EQ(fluctuated_distrs[0].m_distribution.size(), 2);
   double bin0_fluctuated = fluctuated_distrs[0].m_distribution[0].get_val_mst();
   ASSERT_EQ( Num::equal_to_eps(bin0_fluctuated, bin0_expected, 1e-9), false );
+  
+  //----------------------------------------------------------------------------
+  // Does modification and resetting of parameters work?
+  test_gen.modify_par("A_pol", 1.0);
+  auto mod_distrs = test_gen.get_expected_distrs(500);
+  double bin0_content_mod = mod_distrs[0].m_distribution[0].get_val_mst();
+  ASSERT_EQ(Num::equal_to_eps(bin0_content_mod, bin0_expected/2.0, 1e-9), true)
+    << "Parameter modification didn't change bin value correctly! "
+    << "Expected " << bin0_expected/2.0 << " got " << bin0_content_mod;
+
+  test_gen.reset_par("A_pol");
+  auto res_distrs = test_gen.get_expected_distrs(500);
+  double bin0_content_res = res_distrs[0].m_distribution[0].get_val_mst();
+  ASSERT_EQ( Num::equal_to_eps(bin0_content_res, bin0_expected, 1e-9), true )
+    << "Parameter resetting didn't change bin value correctly! "
+    << "Expected " << bin0_expected << " got " << bin0_content_res;
+  
+  // Does modifcation / resetting of unknown parameter cause exception?
+  ASSERT_THROW(test_gen.modify_par("wrong", 1.0), std::invalid_argument);
+  ASSERT_THROW(test_gen.reset_par("wrong"), std::invalid_argument);
+  //----------------------------------------------------------------------------
 }
 
 //------------------------------------------------------------------------------
