@@ -1,10 +1,8 @@
 #include <Connect/DataConnector.h>
-#include <Connect/Linker.h>
 #include <CppUtils/Map.h>
+#include <CppUtils/Rnd.h>
 #include <Data/DistrInfo.h>
 #include <Data/DistrUtils.h>
-#include <GlobalVar/Chiral.h>
-#include <ToyMeas/Flct.h>
 #include <ToyMeas/ToyGen.h>
 
 #include "spdlog/spdlog.h"
@@ -22,7 +20,7 @@ namespace ToyMeas {
 ToyGen::ToyGen(
   const Connect::DataConnector & connector,
   const Fit::ParVec & pars
-) : m_connector(connector), m_pars(pars) 
+) : m_connector(connector), m_pars(pars)
 {
   /** Toy generator constructor sets up the distributions with linked 
       predictions for every predicted distribution in the connector.
@@ -40,6 +38,7 @@ ToyGen::ToyGen(
   CppUtils::Map::IntToStrSetMap distr_per_energies {};
   CppUtils::Map::IntToStrSetMap pol_configs_per_energies {};
   for (const auto & distr: m_connector.get_pred_distrs()) {
+    // TODO Split: Find energies => Split off finding of polarisation configs
     int energy = distr.m_info.m_energy;
     energies.insert(energy);
     distr_per_energies[energy].insert(distr.m_info.m_distr_name);
@@ -108,6 +107,12 @@ ToyGen::ToyGen(
         );
         distribution.m_distribution = connected_bins;
         
+        // Set measurement uncertainty to poissonian uncertainty
+        // -> Should not be modified because unc. uses expectation (not truth)
+        for ( auto & bin : distribution.m_distribution ) {
+          bin.set_val_unc( std::sqrt(bin.get_val_prd()) );
+        }
+        
         m_diff_distrs.push_back(distribution);
       } // End pol config loop
     } // End diff distr loop
@@ -115,42 +120,91 @@ ToyGen::ToyGen(
 }
 
 //------------------------------------------------------------------------------
+// Internal functions
+
+Fit::FitPar * ToyGen::find_par( const std::string & par_name ) {
+  /**
+  **/
+  auto name_cond = 
+    [par_name](const Fit::FitPar& par) {return par.get_name()==par_name;};
+  auto par_it = std::find_if( m_pars.begin(), m_pars.end(), name_cond );
+  
+  if (par_it == m_pars.end()) {
+    throw std::invalid_argument("Unknown parameter: " + par_name);
+  } 
+  
+  return &(*par_it);
+}
+
+Data::DiffDistrVec ToyGen::get_distrs ( int energy, bool fluctuated ) const {
+  // TODO TODO TODO Properly document, right now still old documentation!
+  /** Get the toy distributions at a given energy.
+      Sets the measured value either to the predicted value (with current 
+      parameters) or a poisson fluctuated version of it.
+      Afterwards removes the prediction function because it is connected to 
+      internal members variables of the toy generator.
+  **/
+  // Get the distributions at this energy (with measurement = prediction)
+  auto distrs = Data::DistrUtils::subvec_energy(m_diff_distrs, energy);
+  
+  // Modify bin measured value and remove prediction function
+  for (auto & distr: distrs) {
+    for (auto & bin: distr.m_distribution) {
+      if ( fluctuated ) {
+        // Fluctuate measured bin value around (potentially modified) prediction
+        bin.set_val_mst( CppUtils::Rnd::poisson_fluctuate(bin.get_val_prd()) );
+      } else {
+        // Set bin value to (potentially modified) prediction
+        bin.set_val_mst( bin.get_val_prd() );
+      }
+      
+      bin.set_prd_fct({}); // Remove toy gen internal prediction function
+    }
+  }
+  return distrs;
+}
+
+
+//------------------------------------------------------------------------------
+// Modifying parameter values
+
+void ToyGen::modify_par ( const std::string & par_name, double val_mod ) {
+  /** Modify the named parameter to a new value.
+      Will lead to different measured value.
+      Uncertainty is not touched because it is determined by the original 
+      expectation and not the true parameter value.
+  **/
+  this->find_par(par_name)->m_val_mod = val_mod;
+}
+
+void ToyGen::reset_par  ( const std::string & par_name ) {
+  /** Reset the named parameter to its original value.
+  **/
+  this->find_par(par_name)->reset();
+}
+
+void ToyGen::reset_pars () {
+  /** Reset all parameters to their original values.
+  **/
+  for (auto & par: m_pars) { par.reset(); }
+}
+
+//------------------------------------------------------------------------------
 // Functions to get distributions which were generated from predictions
 
 Data::DiffDistrVec ToyGen::get_expected_distrs ( int energy ) const {
-  /** Return all predicted distributions at the given energy as measured 
-      distributions:
-        - measured value = prediction
-        - uncertainty = square-root of the prediction
+  /** Get all expected distributions at the given energy.
+      The measured values are determined from the current parameters.
+      The uncertainties use the original parameters.
   **/
-  // Get all distributions at the given energy
-  auto distrs = Data::DistrUtils::subvec_energy(m_diff_distrs, energy);
-  
-  // Set the measuremed values to the predicted values (w/ poisson unc.)
-  for ( auto & distr: distrs ) {
-    for ( auto & bin : distr.m_distribution ) {
-      bin.set_val_mst( bin.get_val_prd() );
-      bin.set_val_unc( std::sqrt(bin.get_val_prd()) );
-    }
-  }
-  
-  return distrs;
+  return this->get_distrs(energy,false);
 }
 
 Data::DiffDistrVec ToyGen::get_fluctuated_distrs ( int energy ) const {
   /** Get poisson fluctuated versions of the expected distributions at the given
       energy.
   **/
-  // Get the distributions at this energy (with measurement = prediction)
-  Data::DiffDistrVec distrs = this->get_expected_distrs(energy);
-  
-  // Fluctuate each bin with a Poisson distribution on its value and adjust unc.
-  for (auto & distr: distrs) {
-    for (auto & bin: distr.m_distribution) {
-      Flct::poisson_fluctuate(bin);
-    }
-  }
-  return distrs;
+  return this->get_distrs(energy,true);
 }
 
 //------------------------------------------------------------------------------
