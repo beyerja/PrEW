@@ -17,6 +17,10 @@ namespace Physics {
   double polarisation_factor (const std::vector<double>   &x,
                               const std::vector<double>   &c,
                               const std::vector<double*>  &p);
+  
+  double luminosity_fraction (const std::vector<double>   &x,
+                              const std::vector<double>   &c,
+                              const std::vector<double*>  &p);
 }
   
 }

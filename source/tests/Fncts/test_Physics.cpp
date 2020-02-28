@@ -34,4 +34,18 @@ TEST(TestPhysics, PolarisationFactor) {
     << " got " << Physics::polarisation_factor({},c,p_ptrs);
 }
 
+TEST(TestPhysics, LuminosityFraction) {
+  // Test the luminosity fraction function.
+  std::vector<double> c { 0.25 };
+  std::vector<double> p_vals { 2000 };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  ASSERT_EQ( 
+    Num::equal_to_eps( Physics::luminosity_fraction({},c,p_ptrs), 500.0, 1e-9), 
+    true 
+  ) << "Expected " << 500.0
+    << " got " << Physics::luminosity_fraction({},c,p_ptrs);
+}
+
 //------------------------------------------------------------------------------

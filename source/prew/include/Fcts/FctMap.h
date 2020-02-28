@@ -26,7 +26,8 @@ namespace Fcts {
     // Statisticals
     {"Gaussian1D", Statistic::gaussian_1D},
     // Physis motivated
-    {"PolarisationFactor", Physics::polarisation_factor}
+    {"PolarisationFactor", Physics::polarisation_factor},
+    {"LuminosityFraction", Physics::luminosity_fraction}
   };
 
   

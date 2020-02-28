@@ -26,5 +26,22 @@ double Physics::polarisation_factor (
         ( 1 + c[1] * c[3] * (*(p[1])) );
 }
 
+//------------------------------------------------------------------------------
+
+double Physics::luminosity_fraction ( 
+  const std::vector<double> &/*x*/,
+  const std::vector<double> &c,
+  const std::vector<double*> &p
+) {
+  /** Calculate the fraction of the luminosity.
+      Coefficients: c[0] - luminosity fraction
+      Parameters: p[0] - total luminosity
+  **/
+  
+  return c[0] * (*(p[0]));
+}
+
+//------------------------------------------------------------------------------
+
 }
 }
