@@ -47,6 +47,12 @@ TEST(TestDataReader, TestRKFileReading) {
     for (const auto & bin: pred.m_bkg_distr) { sum_bkg += bin; }
     ASSERT_EQ(sum_bkg, 0.0) << "RK style file should not contain bkg.";
   }
+  
+  // Check that all coefficients are named
+  for (const auto & coef: prediction_coefficients) {
+    ASSERT_EQ( (coef.m_coef_name == ""), false );
+  }
+
 }
 
 //------------------------------------------------------------------------------

@@ -114,10 +114,16 @@ void Reading::read_RK_file(
     size_t n_coefs = coef_labels.size();
     
     Data::CoefDistrVec coefs_LL (n_coefs), coefs_LR (n_coefs), coefs_RL (n_coefs), coefs_RR (n_coefs);
-    for (auto & coef: coefs_LL) { coef.m_info = info_LL; }
-    for (auto & coef: coefs_LR) { coef.m_info = info_LR; }
-    for (auto & coef: coefs_RL) { coef.m_info = info_RL; }
-    for (auto & coef: coefs_RR) { coef.m_info = info_RR; }
+    for (size_t c=0; c<n_coefs; c++) { 
+      coefs_LL[c].m_coef_name = coef_labels[c];
+      coefs_LR[c].m_coef_name = coef_labels[c];
+      coefs_RL[c].m_coef_name = coef_labels[c];
+      coefs_RR[c].m_coef_name = coef_labels[c];
+      coefs_LL[c].m_info = info_LL;
+      coefs_LR[c].m_info = info_LR;
+      coefs_RL[c].m_info = info_RL;
+      coefs_RR[c].m_info = info_RR;
+    }
     
     for (int bin=0; bin<n_bins; bin++) {
       pred_LL.m_sig_distr.push_back( diff_sigma_signal_LL[bin] );
