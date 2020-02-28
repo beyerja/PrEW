@@ -72,4 +72,18 @@ TEST(TestPolynomial, Gaussian1D) {
     << " got " << Polynomial::quadratic_1D({1.5},c,p_ptrs);
 }
 
+TEST(TestPolynomial, Quadratic3DCoeff) {
+  // Test 3D quadratic function that includes mixed terms
+  std::vector<double> c {1.0, 2.0, -2.0, 2.0, -0.5, 0.5, -0.5, 1.5, 2, 2.5};
+  std::vector<double> p_vals { 1.0, 3.0, 4.0 };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::quadratic_3D_coeff({},c,p_ptrs), 43.5, 1e-9), 
+    true 
+  ) << "Expected " << 43.5 
+    << " got " << Polynomial::quadratic_3D_coeff({},c,p_ptrs);
+}
+
 //------------------------------------------------------------------------------
