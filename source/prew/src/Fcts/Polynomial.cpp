@@ -7,6 +7,19 @@ namespace Fcts {
 
 //------------------------------------------------------------------------------
 
+double Polynomial::constant_coef ( 
+  const std::vector<double>   &/*x*/,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &/*p*/
+) {
+  /** Simple constant factor, no variation with parameters.
+      Can be used to scale cross sections.
+  **/
+  return c[0];
+}
+
+//------------------------------------------------------------------------------
+
 double Polynomial::constant_par ( 
   const std::vector<double>   &/*x*/,
   const std::vector<double>   &/*c*/,

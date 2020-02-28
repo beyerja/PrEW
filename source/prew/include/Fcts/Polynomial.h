@@ -14,6 +14,10 @@ namespace Polynomial {
                           const std::vector<double*>  &p);
   **/
   
+  double constant_coef ( const std::vector<double>   &x,
+                         const std::vector<double>   &c,
+                         const std::vector<double*>  &p);
+  
   double constant_par ( const std::vector<double>   &x,
                         const std::vector<double>   &c,
                         const std::vector<double*>  &p);

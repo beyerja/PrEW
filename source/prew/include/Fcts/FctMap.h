@@ -20,6 +20,7 @@ namespace Fcts {
   static const FctMap prew_fct_map = {
     // Polynomials
     {"Constant", Polynomial::constant_par},
+    {"ConstantCoef", Polynomial::constant_coef},
     {"Quadratic1DPolynomial", Polynomial::quadratic_1D},
     // Statisticals
     {"Gaussian1D", Statistic::gaussian_1D},

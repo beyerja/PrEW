@@ -32,6 +32,15 @@ TEST(TestPolynomial, ConstantPar) {
   ) << "Expected " << 2000. << " got " << Polynomial::constant_par({},c,p_ptrs);
 }
 
+TEST(TestPolynomial, ConstantCoef) {
+  // Test function that simply mirrors the parameter
+  std::vector<double> c {-2.5};
+
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::constant_coef({},c,{}), -2.5, 1e-9), true 
+  ) << "Expected " << -2.5 << " got " << Polynomial::constant_par({},c,{});
+}
+
 TEST(TestPolynomial, Gaussian1D) {
   std::vector<double> c {};
   std::vector<double> p_vals {  1.0, // Offset
