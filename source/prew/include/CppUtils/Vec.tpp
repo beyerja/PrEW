@@ -3,6 +3,8 @@
 
 #include <CppUtils/Vec.h>
 
+#include <algorithm>
+
 namespace PREW {
 namespace CppUtils {
 
