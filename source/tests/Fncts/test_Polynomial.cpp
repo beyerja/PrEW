@@ -32,7 +32,16 @@ TEST(TestPolynomial, ConstantPar) {
   ) << "Expected " << 2000. << " got " << Polynomial::constant_par({},c,p_ptrs);
 }
 
-TEST(TestPolynomial, Gaussian1D) {
+TEST(TestPolynomial, ConstantCoef) {
+  // Test function that simply mirrors the parameter
+  std::vector<double> c {-2.5};
+
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::constant_coef({},c,{}), -2.5, 1e-9), true 
+  ) << "Expected " << -2.5 << " got " << Polynomial::constant_par({},c,{});
+}
+
+TEST(TestPolynomial, Quadratic1D) {
   std::vector<double> c {};
   std::vector<double> p_vals {  1.0, // Offset
                                 2.0, // Linear parameter
@@ -61,6 +70,20 @@ TEST(TestPolynomial, Gaussian1D) {
     true
   ) << "Expected " << 5.125 
     << " got " << Polynomial::quadratic_1D({1.5},c,p_ptrs);
+}
+
+TEST(TestPolynomial, Quadratic3DCoeff) {
+  // Test 3D quadratic function that includes mixed terms
+  std::vector<double> c {1.0, 2.0, -2.0, 2.0, -0.5, 0.5, -0.5, 1.5, 2, 2.5};
+  std::vector<double> p_vals { 1.0, 3.0, 4.0 };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::quadratic_3D_coeff({},c,p_ptrs), 43.5, 1e-9), 
+    true 
+  ) << "Expected " << 43.5 
+    << " got " << Polynomial::quadratic_3D_coeff({},c,p_ptrs);
 }
 
 //------------------------------------------------------------------------------

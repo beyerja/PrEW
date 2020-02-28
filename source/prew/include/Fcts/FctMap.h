@@ -20,11 +20,14 @@ namespace Fcts {
   static const FctMap prew_fct_map = {
     // Polynomials
     {"Constant", Polynomial::constant_par},
+    {"ConstantCoef", Polynomial::constant_coef},
     {"Quadratic1DPolynomial", Polynomial::quadratic_1D},
+    {"Quadratic3DPolynomial_Coeff", Polynomial::quadratic_3D_coeff},
     // Statisticals
     {"Gaussian1D", Statistic::gaussian_1D},
     // Physis motivated
-    {"PolarisationFactor", Physics::polarisation_factor}
+    {"PolarisationFactor", Physics::polarisation_factor},
+    {"LuminosityFraction", Physics::luminosity_fraction}
   };
 
   

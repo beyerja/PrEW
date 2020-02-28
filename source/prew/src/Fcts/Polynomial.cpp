@@ -7,6 +7,19 @@ namespace Fcts {
 
 //------------------------------------------------------------------------------
 
+double Polynomial::constant_coef ( 
+  const std::vector<double>   &/*x*/,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &/*p*/
+) {
+  /** Simple constant factor, no variation with parameters.
+      Can be used to scale cross sections.
+  **/
+  return c[0];
+}
+
+//------------------------------------------------------------------------------
+
 double Polynomial::constant_par ( 
   const std::vector<double>   &/*x*/,
   const std::vector<double>   &/*c*/,
@@ -26,7 +39,7 @@ double Polynomial::quadratic_1D (
   const std::vector<double> &/*c*/,
   const std::vector<double*> &p
 ) {
-  /** Gaussian function in 1D.
+  /** Quadratic polynomial in x (1D coordinate) with parameters as constants.
       Parameters: p[0] - offset
                   p[1] - linear coeff
                   p[2] - quadratic coeff
@@ -34,6 +47,29 @@ double Polynomial::quadratic_1D (
   **/
   
   return (*(p[0])) + (*(p[1])) * x[0] + (*(p[2])) * std::pow( x[0], 2);
+}
+
+//------------------------------------------------------------------------------
+
+double Polynomial::quadratic_3D_coeff ( 
+  const std::vector<double> &/*x*/,
+  const std::vector<double> &c,
+  const std::vector<double*> &p
+) {
+  /** Cubic polynomial in 1D.
+      Parameters: p[0-2] - variables of polynomial
+      Coefficients: c[0] - offset
+                    c[1-3] - linear coeffs
+                    c[4-6] - pure quadratic coeff
+                    c[7-9] - mixed quadratic coeff
+  **/
+  
+  return  c[0]
+          + c[1]* (*(p[0])) + c[2]* (*(p[1])) + c[3]* (*(p[2]))
+          + c[4]* std::pow((*(p[0])),2) + c[5]* std::pow((*(p[1])),2) 
+                                        + c[6]* std::pow((*(p[2])),2)
+          + c[7]* (*(p[0])) * (*(p[1])) + c[8]* (*(p[0])) * (*(p[2])) 
+                                        + c[9]* (*(p[1])) * (*(p[2]));
 }
 
 //------------------------------------------------------------------------------
