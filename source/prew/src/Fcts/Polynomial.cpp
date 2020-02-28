@@ -39,7 +39,7 @@ double Polynomial::quadratic_1D (
   const std::vector<double> &/*c*/,
   const std::vector<double*> &p
 ) {
-  /** Gaussian function in 1D.
+  /** Quadratic polynomial in x (1D coordinate) with parameters as constants.
       Parameters: p[0] - offset
                   p[1] - linear coeff
                   p[2] - quadratic coeff

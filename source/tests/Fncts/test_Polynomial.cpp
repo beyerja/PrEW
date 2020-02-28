@@ -41,7 +41,7 @@ TEST(TestPolynomial, ConstantCoef) {
   ) << "Expected " << -2.5 << " got " << Polynomial::constant_par({},c,{});
 }
 
-TEST(TestPolynomial, Gaussian1D) {
+TEST(TestPolynomial, Quadratic1D) {
   std::vector<double> c {};
   std::vector<double> p_vals {  1.0, // Offset
                                 2.0, // Linear parameter
