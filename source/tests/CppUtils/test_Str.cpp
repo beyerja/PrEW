@@ -23,4 +23,22 @@ TEST(TestStr, StringSplitting) {
   ASSERT_STREQ(comma_split[0].c_str(), "12 ab");
 }
 
+TEST(TestStr, ScientificNotationString) {
+  // Test conversion of number to string in scientific notation
+  double d = 123456789.098765e8;
+  float  f = 0.00000006574839;
+  int    i = -987654321;
+
+  ASSERT_STREQ(Str::sci_string(d,2).c_str(), "1.23e+16");
+  ASSERT_STREQ(Str::sci_string(d,9).c_str(), "1.234567891e+16");
+  ASSERT_STREQ(Str::sci_string(d,15).c_str(), "1.234567890987650e+16");
+  ASSERT_STREQ(Str::sci_string(f,1).c_str(), "6.6e-08");
+  ASSERT_STREQ(Str::sci_string(f,3).c_str(), "6.575e-08");
+  ASSERT_STREQ(Str::sci_string(f,6).c_str(), "6.574839e-08");
+
+  // Special case: There is no scientific notation for integers in C++ 
+  ASSERT_STREQ(Str::sci_string(i,5).c_str(), "-987654321");
+}
+
+
 //------------------------------------------------------------------------------
