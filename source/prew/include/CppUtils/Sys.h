@@ -9,6 +9,7 @@ namespace CppUtils {
 namespace Sys {
   
   bool path_exists (const std::string& file_path);
+  bool file_writable(const std::string& file_path);
 
 }
 
