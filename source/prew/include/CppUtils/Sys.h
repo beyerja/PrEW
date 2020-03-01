@@ -8,7 +8,7 @@ namespace CppUtils {
 
 namespace Sys {
   
-  bool file_exists (const std::string& file_path);
+  bool path_exists (const std::string& file_path);
 
 }
 

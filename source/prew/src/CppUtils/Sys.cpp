@@ -8,12 +8,11 @@ namespace CppUtils {
 
 //------------------------------------------------------------------------------
 
-
-bool Sys::file_exists (const std::string& file_path) {
-  /** Quick check that file given by file path exists.
+bool Sys::path_exists (const std::string& path) {
+  /** Quick check that path is accessible (may be file or directory).
   **/
   struct stat buffer;   
-  return (stat (file_path.c_str(), &buffer) == 0); 
+  return (stat (path.c_str(), &buffer) == 0); 
 }
 
 //------------------------------------------------------------------------------
