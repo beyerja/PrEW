@@ -23,6 +23,7 @@ namespace Fit {
     bool operator!=(const FitResult& result) const;
   };
   
+  using ResultVec = std::vector<Fit::FitResult>;
 }
 }
 
