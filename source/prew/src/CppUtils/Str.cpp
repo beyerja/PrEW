@@ -31,7 +31,9 @@ std::vector<std::string> Str::string_to_vec(
 std::string Str::get_dir_path_str( const std::string & file_path ) {
   /** Get part of file path string that describes the directory path.
   **/
-  return file_path.substr(0,file_path.find_last_of("/\\"));
+  std::string dir_path = file_path.substr(0,file_path.find_last_of("/\\"));
+  if ( dir_path == file_path ) { dir_path = ""; }
+  return dir_path;
 }
 
 //------------------------------------------------------------------------------

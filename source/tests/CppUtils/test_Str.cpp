@@ -42,8 +42,12 @@ TEST(TestStr, ScientificNotationString) {
 
 TEST(TestStr, DirectoryFromPath) {
   // Test getting the directory path string from a full file path string
-  std::string file_path = "~/home/test/blabla/get.out";
-  ASSERT_STREQ(Str::get_dir_path_str(file_path).c_str(), "~/home/test/blabla");
+  std::string f1_path = "~/home/test/blabla/get.out";
+  std::string f2_path = "get.out";
+  std::string f3_path = "~/home/test/blabla/";
+  ASSERT_STREQ(Str::get_dir_path_str(f1_path).c_str(), "~/home/test/blabla");
+  ASSERT_STREQ(Str::get_dir_path_str(f2_path).c_str(), "");
+  ASSERT_STREQ(Str::get_dir_path_str(f3_path).c_str(), "~/home/test/blabla");
 }
 
 //------------------------------------------------------------------------------
