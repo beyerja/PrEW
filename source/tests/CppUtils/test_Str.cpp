@@ -40,5 +40,10 @@ TEST(TestStr, ScientificNotationString) {
   ASSERT_STREQ(Str::sci_string(i,5).c_str(), "-987654321");
 }
 
+TEST(TestStr, DirectoryFromPath) {
+  // Test getting the directory path string from a full file path string
+  std::string file_path = "~/home/test/blabla/get.out";
+  ASSERT_STREQ(Str::get_dir_path_str(file_path).c_str(), "~/home/test/blabla");
+}
 
 //------------------------------------------------------------------------------

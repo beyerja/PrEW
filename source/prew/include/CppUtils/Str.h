@@ -13,6 +13,8 @@ namespace Str {
   
   template<class T>          
   std::string sci_string(T number, int precision=7);
+  
+  std::string get_dir_path_str( const std::string & file_path );
 }
 
 }

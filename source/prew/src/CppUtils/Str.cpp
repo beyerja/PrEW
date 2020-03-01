@@ -5,7 +5,6 @@ namespace CppUtils {
 
 //------------------------------------------------------------------------------
 
-
 std::vector<std::string> Str::string_to_vec( 
   const std::string &str, 
   std::string delimiter ) 
@@ -27,6 +26,13 @@ std::vector<std::string> Str::string_to_vec(
   return substrings;
 }
 
+//------------------------------------------------------------------------------
+
+std::string Str::get_dir_path_str( const std::string & file_path ) {
+  /** Get part of file path string that describes the directory path.
+  **/
+  return file_path.substr(0,file_path.find_last_of("/\\"));
+}
 
 //------------------------------------------------------------------------------
   
