@@ -37,6 +37,6 @@ TEST(TestFitResult, StreamOperatorEmptyResult) {
   std::stringstream buffer;
   buffer << r;
   std::string output = buffer.str();
-  std::string expected = "Parameters:\n\nCovariance matrix:\n\nCorrelation matrix:\n\nFit quality measures:\nChi^2 = 0.000000\nEDM   = 0.000000\nCov. matrix status : 0";
+  std::string expected = "Parameters:\n\nCovariance matrix:\n\nCorrelation matrix:\n\nFit quality measures:\nChi^2 = 0.0000000e+00\nEDM   = 0.0000000e+00\nCov. matrix status : 0";
   ASSERT_STREQ(output.c_str(),expected.c_str());
 }
