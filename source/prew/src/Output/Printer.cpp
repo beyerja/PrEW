@@ -44,6 +44,15 @@ void Printer::add_fit( const Fit::FitResult & result ) {
   m_n_fits++;
 }
 
+void Printer::add_fits( const Fit::ResultVec & results ) {
+  /** Add the content of all given FitResult objects to the current setup 
+      output.
+  **/
+  for ( const auto & result: results ) {
+    this->add_fit(result);
+  }
+}
+
 void Printer::write(const std::string & mode) const {
   /** Write the current output of all setups into the file at the location
       defined in the constructor.

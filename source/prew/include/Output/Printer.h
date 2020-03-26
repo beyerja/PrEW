@@ -47,6 +47,7 @@ namespace Output {
       // Writing functions
       void new_setup( int energy, const Connect::DataConnector & connector );
       void add_fit( const Fit::FitResult & result );
+      void add_fits( const Fit::ResultVec & results );
       void write( const std::string & mode="overwrite" ) const;
 
       // Functions to check current status
