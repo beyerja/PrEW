@@ -13,7 +13,7 @@ namespace Input {
 DataReader::DataReader(InputInfo *input_info) :
   m_input_info(input_info)
 {
-  if ( ! CppUtils::Sys::file_exists(input_info->m_file_path) ) {
+  if ( ! CppUtils::Sys::path_exists(input_info->m_file_path) ) {
     throw std::invalid_argument(("File not found: " + input_info->m_file_path).c_str());
   }
 }
