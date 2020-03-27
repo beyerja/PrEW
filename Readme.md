@@ -48,3 +48,29 @@ The rest of the `PrEW` framework is dedicated to setting up the components for t
 The current usage of `PrEW` framework itself is still quite complicated.
 It is recommended to use classes provided in the `PrEWUtils` package.
 An example for such a usage is provided in the `PrEWRunRK` package.
+ 
+## PrOut
+
+`PrEW` contains a `Python` module called `PrOut` that provides classes for the interpretation of fit output files.
+
+
+### Usage
+
+The module can be loaded into a python script using
+```Py
+import sys
+sys.path.append("INSERT_YOUR_PrEW_PATH/source/prout")
+import PrOut
+```
+(wherein the correct path to your PrEW installation need to be set).
+
+The module classes can be used to interpret an output file and read them into python class objects.
+
+```Py
+reader = PrOut.Reader("your_PrEW_output_file.out")
+reader.read()
+results = reader.run_results
+```
+For details on the result class objects please see the `PrOut` source code.
+ 
+ 
