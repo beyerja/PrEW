@@ -30,3 +30,21 @@
  cd macros && chmod u+x compile.sh && ./compile.sh && cd ..
  ```
  The compilation can also be done in multithreaded mode using `./compile.sh --jobs=N_jobs`.
+ 
+ 
+### Idea
+
+`PrEW` was developed on the idea to decouple the core computing-heavy chi-squared minimization from the complex and complicated formulation of bin predictions for observable distributions at e+e- colliders.
+
+A core fitting framework provides a fast and general way to fit a parameter-dependent prediction to a large number of bins. 
+This core has no knowledge of the physics and must be provided with the measured bin values, parameters, and the bin prediction functions. 
+The latter describe how the prediction of the bin depends on the parameters.
+With those components available, a chi-squared minimization is performed using the `ROOT::Minuit2` framework.
+
+The rest of the `PrEW` framework is dedicated to setting up the components for the core fit from human-readable physics instructions provided by the user.
+
+### Usage
+
+The current usage of `PrEW` framework itself is still quite complicated.
+It is recommended to use classes provided in the `PrEWUtils` package.
+An example for such a usage is provided in the `PrEWRunRK` package.
