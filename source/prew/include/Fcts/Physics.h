@@ -14,6 +14,8 @@ namespace Physics {
                           const std::vector<double*>  &p);
   **/
   
+  //----------------------------------------------------------------------------
+  
   double polarisation_factor (const std::vector<double>   &x,
                               const std::vector<double>   &c,
                               const std::vector<double*>  &p);
@@ -21,6 +23,34 @@ namespace Physics {
   double luminosity_fraction (const std::vector<double>   &x,
                               const std::vector<double>   &c,
                               const std::vector<double*>  &p);
+                              
+  //----------------------------------------------------------------------------
+  
+  double asymm_2chixs_a0 (const std::vector<double>   &x,
+                          const std::vector<double>   &c,
+                          const std::vector<double*>  &p);
+                          
+  double asymm_2chixs_a1 (const std::vector<double>   &x,
+                          const std::vector<double>   &c,
+                          const std::vector<double*>  &p);
+  
+  double asymm_4chixs_a0 (const std::vector<double>   &x,
+                          const std::vector<double>   &c,
+                          const std::vector<double*>  &p);
+                          
+  double asymm_4chixs_a1 (const std::vector<double>   &x,
+                          const std::vector<double>   &c,
+                          const std::vector<double*>  &p);
+  
+  double asymm_4chixs_a2 (const std::vector<double>   &x,
+                          const std::vector<double>   &c,
+                          const std::vector<double*>  &p);
+                          
+  double asymm_4chixs_a3 (const std::vector<double>   &x,
+                          const std::vector<double>   &c,
+                          const std::vector<double*>  &p);
+
+  //----------------------------------------------------------------------------
 }
   
 }

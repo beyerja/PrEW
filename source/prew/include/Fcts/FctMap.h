@@ -27,7 +27,13 @@ namespace Fcts {
     {"Gaussian1D", Statistic::gaussian_1D},
     // Physis motivated
     {"PolarisationFactor", Physics::polarisation_factor},
-    {"LuminosityFraction", Physics::luminosity_fraction}
+    {"LuminosityFraction", Physics::luminosity_fraction},
+    {"AsymmFactor0_2allowed", Physics::asymm_2chixs_a0},
+    {"AsymmFactor1_2allowed", Physics::asymm_2chixs_a1},
+    {"AsymmFactor0_4allowed", Physics::asymm_4chixs_a0},
+    {"AsymmFactor1_4allowed", Physics::asymm_4chixs_a1},
+    {"AsymmFactor2_4allowed", Physics::asymm_4chixs_a2},
+    {"AsymmFactor3_4allowed", Physics::asymm_4chixs_a3}
   };
 
   
