@@ -96,28 +96,27 @@ TEST(TestPhysics, AsymmetryFactors4Allowed) {
   
   // Test function against values I got from hand-calculator
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a0({},c,p_ptrs), 1.021360921, 1e-9), 
+    Num::equal_to_eps(Physics::asymm_4chixs_a0({},c,p_ptrs), 1.039670281, 1e-9), 
     true 
-  ) << "Expected " << 1.021360921 
+  ) << "Expected " << 1.039670281 
   << " got " << Physics::asymm_4chixs_a0({},c,p_ptrs);
   
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a1({},c,p_ptrs), 0.7796055619,1e-9), 
+    Num::equal_to_eps(Physics::asymm_4chixs_a1({},c,p_ptrs), 0.6914477866,1e-9), 
     true 
-  ) << "Expected " << 0.7796055619 
+  ) << "Expected " << 0.6914477866 
   << " got " << Physics::asymm_4chixs_a1({},c,p_ptrs);
   
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a2({},c,p_ptrs), 69.88593567, 1e-7), 
+    Num::equal_to_eps(Physics::asymm_4chixs_a2({},c,p_ptrs), 38.0924269, 1e-9), 
     true 
-  ) << "Expected " << 69.88593567 
+  ) << "Expected " << 38.0924269 
   << " got " << Physics::asymm_4chixs_a2({},c,p_ptrs);
   
-  // Result is negative -> Does not make physical sense, but computational
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a3({},c,p_ptrs), -0.2344891008, 1e-9), 
+    Num::equal_to_eps(Physics::asymm_4chixs_a3({},c,p_ptrs), 1.24689782, 1e-9), 
     true 
-  ) << "Expected " << -0.2344891008 
+  ) << "Expected " << 1.24689782 
   << " got " << Physics::asymm_4chixs_a3({},c,p_ptrs);
 }
 
