@@ -1,5 +1,7 @@
 #include <Fcts/Physics.h>
 
+#include <math.h>
+
 namespace PREW {
 namespace Fcts {
 
@@ -79,9 +81,73 @@ double Physics::asymm_2chixs_a1 (
                         
 //------------------------------------------------------------------------------
 /** Chiral cross section scaling factors accounting for the chiral asymmetries
+    in the case that three chiral cross sections are allowed.
+    The four factors are chosen such that the sum of the chiral cross sections
+    is not modified, while the asymmetries are modified by an addative constant.
+      A_I   = sqrt(2) * (xs0 - 1/2 * (xs1 + xs2)) / (xs0 + xs1 + xs2)
+      A_II  = sqrt(3/2) * (xs1 - xs2) / (xs0 + xs1 + xs2)
+      A_x -> A'_x = A_x + DeltaA_x
+**/
+
+double Physics::asymm_3chixs_a0 (
+  const std::vector<double>   &/*x*/,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** (See general description above.)
+      Factor for chiral cross section xs0.
+      Coefficients: c[0] - chiral cross section xs0 (sum over all bins)
+                    c[1] - chiral cross section xs1 (sum over all bins)
+                    c[2] - chiral cross section xs2 (sum over all bins)
+      Parameters: p[0] - Change in asymmetry I DeltaA_I
+                  p[1] - Change in asymmetry II DeltaA_II
+  **/
+  return 1 + std::sqrt(2.0)/3.0 * (c[0] + c[1] + c[2]) / c[0] * (*(p[0]));
+}
+
+double Physics::asymm_3chixs_a1 (
+  const std::vector<double>   &/*x*/,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** (See general description above.)
+      Factor for chiral cross section xs1.
+      Coefficients: c[0] - chiral cross section xs0 (sum over all bins)
+                    c[1] - chiral cross section xs1 (sum over all bins)
+                    c[2] - chiral cross section xs2 (sum over all bins)
+      Parameters: p[0] - Change in asymmetry I DeltaA_I
+                  p[1] - Change in asymmetry II DeltaA_II
+  **/
+  return 1 - 1.0 / (std::sqrt(2.0) * 3.0) 
+            * ( (c[0] + c[1] + c[2]) 
+                * ( (*(p[0])) - std::sqrt(3.0) * (*(p[1])) ) 
+              ) / c[1];
+}
+
+double Physics::asymm_3chixs_a2 (
+  const std::vector<double>   &/*x*/,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** (See general description above.)
+      Factor for chiral cross section xs2.
+      Coefficients: c[0] - chiral cross section xs0 (sum over all bins)
+                    c[1] - chiral cross section xs1 (sum over all bins)
+                    c[2] - chiral cross section xs2 (sum over all bins)
+      Parameters: p[0] - Change in asymmetry I DeltaA_I
+                  p[1] - Change in asymmetry II DeltaA_II
+  **/
+  return 1 - 1.0 / (std::sqrt(2.0) * 3.0) 
+            * ( (c[0] + c[1] + c[2]) 
+                * ( (*(p[0])) + std::sqrt(3.0) * (*(p[1])) ) 
+              ) / c[2];
+}
+
+//------------------------------------------------------------------------------
+/** Chiral cross section scaling factors accounting for the chiral asymmetries
     in the case that all four chiral cross sections are allowed.
     The four factors are chosen such that the sum of the chiral cross sections
-    is not modified, while the asymmetries is modified be an addative constant.
+    is not modified, while the asymmetries are modified by an addative constant.
       A_I   = (xs0 - xs1 + xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
       A_II  = (xs0 + xs1 - xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
       A_III = (xs0 - xs1 - xs2 + xs3) / (xs0 + xs1 + xs2 + xs3)
