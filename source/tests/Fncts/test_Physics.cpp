@@ -77,6 +77,44 @@ TEST(TestPhysics, AsymmetryFactors2Allowed) {
 
 //------------------------------------------------------------------------------
 
+TEST(TestPhysics, AsymmetryFactors3Allowed) {
+  // Test the factors on the chiral cross section describing a shift of the 
+  // asymmetry when three chiral cross sections are allowed.
+  std::vector<double> c { // Random test cross section values
+    4382.2,
+    123.5,
+    0.92,  
+  }; 
+  std::vector<double> p_vals { // Asymmetry shift
+    -0.02,
+    0.3,
+  };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  // Test function against values I got from hand-calculator
+  ASSERT_EQ(
+    Num::equal_to_eps(Physics::asymm_3chixs_a0({},c,p_ptrs), 0.990304226, 1e-9), 
+    true 
+  ) << "Expected " << 0.990304226 
+  << " got " << Physics::asymm_3chixs_a0({},c,p_ptrs);
+  
+  ASSERT_EQ(
+    Num::equal_to_eps(Physics::asymm_3chixs_a1({},c,p_ptrs), 5.641217681,1e-9), 
+    true 
+  ) << "Expected " << 5.641217681 
+  << " got " << Physics::asymm_3chixs_a1({},c,p_ptrs);
+  
+  // Negative value not physical, but for function test okay
+  ASSERT_EQ(
+    Num::equal_to_eps(Physics::asymm_3chixs_a2({},c,p_ptrs), -575.8495248, 1e-9), 
+    true 
+  ) << "Expected " << -575.8495248 
+  << " got " << Physics::asymm_3chixs_a2({},c,p_ptrs);
+}
+
+//------------------------------------------------------------------------------
+
 TEST(TestPhysics, AsymmetryFactors4Allowed) {
   // Test the factors on the chiral cross section describing a shift of the 
   // asymmetry when all four chiral cross sections are allowed.
