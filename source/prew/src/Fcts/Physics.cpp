@@ -82,9 +82,9 @@ double Physics::asymm_2chixs_a1 (
     in the case that all four chiral cross sections are allowed.
     The four factors are chosen such that the sum of the chiral cross sections
     is not modified, while the asymmetries is modified be an addative constant.
-      A_I   =   (xs0 - xs1 + xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
-      A_II  =   (xs0 + xs1 - xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
-      A_III = (3*xs0 - xs1 - xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
+      A_I   = (xs0 - xs1 + xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
+      A_II  = (xs0 + xs1 - xs2 - xs3) / (xs0 + xs1 + xs2 + xs3)
+      A_III = (xs0 - xs1 - xs2 + xs3) / (xs0 + xs1 + xs2 + xs3)
       A_x -> A'_x = A_x + DeltaA_x
 **/
 
@@ -103,7 +103,8 @@ double Physics::asymm_4chixs_a0 (
                   p[1] - Change in asymmetry II DeltaA_II
                   p[2] - Change in asymmetry III DeltaA_III
   **/
-  return 1 + 0.25 * (c[0] + c[1] + c[2] + c[3]) / c[0] * (*(p[2]));
+  return 1 + 0.25 * (c[0] + c[1] + c[2] + c[3]) / c[0] 
+              * ( (*(p[0])) + (*(p[1])) + (*(p[2])) );
 }
                         
 double Physics::asymm_4chixs_a1 (
@@ -122,7 +123,7 @@ double Physics::asymm_4chixs_a1 (
                   p[2] - Change in asymmetry III DeltaA_III
   **/
   return 1 - 0.25 * (c[0] + c[1] + c[2] + c[3]) / c[1] 
-              * ( (*(p[2])) - 2 * (*(p[1])) );
+              * ( (*(p[0])) - (*(p[1])) + (*(p[2])) );
 }
 
 double Physics::asymm_4chixs_a2 (
@@ -140,8 +141,8 @@ double Physics::asymm_4chixs_a2 (
                   p[1] - Change in asymmetry II DeltaA_II
                   p[2] - Change in asymmetry III DeltaA_III
   **/
-  return 1 - 0.25 * (c[0] + c[1] + c[2] + c[3]) / c[2] 
-              * ( (*(p[2])) - 2 * (*(p[0])) );
+  return 1 + 0.25 * (c[0] + c[1] + c[2] + c[3]) / c[2] 
+              * ( (*(p[0])) - (*(p[1])) - (*(p[2])) );
 }
                         
 double Physics::asymm_4chixs_a3 (
@@ -160,7 +161,7 @@ double Physics::asymm_4chixs_a3 (
                   p[2] - Change in asymmetry III DeltaA_III
   **/
   return 1 - 0.25 * (c[0] + c[1] + c[2] + c[3]) / c[3] 
-              * ( 2 * (*(p[0])) + 2 * (*(p[1])) - (*(p[2])) );
+              * ( (*(p[0])) + (*(p[1])) - (*(p[2])) );
 }
 
 //------------------------------------------------------------------------------
