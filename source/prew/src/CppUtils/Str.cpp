@@ -17,7 +17,7 @@ std::vector<std::string> Str::string_to_vec(
   std::string substring {};
   while ( (next = str.find(delimiter, last) ) != std::string::npos ) {
     substring = str.substr(last, next-last);
-    last = next + 1; 
+    last = next + delimiter.length(); 
     if ( substring != "" ) { substrings.push_back(substring); }
   }
   substring = str.substr(last);

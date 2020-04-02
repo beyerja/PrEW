@@ -12,15 +12,22 @@ using namespace PREW::CppUtils;
 TEST(TestStr, StringSplitting) {
   // Test splitting of string into vector using a delimiter
   
-  std::string str = "12 ab,c 3de, 45 fg";
+  std::string str = "12 ab,c 3=!=de, 45 fg";
   
   auto space_split = Str::string_to_vec(str, " ");
   auto comma_split = Str::string_to_vec(str, ",");
+  auto multisign_split = Str::string_to_vec(str, "=!=");
   
   ASSERT_EQ(space_split.size(), 5);
   ASSERT_EQ(comma_split.size(), 3);
+  ASSERT_EQ(multisign_split.size(), 2);
+  
   ASSERT_STREQ(space_split[0].c_str(), "12");
+  ASSERT_STREQ(space_split[1].c_str(), "ab,c");
   ASSERT_STREQ(comma_split[0].c_str(), "12 ab");
+  ASSERT_STREQ(comma_split[1].c_str(), "c 3=!=de");
+  ASSERT_STREQ(multisign_split[0].c_str(), "12 ab,c 3");
+  ASSERT_STREQ(multisign_split[1].c_str(), "de, 45 fg");
 }
 
 TEST(TestStr, ScientificNotationString) {
