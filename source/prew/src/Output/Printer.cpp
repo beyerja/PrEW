@@ -209,9 +209,18 @@ void Printer::add_fit_res( const Fit::FitResult & result ) {
     m_res_str += "\n";
   }
   
+  //Fit setup info
+  m_res_str += "NBins: " + std::to_string(result.m_n_bins) + "\n";
+  m_res_str += "NFreePars: " + std::to_string(result.m_n_free_pars) + "\n";
+  
+  //Minimization information
+  m_res_str += "NFctCalls: " + std::to_string(result.m_n_fct_calls) + "\n";
+  m_res_str += "NIterations: " + std::to_string(result.m_n_iters) + "\n";
+  
   // Fit quality measures
   m_res_str += "Chi-Sq: " + CppUtils::Str::sci_string(result.m_chisq_fin) + "\n";
   m_res_str += "EDM: " + CppUtils::Str::sci_string(result.m_edm_fin) + "\n";
+  m_res_str += "Min.-Status: " + std::to_string(result.m_min_status) + "\n";
   m_res_str += "Cov.-Status: " + std::to_string(result.m_cov_status) + "\n";
   
   // Identifier that end of fit result is reached
