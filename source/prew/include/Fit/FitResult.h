@@ -14,9 +14,18 @@ namespace Fit {
     std::vector<std::vector<double>> m_cov_matrix {};
     std::vector<std::vector<double>> m_cor_matrix {};
     
+    // Fit setup information
+    int m_n_bins {};
+    int m_n_free_pars {};
+    
+    // Minimization process information
+    int m_n_fct_calls {}; // Number of function calls by minimizer
+    int m_n_iters {};     // Number of iterations in minimization stepping
+    
     // Fit quality measures
     double m_chisq_fin {};
     double m_edm_fin {}; // Expected distance from minimum
+    int m_min_status {}; // Can be 0-6 (0=success,1&2&5=cov-problems,3=edm-above-max,4=call-limit-reached,6=unexpected)
     int m_cov_status {};
     
     bool operator==(const FitResult& result) const;

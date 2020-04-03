@@ -128,8 +128,16 @@ void ChiSqMinimizer::update_result() {
   m_result.m_pars_fin = std::vector<double>( m_minimizer->X(), m_minimizer->X()+n_pars );
   m_result.m_uncs_fin = std::vector<double>( m_minimizer->Errors(), m_minimizer->Errors()+n_pars );
   
+  m_result.m_n_bins = m_container->m_fit_bins.size();
+  m_result.m_n_free_pars = m_minimizer->NFree();
+  
+  // Minimization process information
+  m_result.m_n_fct_calls = m_minimizer->NCalls();
+  m_result.m_n_iters = m_minimizer->NIterations();
+  
   m_result.m_chisq_fin = m_minimizer->MinValue(); 
   m_result.m_edm_fin = m_minimizer->Edm();
+  m_result.m_min_status = m_minimizer->Status();
   m_result.m_cov_status = m_minimizer->CovMatrixStatus();
 }
 

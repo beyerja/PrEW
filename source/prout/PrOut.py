@@ -17,8 +17,13 @@ class FitResult:
   uncs_fin   = np.array([]) # Final parameter uncertainties after fit
   cov_matrix = np.array([[]]) # Covariance matrix after fit
   cor_matrix = np.array([[]]) # Correlation matrix after fit
+  n_bins = -1;      # Number of bins that the minimization was performed on
+  n_free_pars = -1; # Number of non-fixed parameters
+  n_fct_calls = -1; # Number of chi^2-function calls by minimizer
+  n_iters = -1;     # Number of iterations in minimization stepping
   chisq_fin  = -1 # Chi-Squared at fit result
   edm_fin    = 0  # Expected distance from minimum at fit result
+  min_status = -1 # Status of minimization (see Minuit2, 0=success)
   cov_status = -1 # Status of covariance matrix calculation (see Minuit2)
   
 #-------------------------------------------------------------------------------
@@ -124,12 +129,27 @@ class RunReader:
           if len(cor_matrix) == 0: cor_matrix = matrix_line
           else: cor_matrix = np.vstack((cor_matrix,matrix_line))
         fit_result.cor_matrix = cor_matrix
+      elif (split_line[0] == "NBins:"):
+        # Found line describing the number of input bins
+        fit_result.n_bins = int(split_line[1])
+      elif (split_line[0] == "NFreePars:"):
+        # Found line describing the number of free parameters
+        fit_result.n_free_pars = int(split_line[1])
+      elif (split_line[0] == "NFctCalls:"):
+        # Found line describing the number of function calls
+        fit_result.n_fct_calls = int(split_line[1])
+      elif (split_line[0] == "NIterations:"):
+        # Found line describing the number of iterations
+        fit_result.n_iters = int(split_line[1])
       elif (split_line[0] == "Chi-Sq:"):
         # Found the line describing the final chi^2 value
         fit_result.chisq_fin = float(split_line[1])
       elif (split_line[0] == "EDM:"):
         # Found the line describing the final expected distance to the minimum
         fit_result.edm_fin = float(split_line[1])
+      elif (split_line[0] == "Min.-Status:"):
+        # Found line describing minimzer status
+        fit_result.min_status = int(split_line[1])
       elif (split_line[0] == "Cov.-Status:"):
         # Found the line with the status of the Minuit2 cov. matrix calculation
         fit_result.cov_status = int(split_line[1])
