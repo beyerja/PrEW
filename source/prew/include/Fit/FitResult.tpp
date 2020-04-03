@@ -16,6 +16,12 @@ OStream& operator<<(OStream& os, const PREW::Fit::FitResult& fr) {
   using namespace PREW; // CppUtils::Str
   
   std::string output {};
+  
+  output.append("Fit setup info:\n");
+  output.append("#bins: " + std::to_string(fr.m_n_bins) + "\n");
+  output.append("#free pars: " + std::to_string(fr.m_n_free_pars) + "\n");
+  output.append("\n");
+  
   output.append("Parameters:\n");
   for (size_t par=0;par<fr.m_par_names.size();par++) {
     output.append(
@@ -65,9 +71,14 @@ OStream& operator<<(OStream& os, const PREW::Fit::FitResult& fr) {
   }
   output.append("\n");
 
+  output.append("Minimization information:\n");
+  output.append("#Fct.-calls = " + std::to_string(fr.m_n_fct_calls) + "\n");
+  output.append("#Iterations = " + std::to_string(fr.m_n_iters) + "\n");
+  
   output.append("Fit quality measures:\n");
   output.append("Chi^2 = " + CppUtils::Str::sci_string(fr.m_chisq_fin) + "\n");
   output.append("EDM   = " + CppUtils::Str::sci_string(fr.m_edm_fin) + "\n");
+  output.append("Minimizer status : " + std::to_string(fr.m_min_status) + "\n");
   output.append("Cov. matrix status : " + std::to_string(fr.m_cov_status));
   
   // Feed the output string into the given stream
