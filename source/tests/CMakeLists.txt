@@ -1,4 +1,4 @@
-set(BINARY ${CMAKE_PROJECT_NAME}_tst)
+set(BINARY ${CMAKE_PROJECT_NAME}_test)
 
 ###############################################################################
 ## file globbing ##############################################################
@@ -37,4 +37,4 @@ target_link_libraries(${BINARY} PUBLIC
 ## packaging ##################################################################
 ###############################################################################
 
-install(TARGETS ${BINARY} RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/bin)
+install(TARGETS ${BINARY} RUNTIME DESTINATION bin)
