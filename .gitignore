@@ -1,4 +1,7 @@
-/external/*
+/external
+/bin
 /build
+/include
+/lib
 *.root
 /source/prout/__pycache__

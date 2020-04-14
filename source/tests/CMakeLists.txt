@@ -1,4 +1,4 @@
-set(BINARY ${CMAKE_PROJECT_NAME}_tst)
+set(BINARY ${CMAKE_PROJECT_NAME}_test)
 
 ###############################################################################
 ## file globbing ##############################################################
@@ -28,7 +28,7 @@ add_test(NAME ${BINARY} COMMAND ${BINARY})
 ###############################################################################
 
 target_link_libraries(${BINARY} PUBLIC 
-  ${CMAKE_PROJECT_NAME}_lib 
+  ${CMAKE_PROJECT_NAME} 
   gtest
   ROOT::Minuit2
 )
@@ -37,4 +37,4 @@ target_link_libraries(${BINARY} PUBLIC
 ## packaging ##################################################################
 ###############################################################################
 
-install(TARGETS ${BINARY} RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/bin)
+install(TARGETS ${BINARY} RUNTIME DESTINATION bin)

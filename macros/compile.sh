@@ -91,7 +91,7 @@ make install # >> make.output  2>&1
 wait
 echo 
 echo "begin to test"
-./bin/PrEW_tst
+../bin/PrEW_test
 echo 
 echo "done!"
 # -------------------------------------------------#

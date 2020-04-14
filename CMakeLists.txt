@@ -24,7 +24,7 @@ add_subdirectory(source/tests)
 add_subdirectory(external/googletest)
 
 # Install in local folder instead of system
-set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 
 # Package name and version
 set(CPACK_PACKAGE_NAME "PrEW")
