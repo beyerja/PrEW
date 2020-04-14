@@ -15,33 +15,26 @@ set(SOURCES ${SOURCES})
 ## target definitions #########################################################
 ###############################################################################
 
-add_executable(${BINARY}_run ${SOURCES})
+add_library(${BINARY} ${SOURCES})
 
 # just for example add some compiler flags
-target_compile_options(${BINARY}_run PUBLIC -std=c++1y 
-                       # Compiler warning/error flags
-                       -Wall -Wfloat-conversion -Wextra -Wunreachable-code -Wuninitialized 
-                       -pedantic-errors -Wold-style-cast -Wno-error=unused-variable
-                       -Wfloat-equal
-                       # Compiler optimisation
-                       -O3
-                     )
+target_compile_options(
+  ${BINARY} PUBLIC -std=c++1y 
+  # Compiler warning/error flags
+  -Wall -Wfloat-conversion -Wextra -Wunreachable-code -Wuninitialized 
+  -pedantic-errors -Wold-style-cast -Wno-error=unused-variable
+  -Wfloat-equal
+  # Compiler optimisation
+  -O3
+)
 
 ###############################################################################
 ## dependencies ###############################################################
 ###############################################################################
 
-# # this defines the variables Boost_LIBRARIES that contain all library names
-# # that we need to link to
-# find_package(Boost 1.36.0 COMPONENTS filesystem system REQUIRED)
-# 
-# target_link_libraries(example PUBLIC
-#   ${Boost_LIBRARIES}
-#   gtest_main
-#   # here you can add any library dependencies
-# )
-
-target_link_libraries(${BINARY}_run PUBLIC 
+# Link the needed libraries so that its compiled code can be used
+target_link_libraries(
+  ${BINARY} PUBLIC 
   ${SPDLOG_LIB} # Logging
   ROOT::Minuit2 # Minimization
 )
@@ -50,8 +43,9 @@ target_link_libraries(${BINARY}_run PUBLIC
 ## packaging ##################################################################
 ###############################################################################
 
-
-add_library(${BINARY}_lib STATIC ${SOURCES})
-
 # install binary in bin folder
-install(TARGETS ${BINARY}_run RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/bin)
+install(
+  TARGETS ${BINARY} 
+  ARCHIVE DESTINATION lib
+  COMPONENT library
+)

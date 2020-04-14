@@ -28,7 +28,7 @@ add_test(NAME ${BINARY} COMMAND ${BINARY})
 ###############################################################################
 
 target_link_libraries(${BINARY} PUBLIC 
-  ${CMAKE_PROJECT_NAME}_lib 
+  ${CMAKE_PROJECT_NAME} 
   gtest
   ROOT::Minuit2
 )
