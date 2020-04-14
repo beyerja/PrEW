@@ -22,7 +22,10 @@ target_compile_options(${BINARY}_run PUBLIC -std=c++1y
                        # Compiler warning/error flags
                        -Wall -Wfloat-conversion -Wextra -Wunreachable-code -Wuninitialized 
                        -pedantic-errors -Wold-style-cast -Wno-error=unused-variable
-                       -Wfloat-equal)
+                       -Wfloat-equal
+                       # Compiler optimisation
+                       -O3
+                     )
 
 ###############################################################################
 ## dependencies ###############################################################
