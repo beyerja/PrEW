@@ -11,8 +11,8 @@ namespace Rnd {
   **/
   
   // Global random number generator to avoid duplication of random numbers
-  static std::random_device rnd_device;
-  static std::mt19937 rnd_gen(rnd_device());
+  static thread_local std::random_device rnd_device;
+  static thread_local std::mt19937 rnd_gen(rnd_device());
   
   int poisson_fluctuate(double mean);
 }
