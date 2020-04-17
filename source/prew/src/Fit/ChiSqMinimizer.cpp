@@ -91,6 +91,27 @@ void ChiSqMinimizer::minimize() {
   // -------------------------------------------------------------------------//
   // -------------------------------------------------------------------------//
   
+  // Check if any parameters were limited and if so reset parameters as free and 
+  // re-perform error calculation.
+  // This is recommended for Minuit to get more precise errors because without 
+  // limits no internal parameter transformations have to be performed.
+  bool was_limited = false;
+  for ( unsigned int i_par=0; i_par<n_pars; i_par++ ){
+    if ( m_container->m_fit_pars[i_par].is_limited() ) {
+      m_minimizer->SetVariable(
+        i_par, 
+        m_minimizer->VariableName(i_par), 
+        m_minimizer->X()[i_par],
+        m_minimizer->Errors()[i_par]
+      );
+      was_limited = true;
+    }
+  }
+  if ( was_limited ) { 
+    spdlog::debug("Minimisation used parameter limits, recalculating error without limits for accuracy.");
+    m_minimizer->Hesse(); 
+  }
+  
   // Form a usable output collection
   this->collect_par_names();
   this->update_result();
