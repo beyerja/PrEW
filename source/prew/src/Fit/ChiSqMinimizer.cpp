@@ -18,6 +18,10 @@ ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, const MinuitFactory &fa
 {
   this->update_chisq();
   m_minimizer = factory.create_minimizer();
+  
+  // Set minimizer strategy to high accuracy
+  // -> Want precision results, if that takes longer it takes longer.
+  m_minimizer->SetStrategy(2); 
 }
 
 //------------------------------------------------------------------------------
