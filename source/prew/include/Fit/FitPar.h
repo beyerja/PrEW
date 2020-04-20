@@ -39,7 +39,7 @@ namespace Fit {
         bool is_fixed=false
       );
       
-      std::string get_name() const; // Get name
+      const std::string & get_name() const; // Get name
       double get_val_ini() const;   // Get initial value
       double get_unc_ini() const;   // Get initial value
       bool is_fixed() const;   // Get info if parameter is fixed

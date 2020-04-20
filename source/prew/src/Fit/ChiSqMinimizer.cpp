@@ -34,10 +34,10 @@ void ChiSqMinimizer::update_chisq() {
       given by the fit container.
   **/
   m_chisq = 0.0;
-  for ( auto & bin : m_container->m_fit_bins ) {
+  for ( const auto & bin : m_container->m_fit_bins ) {
     m_chisq += std::pow( ( bin.get_val_mst() - bin.get_val_prd() ) /  bin.get_val_unc() , 2 );
   }
-  for ( auto & par : m_container->m_fit_pars ) {
+  for ( const auto & par : m_container->m_fit_pars ) {
     if (par.is_fixed()) { continue; } // Skip fixed parameters
     m_chisq += par.calc_constr_chisq();
   }
@@ -51,7 +51,7 @@ void ChiSqMinimizer::minimize() {
   // Create a vector holding the addresses of the parameter values
   // => Minimizer will directly change parameter values by changing the 
   //    values at the addresses
-  unsigned int n_pars = m_container->m_fit_pars.size();
+  const unsigned int n_pars = m_container->m_fit_pars.size();
   std::vector<double*> pars(n_pars);
   for ( unsigned int i=0; i<n_pars; i++ ){
     pars[i] = &(m_container->m_fit_pars[i].m_val_mod);

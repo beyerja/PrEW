@@ -20,7 +20,7 @@ FitPar::FitPar(
 //------------------------------------------------------------------------------
 // get functions
 
-std::string FitPar::get_name() const { return m_name; }
+const std::string & FitPar::get_name() const { return m_name; }
 double FitPar::get_val_ini() const { return m_val_ini; }
 double FitPar::get_unc_ini() const { return m_unc_ini; }
 bool FitPar::is_fixed() const { return m_is_fixed; }
