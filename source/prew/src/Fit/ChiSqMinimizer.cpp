@@ -18,10 +18,6 @@ ChiSqMinimizer::ChiSqMinimizer(FitContainer * container, const MinuitFactory &fa
 {
   this->update_chisq();
   m_minimizer = factory.create_minimizer();
-  
-  // Set minimizer strategy to high accuracy
-  // -> Want precision results, if that takes longer it takes longer.
-  m_minimizer->SetStrategy(2); 
 }
 
 //------------------------------------------------------------------------------
@@ -51,6 +47,13 @@ void ChiSqMinimizer::minimize() {
   /** Perform the actual chi-squared minimization using Minuit2.
       Will modify the m_val_mod of all parameters in the container!
   **/
+  
+  // Set minimizer strategy to high accuracy
+  // -> Want precision results, if that takes longer it takes longer.
+  m_minimizer->SetStrategy(2); 
+  
+  // Tell minimizer to perform hessian error-calculation for accurate errors
+  m_minimizer->SetValidError(true); 
   
   // Create a vector holding the addresses of the parameter values
   // => Minimizer will directly change parameter values by changing the 
