@@ -38,8 +38,9 @@ void ChiSqMinimizer::update_chisq() {
     m_chisq += std::pow( ( bin.get_val_mst() - bin.get_val_prd() ) /  bin.get_val_unc() , 2 );
   }
   for ( const auto & par : m_container->m_fit_pars ) {
-    if (par.is_fixed()) { continue; } // Skip fixed parameters
-    m_chisq += par.calc_constr_chisq();
+    if ( (! par.is_fixed()) && par.has_constraint()) { 
+      m_chisq += par.calc_constr_chisq();
+    }
   }
 }
 

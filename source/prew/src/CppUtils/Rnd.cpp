@@ -19,5 +19,18 @@ int Rnd::poisson_fluctuate(double mean) {
 
 //------------------------------------------------------------------------------
 
+double Rnd::gauss_fluctuate(double mean, double width) {
+  /** Produce a random number from gaussian distribution with given mean and 
+      width.
+  **/
+  if ( ! (width>0) ) { 
+    throw std::invalid_argument("Gaussian width must be greater than zero!");
+  }
+  std::normal_distribution<> distribution(mean,width);
+  return distribution(Rnd::rnd_gen);
+}
+
+//------------------------------------------------------------------------------
+
 }
 }

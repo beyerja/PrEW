@@ -73,25 +73,38 @@ TEST(TestFitPar, CopyAssignmentOperator) {
 
 TEST(TestFitPar, ConstrCalcWithoutConstr) {
   FitPar fp ("fp", 2, 4);
-  ASSERT_EQ(fp.calc_constr_chisq(), 0.0);
+  ASSERT_EQ(fp.has_constraint(), false);
+  ASSERT_EQ(Num::equal_to_eps(fp.get_constr_val(), 0.0), true);
+  ASSERT_EQ(Num::equal_to_eps(fp.get_constr_unc(), 0.0), true);
+  ASSERT_EQ(Num::equal_to_eps(fp.calc_constr_chisq(), 0.0), true);
 }
 
 TEST(TestFitPar, GaussConstrCalc) {
   FitPar fp ("fp", 2, 4);
-  fp.set_constrgauss(ParConstrGauss(1,2));
+  fp.set_constrgauss(1,2);
+  ASSERT_EQ(fp.has_constraint(), true);
+  ASSERT_EQ(Num::equal_to_eps(fp.get_constr_val(), 1.0), true);
+  ASSERT_EQ(Num::equal_to_eps(fp.get_constr_unc(), 2.0), true);
   // constr: ( (1-2)/2 )^2 = 0.25
-  ASSERT_EQ(fp.calc_constr_chisq(), 0.25);
+  ASSERT_EQ(Num::equal_to_eps(fp.calc_constr_chisq(), 0.25), true);
+}
+
+TEST(TestParConstrGauss, PrecisionChiSq) {
+  // Test that constraint precision is held over orders of magnitude
+  FitPar fp ("fp", 250000.1, 0.1);
+  fp.set_constrgauss(200000.05, 50000.05);
+  ASSERT_EQ(Num::equal_to_eps(fp.calc_constr_chisq(), 1.0, 0.00001), true);
 }
 
 TEST(TestFitPar, GaussConstrModifiedValue) {
   FitPar fp ("fp", 2, 4);
-  fp.set_constrgauss(ParConstrGauss(1,2));
+  fp.set_constrgauss(1,2);
   // constr: ( (1-2)/2 )^2 = 0.25
-  ASSERT_EQ(fp.calc_constr_chisq(), 0.25);
+  ASSERT_EQ(Num::equal_to_eps(fp.calc_constr_chisq(), 0.25), true);
   
   fp.m_val_mod = 5;
   // constr: ( (5-1)/2 )^2 = 4
-  ASSERT_EQ(fp.calc_constr_chisq(), 4);
+  ASSERT_EQ(Num::equal_to_eps(fp.calc_constr_chisq(), 4.0), true);
 }
 
 TEST(TestFitPar, ParFixing) {

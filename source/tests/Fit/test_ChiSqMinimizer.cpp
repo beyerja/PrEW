@@ -78,7 +78,7 @@ TEST(TestChiSqMinimizer, ChiSqWithBinsAndConstr) {
   container.m_fit_bins = fit_bins;
   
   FitPar fp ("fp", 0, 0.1); // Parameter starts at 0
-  fp.set_constrgauss(ParConstrGauss(1,2)); // Constraint to 0 with unc of 1
+  fp.set_constrgauss(1,2); // Constraint to 0 with unc of 1
   ParVec fit_pars {fp}; 
   container.m_fit_pars = fit_pars;
   

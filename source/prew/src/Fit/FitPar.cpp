@@ -1,5 +1,7 @@
 #include <Fit/FitPar.h>
 
+#include <cmath>
+
 namespace PREW {
 namespace Fit {
 
@@ -31,18 +33,25 @@ double FitPar::get_upper_lim() const { return m_upper_lim; }
 //------------------------------------------------------------------------------
 // Constraints
 
-void FitPar::set_constrgauss(ParConstrGauss constrgauss) { 
+void FitPar::set_constrgauss(double constr_val, double constr_unc) {
   /** Set a Gaussian constraint for this parameter.
   **/
-  m_is_constraint = true;
-  m_constrgauss = constrgauss; 
+  m_has_constraint = true;
+  m_constr_val = constr_val;
+  m_constr_unc = constr_unc;
 }
 
+bool FitPar::has_constraint() const { return m_has_constraint; }
+double FitPar::get_constr_val() const { return m_constr_val; }
+double FitPar::get_constr_unc() const { return m_constr_unc; }
+
 double FitPar::calc_constr_chisq() const {
-  /** Calculate chi-squared term produced by external parameter constraint.
+  /** Return the Chi^2 resulting from the parameter constraint (if available).
   **/
   double chisq=0;
-  if ( m_is_constraint ) chisq += m_constrgauss.calc_chisq(m_val_mod);
+  if ( m_has_constraint ) {
+    chisq = std::pow( (m_val_mod - m_constr_val) / m_constr_unc, 2 );
+  }
   return chisq; 
 }
 
