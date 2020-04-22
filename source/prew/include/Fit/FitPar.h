@@ -2,8 +2,6 @@
 #define LIB_FITPAR_H 1
 
 #include <iostream>
-#include <Fit/ParConstrGauss.h>
-
 #include <vector>
 
 namespace PREW {
@@ -25,8 +23,10 @@ namespace Fit {
     double m_upper_lim {};
     double m_lower_lim {};
     
-    bool m_is_constraint {false};
-    ParConstrGauss m_constrgauss {};
+    // Optional constrain for parameter
+    bool m_has_constraint {false};
+    double m_constr_val {};
+    double m_constr_unc {};
     
     public:
       double m_val_mod {}; // Modified value => Publicly accessible
@@ -49,7 +49,10 @@ namespace Fit {
       double get_lower_lim() const;
       double get_upper_lim() const;
       
-      void set_constrgauss(ParConstrGauss constrgauss);
+      void set_constrgauss(double constr_val, double constr_unc);
+      bool has_constraint() const; // Does parameter have a constraint
+      double get_constr_val() const;
+      double get_constr_unc() const;
       double calc_constr_chisq() const; // Chi-squared produced by constraint
       
       void fix();     // fix the parameter
