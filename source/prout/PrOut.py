@@ -13,26 +13,28 @@ import numpy as np
 class FitResult:
   """ Storage class for results of an individual fit.
   """
-  pars_fin   = np.array([]) # Final parameter values after fit
-  uncs_fin   = np.array([]) # Final parameter uncertainties after fit
-  cov_matrix = np.array([[]]) # Covariance matrix after fit
-  cor_matrix = np.array([[]]) # Correlation matrix after fit
-  n_bins = -1;      # Number of bins that the minimization was performed on
-  n_free_pars = -1; # Number of non-fixed parameters
-  n_fct_calls = -1; # Number of chi^2-function calls by minimizer
-  n_iters = -1;     # Number of iterations in minimization stepping
-  chisq_fin  = -1 # Chi-Squared at fit result
-  edm_fin    = 0  # Expected distance from minimum at fit result
-  min_status = -1 # Status of minimization (see Minuit2, 0=success)
-  cov_status = -1 # Status of covariance matrix calculation (see Minuit2)
+  def __init__(self):
+    self.pars_fin   = np.array([]) # Final parameter values after fit
+    self.uncs_fin   = np.array([]) # Final parameter uncertainties after fit
+    self.cov_matrix = np.array([[]]) # Covariance matrix after fit
+    self.cor_matrix = np.array([[]]) # Correlation matrix after fit
+    self.n_bins = -1;      # Number of bins that the minimization was performed on
+    self.n_free_pars = -1; # Number of non-fixed parameters
+    self.n_fct_calls = -1; # Number of chi^2-function calls by minimizer
+    self.n_iters = -1;     # Number of iterations in minimization stepping
+    self.chisq_fin  = -1 # Chi-Squared at fit result
+    self.edm_fin    = 0  # Expected distance from minimum at fit result
+    self.min_status = -1 # Status of minimization (see Minuit2, 0=success)
+    self.cov_status = -1 # Status of covariance matrix calculation (see Minuit2)
   
 #-------------------------------------------------------------------------------
   
 class RunResult:
   """ Storage class for results of a whole run of potentially multiple fits.
   """
-  par_names = []  # Names of parameters used in fit
-  fit_results = []  # Results of individual fits performed in this setup
+  def __init__(self):
+    self.par_names = []  # Names of parameters used in fit
+    self.fit_results = []  # Results of individual fits performed in this setup
 
 #-------------------------------------------------------------------------------
 #===============================================================================
@@ -65,7 +67,6 @@ class RunReader:
   """ Class to read one PrEW run (which can contain many fits in the same 
       setup).
   """
-  run_result = RunResult() # The final result
   markers = Markers() # The output markers which are used by PrEW
   
   def __init__(self,run_lines):
@@ -73,6 +74,7 @@ class RunReader:
         run.
     """
     self.run_lines = run_lines
+    self.run_result = RunResult() # The final result
         
   def find_fits(self):
     """ Find the string lines of the run which represent the individual fit 
@@ -196,13 +198,13 @@ class Reader:
       output by PrEW.
   """
   markers = Markers() # Line markers used by PrEW
-  lines = [] # Line from input file
-  run_results = [] # Results after reading the file
   
   def __init__(self,file_path):
     """ Constructor take the PrEW output file path
     """
     self.file_path = file_path
+    self.lines = [] # Line from input file
+    self.run_results = [] # Results after reading the file
     
   def identify_runs(self):
     """ Look through the lines and identify individual PrEW runs.
