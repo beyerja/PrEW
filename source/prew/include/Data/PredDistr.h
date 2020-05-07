@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace PREW {
+namespace PrEW {
 namespace Data {
   
   struct PredDistr {

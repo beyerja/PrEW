@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
 
 //------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ bool FitPar::operator==(const FitPar& fit_par) const {
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-std::ostream& operator<<(std::ostream& os, const PREW::Fit::FitPar& fp) {
+std::ostream& operator<<(std::ostream& os, const PrEW::Fit::FitPar& fp) {
   /** Define what happens when "<<" is called on class
   **/
   os << "Fit Parameter: initial value: " << fp.get_val_ini()

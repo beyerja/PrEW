@@ -6,7 +6,7 @@
 #include <Fit/FitBin.h>
 
 
-namespace PREW {
+namespace PrEW {
 namespace Data {
   
   struct DiffDistr {

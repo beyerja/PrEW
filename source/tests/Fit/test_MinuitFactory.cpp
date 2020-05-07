@@ -5,7 +5,7 @@
 
 #include <math.h>
 
-using namespace PREW::Fit;
+using namespace PrEW::Fit;
 
 TEST(TestMinuitFactory, SimpleMinimizerCreation) {
   MinuitFactory factory (ROOT::Minuit2::kMigrad, 100, 200, 0.05);

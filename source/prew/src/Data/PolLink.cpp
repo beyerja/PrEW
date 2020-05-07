@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace Data {
 
 //------------------------------------------------------------------------------

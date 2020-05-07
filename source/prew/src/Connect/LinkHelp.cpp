@@ -4,7 +4,7 @@
 #include <Data/FctLink.h>
 #include <GlobalVar/Chiral.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Connect {
 
 //------------------------------------------------------------------------------

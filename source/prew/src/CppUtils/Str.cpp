@@ -1,6 +1,6 @@
 #include <CppUtils/Str.h>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 //------------------------------------------------------------------------------

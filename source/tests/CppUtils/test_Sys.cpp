@@ -2,7 +2,7 @@
 
 #include <CppUtils/Sys.h>
 
-using namespace PREW::CppUtils;
+using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests for system helpers

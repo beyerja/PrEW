@@ -7,7 +7,7 @@
 #include "spdlog/spdlog.h"
 
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
 
 //------------------------------------------------------------------------------

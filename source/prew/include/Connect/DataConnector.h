@@ -8,7 +8,7 @@
 #include <Data/PredLink.h>
 #include <Fit/FitContainer.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Connect {
   
   class DataConnector {

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <Fit/FitResult.h>
 
-using namespace PREW::Fit;
+using namespace PrEW::Fit;
 
 TEST(TestFitResult, EqualityOperators) {
   FitResult r1 {};

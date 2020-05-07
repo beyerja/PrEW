@@ -5,7 +5,7 @@
 #include <numeric>
 #include <vector>
 
-using namespace PREW::CppUtils;
+using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests for random number generation

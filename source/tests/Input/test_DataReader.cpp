@@ -3,7 +3,7 @@
 #include <Input/DataReader.h>
 #include <Input/InfoRKFile.h>
 
-using namespace PREW::Input;
+using namespace PrEW::Input;
 
 //------------------------------------------------------------------------------
 // Tests for DataReader class

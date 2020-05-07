@@ -11,7 +11,7 @@
 #include <cmath>
 #include <exception>
 
-namespace PREW {
+namespace PrEW {
 namespace ToyMeas {
 
 //------------------------------------------------------------------------------

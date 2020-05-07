@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Fcts {
 
 //------------------------------------------------------------------------------

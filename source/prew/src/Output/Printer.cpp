@@ -6,7 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace PREW {
+namespace PrEW {
 namespace Output {
   
 //------------------------------------------------------------------------------

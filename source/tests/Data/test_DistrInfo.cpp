@@ -2,7 +2,7 @@
 
 #include <Data/DistrInfo.h>
 
-using namespace PREW::Data;
+using namespace PrEW::Data;
 
 //------------------------------------------------------------------------------
 // Tests for DistrInfo class

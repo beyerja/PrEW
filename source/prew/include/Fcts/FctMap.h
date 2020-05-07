@@ -9,7 +9,7 @@
 #include <map>
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace Fcts {
   // Kind of map pointing from a string (function-ID) to a function 
   // which has three input parameter vectors: coordinate,parameters,coefficients

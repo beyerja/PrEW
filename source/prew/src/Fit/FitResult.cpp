@@ -1,7 +1,7 @@
 #include <Fit/FitResult.h>
 #include <CppUtils/Num.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
 
 //------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 #include <Data/PredDistr.h>
 #include <Input/InputInfo.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Input {
   
 namespace Reading {

@@ -5,7 +5,7 @@
 #include <Data/DiffDistr.h>
 #include <Fit/FitPar.h>
 
-namespace PREW { 
+namespace PrEW { 
 namespace ToyMeas {
 
   class ToyGen {

@@ -1,7 +1,7 @@
 #ifndef LIB_CPPHELPNUM_H
 #define LIB_CPPHELPNUM_H 1
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 namespace Num {

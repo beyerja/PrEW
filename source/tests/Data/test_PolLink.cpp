@@ -4,7 +4,7 @@
 
 #include <string>
 
-using namespace PREW::Data;
+using namespace PrEW::Data;
 
 //------------------------------------------------------------------------------
 // Tests for polarisation instruction class

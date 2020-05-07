@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
   
   struct FitResult {
@@ -38,7 +38,7 @@ namespace Fit {
 
 // Define operator for FitResult class
 template<typename OStream>
-OStream& operator<<(OStream& os, const PREW::Fit::FitResult& fr);
+OStream& operator<<(OStream& os, const PrEW::Fit::FitResult& fr);
 
 #include <Fit/FitResult.tpp>
 

@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
   
 template<class T>          

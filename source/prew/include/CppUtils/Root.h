@@ -4,7 +4,7 @@
 #include <CppUtils/Vec.h>
 #include "TMatrixT.h"
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
   
 namespace Root {

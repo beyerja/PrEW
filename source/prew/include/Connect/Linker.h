@@ -10,7 +10,7 @@
 #include <functional>
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace Connect {
 
   class Linker {

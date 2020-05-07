@@ -3,7 +3,7 @@
 
 #include "Minuit2/Minuit2Minimizer.h"
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
   
   class MinuitFactory {

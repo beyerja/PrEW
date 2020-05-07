@@ -9,9 +9,9 @@
 #include <numeric>
 #include <vector>
 
-using namespace PREW::CppUtils;
-using namespace PREW::Fit;
-using namespace PREW::ToyMeas;
+using namespace PrEW::CppUtils;
+using namespace PrEW::Fit;
+using namespace PrEW::ToyMeas;
 
 //------------------------------------------------------------------------------
 

@@ -5,7 +5,7 @@
 #include <set>
 #include <vector>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 namespace Map {

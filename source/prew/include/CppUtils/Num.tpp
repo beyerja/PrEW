@@ -6,7 +6,7 @@
 #include <type_traits> // To check type of template class
 #include <cmath>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 //------------------------------------------------------------------------------

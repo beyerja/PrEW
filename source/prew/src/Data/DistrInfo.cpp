@@ -1,6 +1,6 @@
 #include <Data/DistrInfo.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Data {
 
 //------------------------------------------------------------------------------

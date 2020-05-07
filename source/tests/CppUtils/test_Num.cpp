@@ -3,7 +3,7 @@
 
 // #include <random>
 
-using namespace PREW::CppUtils;
+using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests for equal_to_eps

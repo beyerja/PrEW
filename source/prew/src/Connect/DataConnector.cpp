@@ -9,7 +9,7 @@
 #include <exception>
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace Connect {
 
 //------------------------------------------------------------------------------

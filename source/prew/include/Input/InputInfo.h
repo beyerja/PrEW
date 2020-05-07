@@ -1,7 +1,7 @@
 #ifndef LIBRARY_INPUTINFO_H
 #define LIBRARY_INPUTINFO_H 1
 
-namespace PREW {
+namespace PrEW {
 namespace Input {
   
   struct InputInfo {

@@ -3,7 +3,7 @@
 
 #include <random>
 
-namespace PREW { 
+namespace PrEW { 
 namespace CppUtils {
   
 namespace Rnd {
