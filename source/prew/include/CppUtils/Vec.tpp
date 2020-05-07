@@ -5,7 +5,7 @@
 
 #include <algorithm>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 //------------------------------------------------------------------------------

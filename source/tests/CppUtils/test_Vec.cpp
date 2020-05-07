@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-using namespace PREW::CppUtils;
+using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests for vector helpers

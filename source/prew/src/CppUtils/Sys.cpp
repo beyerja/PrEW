@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 //------------------------------------------------------------------------------

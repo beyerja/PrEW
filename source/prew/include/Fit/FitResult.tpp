@@ -9,11 +9,11 @@
 //------------------------------------------------------------------------------
 
 template<typename OStream>
-OStream& operator<<(OStream& os, const PREW::Fit::FitResult& fr) {
+OStream& operator<<(OStream& os, const PrEW::Fit::FitResult& fr) {
   /** Define what happens if a stream operator is called on the FitResult class.
       (e.g. like `std::cout << fit_result;`)
   **/
-  using namespace PREW; // CppUtils::Str
+  using namespace PrEW; // CppUtils::Str
   
   std::string output {};
   

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace PREW {
+namespace PrEW {
 namespace Fcts {
   
 namespace Physics {

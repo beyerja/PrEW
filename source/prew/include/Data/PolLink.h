@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace PREW {
+namespace PrEW {
 namespace Data {
 
   class PolLink {

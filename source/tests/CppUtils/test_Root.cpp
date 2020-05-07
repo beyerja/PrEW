@@ -4,7 +4,7 @@
 #include <CppUtils/Root.h>
 #include <CppUtils/Vec.h>
 
-using namespace PREW::CppUtils;
+using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests for equal_to_eps

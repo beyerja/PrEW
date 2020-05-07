@@ -3,7 +3,7 @@
 
 #include <CppUtils/Root.h>
 
-namespace PREW {
+namespace PrEW {
 namespace CppUtils {
 
 //------------------------------------------------------------------------------

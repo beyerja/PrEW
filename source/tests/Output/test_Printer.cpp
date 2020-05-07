@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace PREW::Output;
+using namespace PrEW::Output;
 
 //------------------------------------------------------------------------------
 // Tests for the Printer output class

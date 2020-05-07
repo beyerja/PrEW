@@ -2,7 +2,7 @@
 #include <Input/InputInfo.h>
 #include <Input/InfoRKFile.h>
 
-using namespace PREW::Input;
+using namespace PrEW::Input;
 
 //------------------------------------------------------------------------------
 // Tests for InputInfo class and its possible implementations

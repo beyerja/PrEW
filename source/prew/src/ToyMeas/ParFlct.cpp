@@ -3,7 +3,7 @@
 
 #include "spdlog/spdlog.h"
 
-namespace PREW {
+namespace PrEW {
 namespace ToyMeas {
 
 //------------------------------------------------------------------------------
@@ -33,4 +33,4 @@ void ParFlct::fluctuate_constrs ( Fit::ParVec & par_vec ) {
 //------------------------------------------------------------------------------
 
 } // Namespace ToyMeas
-} // Namespace PREW
+} // Namespace PrEW

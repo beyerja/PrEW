@@ -10,10 +10,10 @@
 #include <functional>
 #include <string>
 
-using namespace PREW::Connect;
-using namespace PREW::CppUtils;
-using namespace PREW::Data;
-using namespace PREW::Fit;
+using namespace PrEW::Connect;
+using namespace PrEW::CppUtils;
+using namespace PrEW::Data;
+using namespace PrEW::Fit;
 
 //------------------------------------------------------------------------------
 // Tests for Linker class that creates connected and easily callable functions

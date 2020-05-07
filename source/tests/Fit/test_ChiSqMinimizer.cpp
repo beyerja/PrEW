@@ -3,7 +3,7 @@
 
 #include <random>
 
-using namespace PREW::Fit;
+using namespace PrEW::Fit;
 
 TEST(TestChiSqMinimizer, TrivialConstructor) {
   FitContainer container {};

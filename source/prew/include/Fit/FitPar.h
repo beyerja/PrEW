@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
   
   class FitPar {
@@ -70,6 +70,6 @@ namespace Fit {
 }
 }
 
-std::ostream& operator<<(std::ostream& os, const PREW::Fit::FitPar& fp);
+std::ostream& operator<<(std::ostream& os, const PrEW::Fit::FitPar& fp);
 
 #endif 

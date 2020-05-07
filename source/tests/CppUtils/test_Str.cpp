@@ -4,7 +4,7 @@
 
 #include <string>
 
-using namespace PREW::CppUtils;
+using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests string helper functions

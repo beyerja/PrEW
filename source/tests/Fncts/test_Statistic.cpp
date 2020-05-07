@@ -5,8 +5,8 @@
 
 #include <vector>
 
-using namespace PREW::CppUtils;
-using namespace PREW::Fcts;
+using namespace PrEW::CppUtils;
+using namespace PrEW::Fcts;
 
 //------------------------------------------------------------------------------
 // Check that statistical functions are correctly implemented

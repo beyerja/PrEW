@@ -3,7 +3,7 @@
 
 #include <Fit/FitPar.h>
 
-namespace PREW { 
+namespace PrEW { 
 namespace ToyMeas {
 
 namespace ParFlct {
@@ -17,6 +17,6 @@ namespace ParFlct {
 } // Namespace ParFlct
   
 } // Namespace ToyMeas
-} // Namespace PREW
+} // Namespace PrEW
 
 #endif

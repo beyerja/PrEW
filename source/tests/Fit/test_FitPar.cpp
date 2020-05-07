@@ -6,8 +6,8 @@
 #include <string>  
 #include <sstream>   
 
-using namespace PREW::Fit;
-using namespace PREW::CppUtils;
+using namespace PrEW::Fit;
+using namespace PrEW::CppUtils;
 
 TEST(TestFitPar, ReturnsCorrectIni) {
   FitPar fp1 ("fp1", 0.00055, 0.01);

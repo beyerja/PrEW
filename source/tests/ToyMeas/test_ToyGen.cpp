@@ -12,12 +12,12 @@
 #include <gtest/gtest.h>
 #include "spdlog/spdlog.h"
 
-using namespace PREW::Connect;
-using namespace PREW::CppUtils;
-using namespace PREW::Data;
-using namespace PREW::Fit;
-using namespace PREW::GlobalVar;
-using namespace PREW::ToyMeas;
+using namespace PrEW::Connect;
+using namespace PrEW::CppUtils;
+using namespace PrEW::Data;
+using namespace PrEW::Fit;
+using namespace PrEW::GlobalVar;
+using namespace PrEW::ToyMeas;
 
 //------------------------------------------------------------------------------
 // Check that statistical functions are correctly implemented

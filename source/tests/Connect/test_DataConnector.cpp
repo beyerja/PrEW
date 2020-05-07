@@ -12,11 +12,11 @@
 
 #include <gtest/gtest.h>
 
-using namespace PREW::Connect;
-using namespace PREW::CppUtils;
-using namespace PREW::Data;
-using namespace PREW::Fit;
-using namespace PREW::GlobalVar;
+using namespace PrEW::Connect;
+using namespace PrEW::CppUtils;
+using namespace PrEW::Data;
+using namespace PrEW::Fit;
+using namespace PrEW::GlobalVar;
 
 //------------------------------------------------------------------------------
 // Tests for DataConnector class that links prediction

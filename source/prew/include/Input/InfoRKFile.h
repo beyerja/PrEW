@@ -3,7 +3,7 @@
 
 #include <Input/InputInfo.h>
 
-namespace PREW {
+namespace PrEW {
 namespace Input {
   
   struct InfoRKFile : public InputInfo {

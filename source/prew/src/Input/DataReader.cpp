@@ -4,7 +4,7 @@
 #include <exception>
 #include "spdlog/spdlog.h"
 
-namespace PREW {
+namespace PrEW {
 namespace Input {
   
 //------------------------------------------------------------------------------

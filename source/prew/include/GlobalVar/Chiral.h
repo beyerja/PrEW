@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace PREW {
+namespace PrEW {
 namespace GlobalVar {
 /** Careful with this namespace, only for static const variables!
 **/

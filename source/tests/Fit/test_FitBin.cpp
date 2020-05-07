@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <Fit/FitBin.h>
 
-using namespace PREW::Fit;
+using namespace PrEW::Fit;
 
 TEST(TestFitbin, TrivialConstructor) {
   FitBin fb {};

@@ -7,7 +7,7 @@
 #include <Input/Reading.h>
 
 
-namespace PREW {
+namespace PrEW {
 namespace Input {
   
   class DataReader {

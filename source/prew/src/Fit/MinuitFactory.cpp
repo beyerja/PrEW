@@ -1,7 +1,7 @@
 #include <Fit/MinuitFactory.h>
 
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
   
 //------------------------------------------------------------------------------

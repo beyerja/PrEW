@@ -8,7 +8,7 @@
 
 #include <algorithm>
 
-namespace PREW {
+namespace PrEW {
 namespace Data {
 
 //------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #include <functional>
 #include <vector>
 
-namespace PREW {
+namespace PrEW {
 namespace Fit {
   
   class FitBin {

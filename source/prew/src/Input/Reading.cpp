@@ -12,7 +12,7 @@
 #include "TMatrixT.h"
 #include "TTree.h"
 
-namespace PREW {
+namespace PrEW {
 namespace Input {
   
 //------------------------------------------------------------------------------
