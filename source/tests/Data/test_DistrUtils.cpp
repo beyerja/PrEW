@@ -1,11 +1,15 @@
+#include <CppUtils/Num.h>
+#include <CppUtils/Vec.h>
 #include <Data/DistrInfo.h>
 #include <Data/DiffDistr.h>
 #include <Data/DistrUtils.h>
 
 #include <gtest/gtest.h>
 
+#include <cmath>
 #include <string>
 
+using namespace PrEW::CppUtils;
 using namespace PrEW::Data;
 
 //------------------------------------------------------------------------------
@@ -78,6 +82,88 @@ TEST(TestDistrUtils, ElementPol) {
   };
   
   ASSERT_EQ(DistrUtils::element_pol(vec,pol_good).m_info,info_good);
+}
+
+//------------------------------------------------------------------------------
+
+TEST(TestDistrUtils, FindBinMiddle) {
+  // Find middle of all bins
+  Vec::Matrix2D<double> bin_centers {
+    {0.0, -10.0, 0.5, 0.002},
+    {1.0,  20.0, 0.5, 0.001},
+    {2.0, -20.0, 0.5, 0.002}
+  };
+  
+  std::vector<double> middle_expected { 1.0, 0.0, 0.5, 0.0015 };
+  std::vector<double> middle_found = DistrUtils::bin_middle(bin_centers);
+  
+  for (size_t d=0; d<middle_expected.size(); d++) {
+    ASSERT_EQ( Num::equal_to_eps( middle_expected[d], middle_found[d]), true )
+      << "Expected " << middle_expected[d] << " got " << middle_found[d];
+  } 
+}
+
+//------------------------------------------------------------------------------
+
+TEST(TestDistrUtils, CombineDiffDistr) {
+  DiffDistr distr {
+    {"DistrName", "PolConfigName", 1000},
+    { {0.0, 25.0}, {-1.0, 15.0}, {3.0, 5.0} }, // Bin centers
+    { {7.0, 9.0},  {10.0, 6.0},  {8.0, 2.0} }  // (Value, Uncertainty) pairs
+  };
+  
+  // Expected results
+  std::vector<double> bin_middle = {1.0, 15.0};
+  double val_sum = 25.0;
+  double unc_rms = 11.0;
+  
+  // Combined distribution
+  auto comb_distr = DistrUtils::combine_bins(distr);
+  auto bin_centers = comb_distr.m_bin_centers[0];
+  double comb_val = comb_distr.m_distribution[0].get_val_mst();
+  double comb_unc = comb_distr.m_distribution[0].get_val_unc();
+  
+  for (size_t d=0; d<bin_middle.size(); d++) {
+    EXPECT_EQ( Num::equal_to_eps( bin_middle[d], bin_centers[d] ), true  ) 
+    << "Expected " << bin_middle[d] << " got " << bin_centers[d];
+  } 
+  
+  EXPECT_EQ( Num::equal_to_eps( val_sum, comb_val ), true ) 
+    << "Expected " << val_sum << " got " << comb_val;
+  
+  EXPECT_EQ( Num::equal_to_eps( unc_rms, comb_unc ), true  ) 
+    << "Expected " << unc_rms << " got " << comb_unc;
+}
+
+TEST(TestDistrUtils, CombinePredDistr) {
+  PredDistr distr {
+    {"DistrName", "PolConfigName", 1000},
+    { {0.0, 25.0}, {-1.0, 15.0}, {3.0, 5.0} }, // Bin centers
+    { 2.0, 4.0, 205.0 }, // Signal values
+    { 0.5, 1.5,  90.0 } // Background values
+  };
+  
+  // Expected results
+  std::vector<double> bin_middle = {1.0, 15.0};
+  double sig_sum = 211.0;
+  double bkg_sum = 92.0;
+  
+  // Combined distribution
+  auto comb_distr = DistrUtils::combine_bins(distr);
+  auto bin_centers = comb_distr.m_bin_centers[0];
+  double comb_sig = comb_distr.m_sig_distr[0];
+  double comb_bkg = comb_distr.m_bkg_distr[0];
+  
+  for (size_t d=0; d<bin_middle.size(); d++) {
+    EXPECT_EQ( Num::equal_to_eps( bin_middle[d], bin_centers[d] ), true  ) 
+    << "Expected " << bin_middle[d] << " got " << bin_centers[d];
+  } 
+  
+  EXPECT_EQ( Num::equal_to_eps( sig_sum, comb_sig ), true ) 
+    << "Expected " << sig_sum << " got " << comb_sig;
+  
+  EXPECT_EQ( Num::equal_to_eps( bkg_sum, comb_bkg ), true  ) 
+    << "Expected " << bkg_sum << " got " << comb_bkg;
 }
 
 //------------------------------------------------------------------------------

@@ -1,6 +1,11 @@
 #ifndef LIB_DISTRUTILS_H
 #define LIB_DISTRUTILS_H 1
 
+// Includes from PrEW
+#include <CppUtils/Vec.h>
+#include <Data/DiffDistr.h>
+#include <Data/PredDistr.h>
+
 #include <string>
 #include <vector>
 
@@ -25,10 +30,18 @@ namespace DistrUtils {
   
   template<class T>
   T element_pol(const std::vector<T>& vec, const std::string& pol_config);
-}
   
-}
-}
+  // Functions to rebin distributions
+  std::vector<double>
+  bin_middle(const CppUtils::Vec::Matrix2D<double> &bin_centers);
+  
+  DiffDistr combine_bins(const DiffDistr & distr);
+  PredDistr combine_bins(const PredDistr & distr);
+  
+} // Namespace DistrUtils
+  
+} // Namespace Data
+} // Namespace PrEW
 
 #include <Data/DistrUtils.tpp>
 
