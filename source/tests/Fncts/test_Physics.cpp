@@ -80,37 +80,47 @@ TEST(TestPhysics, AsymmetryFactors2Allowed) {
 TEST(TestPhysics, AsymmetryFactors3Allowed) {
   // Test the factors on the chiral cross section describing a shift of the 
   // asymmetry when three chiral cross sections are allowed.
-  std::vector<double> c { // Random test cross section values
-    4382.2,
-    123.5,
-    0.92,  
-  }; 
-  std::vector<double> p_vals { // Asymmetry shift
-    -0.02,
-    0.3,
-  };
-  std::vector<double*> p_ptrs {};
-  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  double AI_sm  = 0.2;    // Random values for the asymmetries for this test
+  double AII_sm = -0.01;
+  double deltaAI = -0.05;
+  double deltaAII = 0.1;
   
-  // Test function against values I got from hand-calculator
+  // The three functions need different input coefficients and paramaters
+  std::vector<double> c0 { AII_sm }; 
+  std::vector<double> c1 { AI_sm }; 
+  std::vector<double> c2 { AI_sm, AII_sm }; 
+  std::vector<double> p0_vals { deltaAII };
+  std::vector<double> p1_vals { deltaAI };
+  std::vector<double> p2_vals { deltaAI, deltaAII };
+  std::vector<double*> p0_ptrs {}, p1_ptrs {}, p2_ptrs {};
+  for (double & p: p0_vals) { p0_ptrs.push_back(&p); }
+  for (double & p: p1_vals) { p1_ptrs.push_back(&p); }
+  for (double & p: p2_vals) { p2_ptrs.push_back(&p); }
+  
+  // Expected results
+  double res_0 = 1.202020202020202;
+  double res_1 = 1.125;
+  double res_2 = -0.4285714285714288;
+  
+  // Test function against values I got from Python
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_3chixs_a0({},c,p_ptrs), 0.990304226, 1e-9), 
+    Num::equal_to_eps(Physics::asymm_3chixs_a0({},c0,p0_ptrs), res_0, 1e-9), 
     true 
-  ) << "Expected " << 0.990304226 
-  << " got " << Physics::asymm_3chixs_a0({},c,p_ptrs);
+  ) << "Expected " << res_0 
+  << " got " << Physics::asymm_3chixs_a0({},c0,p0_ptrs);
   
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_3chixs_a1({},c,p_ptrs), 5.641217681,1e-9), 
+    Num::equal_to_eps(Physics::asymm_3chixs_a1({},c1,p1_ptrs), res_1, 1e-9), 
     true 
-  ) << "Expected " << 5.641217681 
-  << " got " << Physics::asymm_3chixs_a1({},c,p_ptrs);
+  ) << "Expected " << res_1 
+  << " got " << Physics::asymm_3chixs_a1({},c1,p1_ptrs);
   
-  // Negative value not physical, but for function test okay
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_3chixs_a2({},c,p_ptrs), -575.8495248, 1e-9), 
+    Num::equal_to_eps(Physics::asymm_3chixs_a2({},c2,p2_ptrs), res_2, 1e-9), 
     true 
-  ) << "Expected " << -575.8495248 
-  << " got " << Physics::asymm_3chixs_a2({},c,p_ptrs);
+  ) << "Expected " << res_2 
+  << " got " << Physics::asymm_3chixs_a2({},c2,p2_ptrs);
+  
 }
 
 //------------------------------------------------------------------------------
