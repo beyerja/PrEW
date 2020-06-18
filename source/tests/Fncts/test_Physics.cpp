@@ -159,3 +159,34 @@ TEST(TestPhysics, AsymmetryFactors4Allowed) {
 }
 
 //------------------------------------------------------------------------------
+
+TEST(TestPhysics, AsymmFactors_Af_2f) {
+  // Test the factors introduced by the 2-fermion final state asymmetry
+  std::vector<double> x {0.3}; // Test value for cos(theta)
+  std::vector<double> c {
+    20.5, // Total SM chiral cross section
+    0.5,  // SM chiral cross section in this cos(theta) bin
+    0     // Index of the cos(theta) coordinate in coordinate array
+  }; 
+  std::vector<double> p_vals {
+    0.02 // DeltaAf value
+  };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  // expected results (Calculated with Python)
+  double res_LR = 1.1845;
+  double res_RL = 0.8155;
+  
+  ASSERT_EQ(
+    Num::equal_to_eps(Physics::asymm_Af_2f_LR(x,c,p_ptrs), res_LR), true
+  ) << "Expected " << res_LR 
+    << " got " << Physics::asymm_Af_2f_LR(x,c,p_ptrs);
+  
+  ASSERT_EQ(
+    Num::equal_to_eps(Physics::asymm_Af_2f_RL(x,c,p_ptrs), res_RL), true
+  ) << "Expected " << res_RL 
+    << " got " << Physics::asymm_Af_2f_RL(x,c,p_ptrs);
+}
+
+//------------------------------------------------------------------------------

@@ -67,6 +67,16 @@ namespace Physics {
                           const std::vector<double*>  &p);
 
   //----------------------------------------------------------------------------
+  
+  double asymm_Af_2f_LR (const std::vector<double>   &x,
+                         const std::vector<double>   &c,
+                         const std::vector<double*>  &p);
+  
+  double asymm_Af_2f_RL (const std::vector<double>   &x,
+                         const std::vector<double>   &c,
+                         const std::vector<double*>  &p);
+  
+  //----------------------------------------------------------------------------
 }
   
 }

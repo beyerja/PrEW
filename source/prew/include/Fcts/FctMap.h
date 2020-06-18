@@ -36,7 +36,9 @@ namespace Fcts {
     {"AsymmFactor0_4allowed", Physics::asymm_4chixs_a0},
     {"AsymmFactor1_4allowed", Physics::asymm_4chixs_a1},
     {"AsymmFactor2_4allowed", Physics::asymm_4chixs_a2},
-    {"AsymmFactor3_4allowed", Physics::asymm_4chixs_a3}
+    {"AsymmFactor3_4allowed", Physics::asymm_4chixs_a3},
+    {"AsymmFactorLR_Af_2f", Physics::asymm_Af_2f_LR},
+    {"AsymmFactorRL_Af_2f", Physics::asymm_Af_2f_RL}
   };
 
   

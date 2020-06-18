@@ -231,6 +231,53 @@ double Physics::asymm_4chixs_a3 (
 }
 
 //------------------------------------------------------------------------------
+/** Final state asymmetry factors in di-fermion production.
+    Underlying assumption:
+      The distribution has the shape predicted by the Standard Model at tree 
+      level. Only the chiral coefficients (c_L/R^f/e) are allowed to vary.
+    Final state asymmetry is defined as:
+      Af = [(c_L^f)^2 - (c_R^f)^2] / [(c_L^f)^2 - (c_R^f)^2]
+    A change in this asymmetry changes the shape of the distribution but keeps
+    it's integral constant.
+    The shape-change depends on the chirality of the incoming particles and the
+    polar angle.
+**/
 
+double Physics::asymm_Af_2f_LR (
+  const std::vector<double>   &x,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** (See general description above.)
+      Polar angle-dependent scaling of the LR distribution due to a change in
+      the final state asymmetry.
+      Coefficients: c[0] - total LR cross section @ SM (or: initial prediction)
+                    c[1] - differential LR cross section in this bin @ SM
+                    c[2] - index of cos(theta) coordinate in coordinate vector
+      Coordinates: x[c[2]] - cosine of the polar angle of the fermion 
+      Parameters: p[0] - change in asymmetry DeltaA_f
+  **/
+  return 1.0 + 0.75 * c[0] / c[1] * x[int(c[2])] * (*(p[0]));
 }
+
+double Physics::asymm_Af_2f_RL (
+  const std::vector<double>   &x,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** (See general description above.)
+      Polar angle-dependent scaling of the RL distribution due to a change in
+      the final state asymmetry.
+      Coefficients: c[0] - total RL cross section @ SM (or: initial prediction)
+                    c[1] - differential RL cross section in this bin @ SM
+                    c[2] - index of cos(theta) coordinate in coordinate vector
+      Coordinates: x[c[2]] - cosine of the polar angle of the fermion 
+      Parameters: p[0] - change in asymmetry DeltaA_f
+  **/
+  return 1.0 - 0.75 * c[0] / c[1] * x[int(c[2])] * (*(p[0]));
 }
+
+//------------------------------------------------------------------------------
+
+} // Namespace Fcts
+} // Namespace PrEW
