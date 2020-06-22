@@ -97,10 +97,13 @@ double Physics::asymm_3chixs_a0 (
 ) {
   /** (See general description above.)
       Factor for chiral cross section xs0.
-      Coefficients: c[0] - inital (SM) value for asymmetry II
-      Parameters:   p[0] - Change in asymmetry II DeltaA_II
+      Coefficients: c[0] - inital (SM) value for chiral cross section xs0
+                    c[1] - inital (SM) value for chiral cross section xs1
+                    c[2] - inital (SM) value for chiral cross section xs2
+      Parameters: p[0] - Change in asymmetry I DeltaA_I  
+                  p[1] - Change in asymmetry II DeltaA_II
   **/
-  return 1.0 + 2.0/(1.0+c[0]) * (*(p[0]));
+  return 1.0 + (c[0]+c[1]+c[2])/c[0] * (*(p[1]));
 }
 
 double Physics::asymm_3chixs_a1 (
@@ -110,10 +113,13 @@ double Physics::asymm_3chixs_a1 (
 ) {
   /** (See general description above.)
       Factor for chiral cross section xs1.
-      Coefficients: c[0] - inital (SM) value for asymmetry I
-      Parameters:   p[0] - Change in asymmetry I DeltaA_I
+      Coefficients: c[0] - inital (SM) value for chiral cross section xs0
+                    c[1] - inital (SM) value for chiral cross section xs1
+                    c[2] - inital (SM) value for chiral cross section xs2
+      Parameters: p[0] - Change in asymmetry I DeltaA_I  
+                  p[1] - Change in asymmetry II DeltaA_II
   **/
-  return 1.0 - 2.0/(1.0-c[0]) * (*(p[0]));
+  return 1.0 - (c[0]+c[1]+c[2])/c[1] * (*(p[0]));
 }
 
 double Physics::asymm_3chixs_a2 (
@@ -123,12 +129,13 @@ double Physics::asymm_3chixs_a2 (
 ) {
   /** (See general description above.)
       Factor for chiral cross section xs2.
-      Coefficients: c[0] - inital (SM) value for asymmetry I
-                    c[1] - inital (SM) value for asymmetry II
+      Coefficients: c[0] - inital (SM) value for chiral cross section xs0
+                    c[1] - inital (SM) value for chiral cross section xs1
+                    c[2] - inital (SM) value for chiral cross section xs2
       Parameters: p[0] - Change in asymmetry I DeltaA_I
                   p[1] - Change in asymmetry II DeltaA_II
   **/
-  return 1.0 + 2.0/(c[0]-c[1]) * ( (*(p[0])) - (*(p[1])) );
+  return 1.0 + (c[0]+c[1]+c[2])/c[2] * ( (*(p[0])) - (*(p[1])) );
 }
 
 //------------------------------------------------------------------------------
