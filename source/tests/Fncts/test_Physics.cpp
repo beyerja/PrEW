@@ -122,51 +122,6 @@ TEST(TestPhysics, AsymmetryFactors3Allowed) {
 
 //------------------------------------------------------------------------------
 
-TEST(TestPhysics, AsymmetryFactors4Allowed) {
-  // Test the factors on the chiral cross section describing a shift of the 
-  // asymmetry when all four chiral cross sections are allowed.
-  std::vector<double> c { // Random test cross section values
-    5938.7, // E.g. LR
-    1233.4, // E.g. RL
-    3.42,   // E.g. LL
-    73.4    // E.g. RR
-  }; 
-  std::vector<double> p_vals { // Asymmetry shift
-    0.1,
-    -0.04,
-    0.07
-  };
-  std::vector<double*> p_ptrs {};
-  for (double & p: p_vals) { p_ptrs.push_back(&p); }
-  
-  // Test function against values I got from hand-calculator
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a0({},c,p_ptrs), 1.039670281, 1e-9), 
-    true 
-  ) << "Expected " << 1.039670281 
-  << " got " << Physics::asymm_4chixs_a0({},c,p_ptrs);
-  
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a1({},c,p_ptrs), 0.6914477866,1e-9), 
-    true 
-  ) << "Expected " << 0.6914477866 
-  << " got " << Physics::asymm_4chixs_a1({},c,p_ptrs);
-  
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a2({},c,p_ptrs), 38.0924269, 1e-9), 
-    true 
-  ) << "Expected " << 38.0924269 
-  << " got " << Physics::asymm_4chixs_a2({},c,p_ptrs);
-  
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a3({},c,p_ptrs), 1.24689782, 1e-9), 
-    true 
-  ) << "Expected " << 1.24689782 
-  << " got " << Physics::asymm_4chixs_a3({},c,p_ptrs);
-}
-
-//------------------------------------------------------------------------------
-
 TEST(TestPhysics, AsymmFactors_Af_2f) {
   // Test the factors introduced by the 2-fermion final state asymmetry
   std::vector<double> x {0.3}; // Test value for cos(theta)
