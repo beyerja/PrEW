@@ -80,82 +80,75 @@ TEST(TestPhysics, AsymmetryFactors2Allowed) {
 TEST(TestPhysics, AsymmetryFactors3Allowed) {
   // Test the factors on the chiral cross section describing a shift of the 
   // asymmetry when three chiral cross sections are allowed.
-  std::vector<double> c { // Random test cross section values
-    4382.2,
-    123.5,
-    0.92,  
+  
+  // Random test cross section values and asymmetry shifts
+  std::vector<double> c {
+    2400.1, // E.g. LR
+    570.4, // E.g. RL
+    5.7   // E.g. LL
   }; 
-  std::vector<double> p_vals { // Asymmetry shift
-    -0.02,
-    0.3,
+  std::vector<double> p_vals { 
+    -0.05, // Shift in asymmetry AI
+    0.1    // Shift in asymmetry AII`
   };
   std::vector<double*> p_ptrs {};
   for (double & p: p_vals) { p_ptrs.push_back(&p); }
   
-  // Test function against values I got from hand-calculator
+  // Expected results
+  double res_0 = 1.1240031665347276;
+  double res_1 = 1.2608870967741936;
+  double res_2 = -77.321052631578978;
+  
+  // Test function against values I got from Python
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_3chixs_a0({},c,p_ptrs), 0.990304226, 1e-9), 
+    Num::equal_to_eps(Physics::asymm_3chixs_a0({},c,p_ptrs), res_0, 1e-9), 
     true 
-  ) << "Expected " << 0.990304226 
+  ) << "Expected " << res_0 
   << " got " << Physics::asymm_3chixs_a0({},c,p_ptrs);
   
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_3chixs_a1({},c,p_ptrs), 5.641217681,1e-9), 
+    Num::equal_to_eps(Physics::asymm_3chixs_a1({},c,p_ptrs), res_1, 1e-9), 
     true 
-  ) << "Expected " << 5.641217681 
+  ) << "Expected " << res_1 
   << " got " << Physics::asymm_3chixs_a1({},c,p_ptrs);
   
-  // Negative value not physical, but for function test okay
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_3chixs_a2({},c,p_ptrs), -575.8495248, 1e-9), 
+    Num::equal_to_eps(Physics::asymm_3chixs_a2({},c,p_ptrs), res_2, 1e-9), 
     true 
-  ) << "Expected " << -575.8495248 
+  ) << "Expected " << res_2 
   << " got " << Physics::asymm_3chixs_a2({},c,p_ptrs);
+  
 }
 
 //------------------------------------------------------------------------------
 
-TEST(TestPhysics, AsymmetryFactors4Allowed) {
-  // Test the factors on the chiral cross section describing a shift of the 
-  // asymmetry when all four chiral cross sections are allowed.
-  std::vector<double> c { // Random test cross section values
-    5938.7, // E.g. LR
-    1233.4, // E.g. RL
-    3.42,   // E.g. LL
-    73.4    // E.g. RR
+TEST(TestPhysics, AsymmFactors_Af_2f) {
+  // Test the factors introduced by the 2-fermion final state asymmetry
+  std::vector<double> x {0.3}; // Test value for cos(theta)
+  std::vector<double> c {
+    20.5, // Total SM chiral cross section
+    0.5,  // SM chiral cross section in this cos(theta) bin
+    0     // Index of the cos(theta) coordinate in coordinate array
   }; 
-  std::vector<double> p_vals { // Asymmetry shift
-    0.1,
-    -0.04,
-    0.07
+  std::vector<double> p_vals {
+    0.02 // DeltaAf value
   };
   std::vector<double*> p_ptrs {};
   for (double & p: p_vals) { p_ptrs.push_back(&p); }
   
-  // Test function against values I got from hand-calculator
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a0({},c,p_ptrs), 1.039670281, 1e-9), 
-    true 
-  ) << "Expected " << 1.039670281 
-  << " got " << Physics::asymm_4chixs_a0({},c,p_ptrs);
+  // expected results (Calculated with Python)
+  double res_LR = 1.1845;
+  double res_RL = 0.8155;
   
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a1({},c,p_ptrs), 0.6914477866,1e-9), 
-    true 
-  ) << "Expected " << 0.6914477866 
-  << " got " << Physics::asymm_4chixs_a1({},c,p_ptrs);
+    Num::equal_to_eps(Physics::asymm_Af_2f_LR(x,c,p_ptrs), res_LR), true
+  ) << "Expected " << res_LR 
+    << " got " << Physics::asymm_Af_2f_LR(x,c,p_ptrs);
   
   ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a2({},c,p_ptrs), 38.0924269, 1e-9), 
-    true 
-  ) << "Expected " << 38.0924269 
-  << " got " << Physics::asymm_4chixs_a2({},c,p_ptrs);
-  
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_4chixs_a3({},c,p_ptrs), 1.24689782, 1e-9), 
-    true 
-  ) << "Expected " << 1.24689782 
-  << " got " << Physics::asymm_4chixs_a3({},c,p_ptrs);
+    Num::equal_to_eps(Physics::asymm_Af_2f_RL(x,c,p_ptrs), res_RL), true
+  ) << "Expected " << res_RL 
+    << " got " << Physics::asymm_Af_2f_RL(x,c,p_ptrs);
 }
 
 //------------------------------------------------------------------------------
