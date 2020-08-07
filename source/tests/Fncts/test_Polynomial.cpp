@@ -10,6 +10,9 @@ using namespace PrEW::Fcts;
 
 //------------------------------------------------------------------------------
 // Check that polynomial functions are correctly implemented
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
 
 TEST(TestPolynomial, ConstantPar) {
   // Test function that simply mirrors the parameter
@@ -32,6 +35,8 @@ TEST(TestPolynomial, ConstantPar) {
   ) << "Expected " << 2000. << " got " << Polynomial::constant_par({},c,p_ptrs);
 }
 
+//------------------------------------------------------------------------------
+
 TEST(TestPolynomial, ConstantCoef) {
   // Test function that simply mirrors the parameter
   std::vector<double> c {-2.5};
@@ -40,6 +45,24 @@ TEST(TestPolynomial, ConstantCoef) {
     Num::equal_to_eps( Polynomial::constant_coef({},c,{}), -2.5, 1e-9), true 
   ) << "Expected " << -2.5 << " got " << Polynomial::constant_par({},c,{});
 }
+
+//------------------------------------------------------------------------------
+
+TEST(TestPolynomial, Linear3DCoeff) {
+  // Test 3D linear function
+  std::vector<double> c {1.0, 2.0, -2.0, 2.0};
+  std::vector<double> p_vals { 1.0, 3.0, 4.0 };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  ASSERT_EQ( 
+    Num::equal_to_eps( Polynomial::linear_3D_coeff({},c,p_ptrs), 5.0, 1e-9), 
+    true 
+  ) << "Expected " << 5.0 
+    << " got " << Polynomial::linear_3D_coeff({},c,p_ptrs);
+}
+
+//------------------------------------------------------------------------------
 
 TEST(TestPolynomial, Quadratic1D) {
   std::vector<double> c {};
