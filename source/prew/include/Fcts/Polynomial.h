@@ -22,6 +22,10 @@ namespace Polynomial {
                         const std::vector<double>   &c,
                         const std::vector<double*>  &p);
                         
+  double linear_3D_coeff ( const std::vector<double>   &x,
+                        const std::vector<double>   &c,
+                        const std::vector<double*>  &p);
+                        
   double quadratic_1D ( const std::vector<double>   &x,
                         const std::vector<double>   &c,
                         const std::vector<double*>  &p);

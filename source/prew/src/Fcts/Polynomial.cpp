@@ -31,6 +31,20 @@ double Polynomial::constant_par (
   return (*(p[0]));
 }
 
+//------------------------------------------------------------------------------
+
+double Polynomial::linear_3D_coeff ( 
+  const std::vector<double> &/*x*/,
+  const std::vector<double> &c,
+  const std::vector<double*> &p
+) {
+  /** Linear polynomial in 3D.
+      Parameters: p[0-2] - variables of polynomial
+      Coefficients: c[0] - offset
+                    c[1-3] - linear coeffs
+  **/
+  return c[0] + c[1]* (*(p[0])) + c[2]* (*(p[1])) + c[3]* (*(p[2]));
+}
 
 //------------------------------------------------------------------------------
 
