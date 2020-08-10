@@ -26,6 +26,12 @@ namespace Systematics {
                               
   //----------------------------------------------------------------------------
   
+  double acceptance_box (const std::vector<double>   &x,
+                         const std::vector<double>   &c,
+                         const std::vector<double*>  &p);
+    
+  //----------------------------------------------------------------------------
+  
 } // Namespace Systematics
 
 } // Namespace Fcts

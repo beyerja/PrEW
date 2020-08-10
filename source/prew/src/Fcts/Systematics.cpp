@@ -43,5 +43,46 @@ double Systematics::luminosity_fraction (
 
 //------------------------------------------------------------------------------
 
+double Systematics::acceptance_box (
+  const std::vector<double>   &x,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** Calculate factor from detector acceptance for box-like detector acceptance
+      assumining that the distribution is constant within the bin.
+      Coordinates: x[c[0]] - coordinate of the acceptance range
+      Coefficients: c[0] - index of the relevant coordinate (must be int!)
+                    c[1] - bin width
+      Parameters: p[0] - center of box
+                  p[1] - box width
+  **/
+  double box_center = *(p[0]);
+  double box_width = *(p[1]);
+  double edge_up = box_center + box_width/2.0;
+  double edge_low = box_center - box_width/2.0;
+  
+  double bin_center = x[int(c[0])];
+  double bin_width = c[1];
+  double bin_max = bin_center + bin_width/2.0;
+  double bin_min = bin_center - bin_width/2.0;
+  
+  double factor = 0.0; // Default assumes x outside acceptance
+  
+  if ( ( edge_low > bin_min ) && ( edge_low < bin_max ) ) {
+    // Lower edge within bin
+    factor = ( bin_max - edge_low ) / bin_width;
+  } else if ( ( edge_low <= bin_min ) && ( edge_up >= bin_max ) ) {
+    // Bin in acceptance and edges not in bin
+    factor = 1.0;
+  } else if ( ( edge_up > bin_min) && ( edge_up < bin_max) ) {
+    // Upper edge within bin
+    factor = ( edge_up - bin_min ) / bin_width;
+  }
+  
+  return factor;
+}
+
+//------------------------------------------------------------------------------
+
 } // Namespace Fcts
 } // Namespace PrEW
