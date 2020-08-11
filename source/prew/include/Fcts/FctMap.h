@@ -4,6 +4,7 @@
 #include <Fcts/Physics.h>
 #include <Fcts/Polynomial.h>
 #include <Fcts/Statistic.h>
+#include <Fcts/Systematics.h>
 #include <CppUtils/Fct.h>
 
 #include <map>
@@ -27,15 +28,17 @@ namespace Fcts {
     // Statisticals
     {"Gaussian1D", Statistic::gaussian_1D},
     // Physis motivated
-    {"PolarisationFactor", Physics::polarisation_factor},
-    {"LuminosityFraction", Physics::luminosity_fraction},
     {"AsymmFactor0_2allowed", Physics::asymm_2chixs_a0},
     {"AsymmFactor1_2allowed", Physics::asymm_2chixs_a1},
     {"AsymmFactor0_3allowed", Physics::asymm_3chixs_a0},
     {"AsymmFactor1_3allowed", Physics::asymm_3chixs_a1},
     {"AsymmFactor2_3allowed", Physics::asymm_3chixs_a2},
     {"AsymmFactorLR_Af_2f", Physics::asymm_Af_2f_LR},
-    {"AsymmFactorRL_Af_2f", Physics::asymm_Af_2f_RL}
+    {"AsymmFactorRL_Af_2f", Physics::asymm_Af_2f_RL},
+    // Systematic effects
+    {"PolarisationFactor", Systematics::polarisation_factor},
+    {"LuminosityFraction", Systematics::luminosity_fraction},
+    {"AcceptanceBox", Systematics::acceptance_box}
   };
 
   
