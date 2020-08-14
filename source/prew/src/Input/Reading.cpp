@@ -113,17 +113,8 @@ void Reading::read_RK_file(
     std::vector<std::string> coef_labels = CppUtils::Str::string_to_vec( *diff_TGC_coeff_label, ";");
     size_t n_coefs = coef_labels.size();
     
-    Data::CoefDistrVec coefs_LL (n_coefs), coefs_LR (n_coefs), coefs_RL (n_coefs), coefs_RR (n_coefs);
-    for (size_t c=0; c<n_coefs; c++) { 
-      coefs_LL[c].m_coef_name = coef_labels[c];
-      coefs_LR[c].m_coef_name = coef_labels[c];
-      coefs_RL[c].m_coef_name = coef_labels[c];
-      coefs_RR[c].m_coef_name = coef_labels[c];
-      coefs_LL[c].m_info = info_LL;
-      coefs_LR[c].m_info = info_LR;
-      coefs_RL[c].m_info = info_RL;
-      coefs_RR[c].m_info = info_RR;
-    }
+    std::vector<std::vector<double>> coef_vals_LL (n_coefs), 
+      coef_vals_LR (n_coefs), coef_vals_RL (n_coefs), coef_vals_RR (n_coefs);
     
     for (int bin=0; bin<n_bins; bin++) {
       pred_LL.m_sig_distr.push_back( diff_sigma_signal_LL[bin] );
@@ -132,11 +123,19 @@ void Reading::read_RK_file(
       pred_RR.m_sig_distr.push_back( diff_sigma_signal_RR[bin] );
       
       for (size_t coef=0; coef<n_coefs; coef++) {
-        coefs_LL[coef].m_coefficients.push_back((*diff_TGC_coeff_LL)[bin][coef]);
-        coefs_LR[coef].m_coefficients.push_back((*diff_TGC_coeff_LR)[bin][coef]);
-        coefs_RL[coef].m_coefficients.push_back((*diff_TGC_coeff_RL)[bin][coef]);
-        coefs_RR[coef].m_coefficients.push_back((*diff_TGC_coeff_RR)[bin][coef]);
+        coef_vals_LL[coef].push_back((*diff_TGC_coeff_LL)[bin][coef]);
+        coef_vals_LR[coef].push_back((*diff_TGC_coeff_LR)[bin][coef]);
+        coef_vals_RL[coef].push_back((*diff_TGC_coeff_RL)[bin][coef]);
+        coef_vals_RR[coef].push_back((*diff_TGC_coeff_RR)[bin][coef]);
       }
+    }
+    
+    Data::CoefDistrVec coefs_LL (n_coefs), coefs_LR (n_coefs), coefs_RL (n_coefs), coefs_RR (n_coefs);
+    for (size_t c=0; c<n_coefs; c++) { 
+      coefs_LL[c] = Data::CoefDistr(coef_labels[c],info_LL,coef_vals_LL[c]);
+      coefs_LR[c] = Data::CoefDistr(coef_labels[c],info_LR,coef_vals_LR[c]);
+      coefs_RL[c] = Data::CoefDistr(coef_labels[c],info_RL,coef_vals_RL[c]);
+      coefs_RR[c] = Data::CoefDistr(coef_labels[c],info_RR,coef_vals_RR[c]);
     }
     
     // RK style files don't contain background distributions => 0-entry vectors

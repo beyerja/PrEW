@@ -9,21 +9,38 @@
 namespace PrEW {
 namespace Data {
 
-  struct CoefDistr {
-    /** Class holding a coefficient for parameterised prediction of a 
-        distribution for one polarisation/chirality.
-    **/
-    
-    std::string m_coef_name {}; // Name that identifies this coefficient
-    DistrInfo m_info {}; // Info which identifies the corresponding distribution
-    
-    // Coefficient for each bin
-    std::vector<double> m_coefficients {};
-  };
+class CoefDistr {
+  /** Class holding a coefficient for parameterised prediction of a
+      distribution for one polarisation/chirality.
+      Coefficient can be local (different for different bins) or global
+      (same for all bins);
+  **/
+  std::string m_coef_name{}; // Name that identifies this coefficient
+  DistrInfo m_info{}; // Info which identifies the corresponding distribution
+
+  // Coefficient(s)
+  std::vector<double> m_coefficients{}; // Differential case
+  double m_coefficient{};               // Global case
   
-  typedef std::vector<CoefDistr> CoefDistrVec;
-    
-}
-}
+  bool m_is_global{};
+
+public:
+  // Constructors
+  CoefDistr();
+  CoefDistr(const std::string &coef_name, const DistrInfo &info,
+            const std::vector<double> &coefficients);
+  CoefDistr(const std::string &coef_name, const DistrInfo &info,
+            double coefficient);
+
+  // Access functions
+  const std::string &get_coef_name() const;
+  const DistrInfo &get_info() const;
+  double get_coef(int bin) const;
+};
+
+using CoefDistrVec = std::vector<CoefDistr>;
+
+} // namespace Data
+} // namespace PrEW
 
 #endif

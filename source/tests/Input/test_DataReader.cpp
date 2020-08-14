@@ -50,7 +50,7 @@ TEST(TestDataReader, TestRKFileReading) {
   
   // Check that all coefficients are named
   for (const auto & coef: prediction_coefficients) {
-    ASSERT_EQ( (coef.m_coef_name == ""), false );
+    ASSERT_EQ( (coef.get_coef_name() == ""), false );
   }
 
 }

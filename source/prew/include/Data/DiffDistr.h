@@ -25,6 +25,8 @@ namespace Data {
     //    doesn't need it
     CppUtils::Vec::Matrix2D<double> m_bin_centers {}; 
     Fit::BinVec m_distribution {}; // Distribution of number of events
+    
+    const DistrInfo & get_info() const { return m_info; }
   };
   
   typedef std::vector<DiffDistr> DiffDistrVec;

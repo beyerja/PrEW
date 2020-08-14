@@ -56,10 +56,10 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
   for ( const auto & coef_name: fct_link.m_coefs ) {
     // Find coefficient distribution with given name
     auto name_condition = [coef_name](const Data::CoefDistr& coef_distr) 
-                            {return coef_distr.m_coef_name==coef_name;};
+                            {return coef_distr.get_coef_name()==coef_name;};
     auto coefs = CppUtils::Vec::element_by_condition(m_coefs, name_condition);
     // Choose coeffient value at bin
-    bin_coefs.push_back(coefs.m_coefficients[bin]);
+    bin_coefs.push_back(coefs.get_coef(bin));
   }
   spdlog::debug("Found {} coefficients.", bin_coefs.size());
   

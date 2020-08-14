@@ -25,8 +25,8 @@ std::vector<T> DistrUtils::subvec_energy_and_name(
   
   // Lambda comparison checking energy and name match for single distribution
   auto info_comparison = [energy, distr_name](const T& distr) { 
-                          return (distr.m_info.m_energy == energy) &&
-                                 (distr.m_info.m_distr_name == distr_name);
+                          return (distr.get_info().m_energy == energy) &&
+                                 (distr.get_info().m_distr_name == distr_name);
                           };
   
   // Return all distributions where energy and name match
@@ -46,7 +46,7 @@ std::vector<T> DistrUtils::subvec_energy(
   
   // Lambda comparison checking energy match for single distribution
   auto info_comparison =  [energy](const T& distr) { 
-                            return (distr.m_info.m_energy == energy);
+                            return (distr.get_info().m_energy == energy);
                           };
   
   // Return all distributions where energy match
@@ -65,7 +65,7 @@ std::vector<T> DistrUtils::subvec_pol(
   
   // Lambda comparison checking polarisation match for single distribution
   auto info_comparison = [pol_config](const T& distr) { 
-                            return (distr.m_info.m_pol_config == pol_config);
+                            return (distr.get_info().m_pol_config == pol_config);
                           };
   
   // Return all matching distributions
