@@ -20,6 +20,8 @@ namespace Data {
     CppUtils::Vec::Matrix2D<double> m_bin_centers {}; 
     std::vector<double> m_sig_distr {}; // Predicted signal distribution
     std::vector<double> m_bkg_distr {}; // Predicted background distribution
+    
+    const DistrInfo & get_info() const { return m_info; }
   };
   
   typedef std::vector<PredDistr> PredDistrVec;

@@ -19,6 +19,7 @@ namespace Data {
     FctLinkVec m_fcts_links_sig {}; // Modification of signal Xsection
     FctLinkVec m_fcts_links_bkg {}; // Modification of bkg Xsection 
     
+    const DistrInfo & get_info() const { return m_info; }
   };
   
   using PredLinkVec = std::vector<PredLink>;
