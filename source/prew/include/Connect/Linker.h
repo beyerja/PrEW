@@ -31,13 +31,14 @@ namespace Connect {
              );
       
       // Core functionality
-      std::function<double()> get_bonded_fct_at_bin(
-        const std::string &fct_name,
+      std::vector<std::function<double()>> get_all_bonded_fcts_at_bin(
         size_t bin,
         Fit::ParVec *pars
       ) const;
       
-      std::vector<std::function<double()>> get_all_bonded_fcts_at_bin(
+    protected:
+      std::function<double()> get_bonded_fct_at_bin(
+        const Data::FctLink &fct_name,
         size_t bin,
         Fit::ParVec *pars
       ) const;

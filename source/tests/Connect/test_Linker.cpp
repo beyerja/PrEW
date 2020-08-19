@@ -48,11 +48,14 @@ TEST(TestLinker, GaussianTest) {
   // --- Get functions from linker which are linked to parameters
   Linker linker = Linker(fct_links, bin_centers, coefs);
   
-  auto gaussian_bin0 = linker.get_bonded_fct_at_bin("Gaussian1D",0,&pars);
-  auto gaussian_bin1 = linker.get_bonded_fct_at_bin("Gaussian1D",1,&pars);
-  auto gaussian_bin2 = linker.get_bonded_fct_at_bin("Gaussian1D",2,&pars);
-  auto gaussian_bin3 = linker.get_bonded_fct_at_bin("Gaussian1D",3,&pars);
-  auto gaussian_bin4 = linker.get_bonded_fct_at_bin("Gaussian1D",4,&pars);
+  int n_fcts = linker.get_all_bonded_fcts_at_bin(0,&pars).size();
+  ASSERT_EQ(n_fcts, 1) << "Got more than one function";
+  
+  auto gaussian_bin0 = linker.get_all_bonded_fcts_at_bin(0,&pars)[0];
+  auto gaussian_bin1 = linker.get_all_bonded_fcts_at_bin(1,&pars)[0];
+  auto gaussian_bin2 = linker.get_all_bonded_fcts_at_bin(2,&pars)[0];
+  auto gaussian_bin3 = linker.get_all_bonded_fcts_at_bin(3,&pars)[0];
+  auto gaussian_bin4 = linker.get_all_bonded_fcts_at_bin(4,&pars)[0];
   
   // --- Check (changing) function output
   // Looked up exact expected values in WolframAlpha -> compare
@@ -115,9 +118,9 @@ TEST(TestLinker, GaussianManyValuesTest) {
   // Get all bin functions
   std::vector<std::function<double()>> gaussian_at_bins {};
   for (int bin=0; bin<bin_centers.size(); bin++) {
-    gaussian_at_bins.push_back(
-      linker.get_bonded_fct_at_bin("Gaussian1D",bin,&pars)
-    );
+    auto bin_fcts = linker.get_all_bonded_fcts_at_bin(bin,&pars);
+    ASSERT_EQ(bin_fcts.size(), 1) << "Got more than one function";
+    gaussian_at_bins.push_back(bin_fcts[0]);
   }
   
   // --- Check output (only roughly)

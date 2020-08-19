@@ -60,7 +60,7 @@ std::function<double()> LinkHelp::get_polfactor_lambda(
   // Use Linker class to get function (Need one dummy 0 bin)
   auto pol_factor = 
     Connect::Linker(pol_fct_link, {{0}}, pol_coefs)
-    .get_bonded_fct_at_bin("PolarisationFactor",0,pars);
+    .get_all_bonded_fcts_at_bin(0,pars)[0];
 
   return pol_factor;
 }

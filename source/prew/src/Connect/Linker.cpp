@@ -6,7 +6,6 @@
 
 #include <functional>
 #include <exception>
-#include <string>
 #include <vector>
 
 namespace PrEW {
@@ -26,7 +25,7 @@ Linker::Linker( Data::FctLinkVec fcts_links,
 //------------------------------------------------------------------------------
 
 std::function<double()> Linker::get_bonded_fct_at_bin (
-  const std::string &fct_name,
+  const Data::FctLink &fct_link,
   size_t bin,
   Fit::ParVec *pars
 ) const {
@@ -41,14 +40,6 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
     throw std::out_of_range("Asking for function for non-existing bin!");
   }
   std::vector<double> bin_center = m_bin_centers[bin];
-
-  // Find link of function (names of pars and coefs to be used)
-  auto name_condition = 
-    [fct_name](const Data::FctLink &link) {
-      return link.m_fct_name == fct_name;
-    };
-  Data::FctLink fct_link = 
-    CppUtils::Vec::element_by_condition(m_fcts_links, name_condition);
 
   // Find needed coefficient values
   spdlog::debug("Looking for {} coefficients.", fct_link.m_coefs.size());
@@ -80,6 +71,7 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
   spdlog::debug("Found {} parameters.", bin_pars.size());
   
   // Check if requested function exists
+  auto fct_name = fct_link.m_fct_name;
   if ( Fcts::prew_fct_map.find(fct_name) == Fcts::prew_fct_map.end() ) {
     throw std::invalid_argument("Function not known: " + fct_name);
   }
@@ -110,7 +102,7 @@ std::vector<std::function<double()>> Linker::get_all_bonded_fcts_at_bin(
   std::vector<std::function<double()>> bonded_fcts_at_bin {};
   for (const auto & fct_link: m_fcts_links) {
     bonded_fcts_at_bin.push_back(
-      get_bonded_fct_at_bin(fct_link.m_fct_name, bin, pars)
+      get_bonded_fct_at_bin(fct_link, bin, pars)
     );
   }
   
