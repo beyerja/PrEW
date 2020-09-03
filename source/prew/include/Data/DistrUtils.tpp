@@ -14,6 +14,26 @@ namespace Data {
 //------------------------------------------------------------------------------
 
 template<class T>
+std::vector<T> DistrUtils::subvec_info(
+  const std::vector<T>& vec, 
+  const DistrInfo &info
+) {
+  /** Find sub-vector of vector vec in which only distributions are contained 
+      whose info is equal to the given info.
+  **/
+  
+  // Lambda comparison checking energy and name match for single distribution
+  auto info_comparison = [info](const T &distr) {
+    return distr.get_info() == info;
+  };
+  
+  // Return all distributions where energy and name match
+  return CppUtils::Vec::subvec_by_condition( vec, info_comparison ); 
+}
+
+//------------------------------------------------------------------------------
+
+template<class T>
 std::vector<T> DistrUtils::subvec_energy_and_name(
   const std::vector<T>& vec, 
   int energy, 

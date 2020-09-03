@@ -15,6 +15,23 @@ using namespace PrEW::Data;
 //------------------------------------------------------------------------------
 // Tests for distribution helper functions
 
+TEST(TestDistrUtils, SubVecInfo) {
+  // Test if distributions are correctly extracted by their info
+  DistrInfo info1 {"D1","LR",200};
+  DistrInfo info2 {"D2","RL",400};
+  
+  DiffDistrVec vec {
+    {info1, {}, {}},
+    {info1, {}, {}},
+    {info1, {}, {}},
+    {info2, {}, {}},
+    {info2, {}, {}},
+  };
+  
+  // Should extract exactly 3 distributions named "d1" with energy 200
+  ASSERT_EQ(DistrUtils::subvec_info(vec,info1).size(), 3);
+}
+
 TEST(TestDistrUtils, SubVecEnergyName) {
   // Test if distributions are correctly extracted by their name and energy
   std::string good_name = "d1";

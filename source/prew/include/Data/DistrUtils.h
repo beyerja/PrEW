@@ -18,6 +18,8 @@ namespace DistrUtils {
   **/
   
   template<class T>
+  std::vector<T> subvec_info(const std::vector<T>& vec, const DistrInfo &info);
+  template<class T>
   std::vector<T> subvec_energy_and_name(const std::vector<T>& vec, 
                                         int energy, 
                                         std::string distr_name);
