@@ -109,13 +109,13 @@ T DistrUtils::element_pol(
   
   // Check for how many are found
   if ( all_pol_elements.size() == 0 ) {
-    spdlog::warn("Vector doesn't have element of pol. {}", pol_config);
+    spdlog::debug("Vector doesn't have element of pol. {}", pol_config);
   } else {
     output_element = all_pol_elements.at(0);
   }
   
   if ( all_pol_elements.size() > 1 ) {
-    spdlog::warn(
+    spdlog::debug(
       "Vector has more than one element of pol. {} , returning first", 
       pol_config
     );
