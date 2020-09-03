@@ -11,10 +11,6 @@ namespace Output {
   
   class Printer {
     /** Class to print the information and results from fits to a file.
-        TODO 
-        Currently restricted to results of fit, distribution writing not 
-        yet available.
-        TODO
     **/
     
     // Input arguments

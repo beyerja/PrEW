@@ -32,8 +32,8 @@ namespace Fit {
     FitResult m_result {};
     
     // Internal functions
-    double nll_poisson(int n, double mu) const; // TODO Separate namespace
-    double nll_gaussian(double x, double mu, double sigma) const; // TODO Separate namespace
+    double nll_poisson(int n, double mu) const;
+    double nll_gaussian(double x, double mu, double sigma) const;
     void update_nll();
     
     void collect_par_names();

@@ -92,6 +92,3 @@ TEST(TestPoissonNLLMinimizer, ManyBinsConstructor) {
 }
 
 //------------------------------------------------------------------------------
-
-// TODO OTHER FUNCTIONALITIES EXACT SAME AS CHISQMINIMIZER
-// => HERE NO EXTRA TESTS -> TODO: UNIFY COMMON FUNCTIONALITIES
