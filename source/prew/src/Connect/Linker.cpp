@@ -45,6 +45,7 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
   spdlog::debug("Looking for {} coefficients.", fct_link.m_coefs.size());
   std::vector<double> bin_coefs {};
   for ( const auto & coef_name: fct_link.m_coefs ) {
+    spdlog::debug("Looking for coefficient: {}", coef_name);
     // Find coefficient distribution with given name
     auto name_condition = [coef_name](const Data::CoefDistr& coef_distr) 
                             {return coef_distr.get_coef_name()==coef_name;};
@@ -52,7 +53,11 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
     // Choose coeffient value at bin
     bin_coefs.push_back(coefs.get_coef(bin));
   }
-  spdlog::debug("Found {} coefficients.", bin_coefs.size());
+  if ( fct_link.m_coefs.size() != bin_coefs.size() ) {
+    throw std::invalid_argument(
+        "Was looking for " + std::to_string(fct_link.m_coefs.size()) +
+        " coefficients and found " + std::to_string(bin_coefs.size()) + ".");
+  }
   
   // Find pointers to needed parameters
   spdlog::debug("Looking for {} parameters.", fct_link.m_pars.size());

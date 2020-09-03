@@ -34,13 +34,10 @@ DataConnector::DataConnector (
     throw std::invalid_argument("DataConnector needs polarisation links!");
   }
   
-  // Check if optional inputs are there
-  if (m_coef_distrs.size() == 0) {
-    spdlog::debug("No coefficients supplied to DataConnector.");
-  }
-  if (m_pred_links.size() == 0) {
-    spdlog::debug("No prediction links supplied to DataConnector.");
-  }
+  spdlog::debug("{} predicted distributions supplied to DataConnector.", pred_distrs.size());
+  spdlog::debug("{} coefficients supplied to DataConnector.", coef_distrs.size());
+  spdlog::debug("{} prediction links supplied to DataConnector.", pred_links.size());
+  spdlog::debug("{} polarisation links supplied to DataConnector.", pol_links.size());
 }
 
 //------------------------------------------------------------------------------
@@ -94,6 +91,7 @@ void DataConnector::fill_bins(
   CppUtils::Vec::Matrix2D<double> bin_centers = diff_distr.m_bin_centers;
   
   // Find polarisation link for this energy
+  spdlog::debug("Finding polarisation links at energy {}.", energy);
   auto energy_pol_condition = 
     [energy,pol_config](const Data::PolLink& link) {
       return (link.get_energy()==energy) && (link.get_pol_config()==pol_config);
@@ -102,6 +100,8 @@ void DataConnector::fill_bins(
     CppUtils::Vec::element_by_condition(m_pol_links, energy_pol_condition);
 
   // Find corresponding predicted distributions, links and coefficients
+  spdlog::debug("Looking for subvectors for distr {} @ energy {}.", distr_name, 
+                energy);
   Data::PredDistrVec predictions  = 
     Data::DistrUtils::subvec_energy_and_name(m_pred_distrs, energy, distr_name);
   Data::CoefDistrVec coefficients = 
@@ -110,6 +110,7 @@ void DataConnector::fill_bins(
     Data::DistrUtils::subvec_energy_and_name(m_pred_links, energy, distr_name);
 
   // --- Get chiral predictions, links and coefficients ------------------------
+  spdlog::debug("Looking for predicted distributions.");
   auto pred_LR = Data::DistrUtils::element_pol( predictions, 
                                                 GlobalVar::Chiral::eLpR);
   auto pred_RL = Data::DistrUtils::element_pol( predictions, 
@@ -119,11 +120,13 @@ void DataConnector::fill_bins(
   auto pred_RR = Data::DistrUtils::element_pol( predictions, 
                                                 GlobalVar::Chiral::eRpR);
 
+  spdlog::debug("Looking for function links.");
   auto links_LR = Data::DistrUtils::element_pol(links, GlobalVar::Chiral::eLpR);
   auto links_RL = Data::DistrUtils::element_pol(links, GlobalVar::Chiral::eRpL);
   auto links_LL = Data::DistrUtils::element_pol(links, GlobalVar::Chiral::eLpL);
   auto links_RR = Data::DistrUtils::element_pol(links, GlobalVar::Chiral::eRpR);
 
+  spdlog::debug("Looking for coefficients.");
   auto coefs_LR = Data::DistrUtils::subvec_pol( coefficients, 
                                                 GlobalVar::Chiral::eLpR);
   auto coefs_RL = Data::DistrUtils::subvec_pol( coefficients, 
@@ -135,6 +138,8 @@ void DataConnector::fill_bins(
   // ---------------------------------------------------------------------------
 
   // --- Get linkers for chiral alpha functions ------- ------------------------
+  spdlog::debug("Setting up linkers.");
+
   Connect::Linker linker_sig_LR = 
     Connect::Linker(links_LR.m_fcts_links_sig, bin_centers, coefs_LR);
   Connect::Linker linker_bkg_LR = 
