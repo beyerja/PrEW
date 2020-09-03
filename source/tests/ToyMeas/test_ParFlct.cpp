@@ -63,7 +63,7 @@ TEST(TestParFlct, ManyParConstrFlct) {
     << "Expected mean: " << mean << " , got: " << result_mean;
   ASSERT_EQ(Num::equal_to_eps(result_width, width, 5e-2*width), true)
     << "Expected width: " << width << " , got: " << result_width;
-  ASSERT_EQ(Num::equal_to_eps(sum_chisq, double(n_pars), std::sqrt(n_pars)), true)
+  ASSERT_EQ(Num::equal_to_eps(sum_chisq, double(n_pars), 5*std::sqrt(n_pars)), true)
     << "Expected chisq sum: " << double(n_pars) << " , got: " << sum_chisq;
 }
 
