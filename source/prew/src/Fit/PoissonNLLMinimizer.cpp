@@ -30,7 +30,7 @@ double PoissonNLLMinimizer::get_nll() const { return m_nll; }
 const FitResult& PoissonNLLMinimizer::get_result() const { return m_result; }
 
 //------------------------------------------------------------------------------
-// Log Likelihood functions => TODO: Different namespace
+// Log Likelihood functions
 
 double PoissonNLLMinimizer::nll_poisson(int n, double mu) const { 
   /** Negative log likelihood (including factor -2) of poissonian probability.

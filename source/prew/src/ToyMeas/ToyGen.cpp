@@ -38,7 +38,6 @@ ToyGen::ToyGen(
   CppUtils::Map::IntToStrSetMap distr_per_energies {};
   CppUtils::Map::IntToStrSetMap pol_configs_per_energies {};
   for (const auto & distr: m_connector.get_pred_distrs()) {
-    // TODO Split: Find energies => Split off finding of polarisation configs
     int energy = distr.m_info.m_energy;
     energies.insert(energy);
     distr_per_energies[energy].insert(distr.m_info.m_distr_name);
@@ -137,7 +136,6 @@ Fit::FitPar * ToyGen::find_par( const std::string & par_name ) {
 }
 
 Data::DiffDistrVec ToyGen::get_distrs ( int energy, bool fluctuated ) const {
-  // TODO TODO TODO Properly document, right now still old documentation!
   /** Get the toy distributions at a given energy.
       Sets the measured value either to the predicted value (with current 
       parameters) or a poisson fluctuated version of it.
