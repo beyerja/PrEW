@@ -27,6 +27,11 @@ CoefDistr::CoefDistr(const std::string &coef_name, const DistrInfo &info,
 }
 
 //------------------------------------------------------------------------------
+// Manipulation functions
+
+void CoefDistr::set_info(const DistrInfo &info) { m_info = info; }
+
+//------------------------------------------------------------------------------
 // Access functions
 
 const std::string &CoefDistr::get_coef_name() const { return m_coef_name; }
@@ -42,6 +47,21 @@ double CoefDistr::get_coef(int bin) const {
     }
   }
   return m_is_global ? m_coefficient : m_coefficients[bin];
+}
+
+//------------------------------------------------------------------------------
+// Operators
+
+bool CoefDistr::operator==(const CoefDistr &other) const {
+  /** Identity of coefficient defined by its name the assigned distribution
+      info.
+   **/
+  return (this->get_coef_name() == other.get_coef_name()) &&
+         (this->get_info() == other.get_info());
+}
+
+bool CoefDistr::operator!=(const CoefDistr &other) const {
+  return !(*this == other);
 }
 
 //------------------------------------------------------------------------------
