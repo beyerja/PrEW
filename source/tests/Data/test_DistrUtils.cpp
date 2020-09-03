@@ -15,6 +15,23 @@ using namespace PrEW::Data;
 //------------------------------------------------------------------------------
 // Tests for distribution helper functions
 
+TEST(TestDistrUtils, SubVecInfo) {
+  // Test if distributions are correctly extracted by their info
+  DistrInfo info1 {"D1","LR",200};
+  DistrInfo info2 {"D2","RL",400};
+  
+  DiffDistrVec vec {
+    {info1, {}, {}},
+    {info1, {}, {}},
+    {info1, {}, {}},
+    {info2, {}, {}},
+    {info2, {}, {}},
+  };
+  
+  // Should extract exactly 3 distributions named "d1" with energy 200
+  ASSERT_EQ(DistrUtils::subvec_info(vec,info1).size(), 3);
+}
+
 TEST(TestDistrUtils, SubVecEnergyName) {
   // Test if distributions are correctly extracted by their name and energy
   std::string good_name = "d1";
@@ -155,15 +172,35 @@ TEST(TestDistrUtils, CombinePredDistr) {
   double comb_bkg = comb_distr.m_bkg_distr[0];
   
   for (size_t d=0; d<bin_middle.size(); d++) {
-    EXPECT_EQ( Num::equal_to_eps( bin_middle[d], bin_centers[d] ), true  ) 
+    ASSERT_EQ( Num::equal_to_eps( bin_middle[d], bin_centers[d] ), true  ) 
     << "Expected " << bin_middle[d] << " got " << bin_centers[d];
   } 
   
-  EXPECT_EQ( Num::equal_to_eps( sig_sum, comb_sig ), true ) 
+  ASSERT_EQ( Num::equal_to_eps( sig_sum, comb_sig ), true ) 
     << "Expected " << sig_sum << " got " << comb_sig;
   
-  EXPECT_EQ( Num::equal_to_eps( bkg_sum, comb_bkg ), true  ) 
+  ASSERT_EQ( Num::equal_to_eps( bkg_sum, comb_bkg ), true  ) 
     << "Expected " << bkg_sum << " got " << comb_bkg;
+  
+  // ****
+  // Exact same test for a vector of distribtions
+  PredDistrVec distrs {distr, distr};
+  auto comb_distrs = DistrUtils::combine_bins(distrs);
+  for (const auto &_comb_distr: comb_distrs) {
+    auto _bin_centers = _comb_distr.m_bin_centers[0];
+    double _comb_sig = _comb_distr.m_sig_distr[0];
+    double _comb_bkg = _comb_distr.m_bkg_distr[0];
+    
+    for (size_t d=0; d<bin_middle.size(); d++) {
+      EXPECT_EQ( Num::equal_to_eps( bin_middle[d], _bin_centers[d] ), true  ) 
+      << "Expected " << bin_middle[d] << " got " << _bin_centers[d];
+    } 
+    EXPECT_EQ( Num::equal_to_eps( sig_sum, _comb_sig ), true ) 
+      << "Expected " << sig_sum << " got " << _comb_sig;
+    EXPECT_EQ( Num::equal_to_eps( bkg_sum, _comb_bkg ), true  ) 
+      << "Expected " << bkg_sum << " got " << _comb_bkg;
+  }
+
 }
 
 //------------------------------------------------------------------------------

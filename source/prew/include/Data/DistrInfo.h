@@ -2,6 +2,7 @@
 #define LIB_DISTRINFO_H 1
 
 #include <string>
+#include <vector>
 
 namespace PrEW {
 namespace Data {
@@ -16,6 +17,7 @@ namespace Data {
     bool operator==(const DistrInfo& other) const;
   };
   
+  using InfoVec = std::vector<DistrInfo>;
 }
 }
 

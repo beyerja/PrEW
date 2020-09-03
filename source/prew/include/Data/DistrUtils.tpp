@@ -14,6 +14,26 @@ namespace Data {
 //------------------------------------------------------------------------------
 
 template<class T>
+std::vector<T> DistrUtils::subvec_info(
+  const std::vector<T>& vec, 
+  const DistrInfo &info
+) {
+  /** Find sub-vector of vector vec in which only distributions are contained 
+      whose info is equal to the given info.
+  **/
+  
+  // Lambda comparison checking energy and name match for single distribution
+  auto info_comparison = [info](const T &distr) {
+    return distr.get_info() == info;
+  };
+  
+  // Return all distributions where energy and name match
+  return CppUtils::Vec::subvec_by_condition( vec, info_comparison ); 
+}
+
+//------------------------------------------------------------------------------
+
+template<class T>
 std::vector<T> DistrUtils::subvec_energy_and_name(
   const std::vector<T>& vec, 
   int energy, 
@@ -89,13 +109,13 @@ T DistrUtils::element_pol(
   
   // Check for how many are found
   if ( all_pol_elements.size() == 0 ) {
-    spdlog::warn("Vector doesn't have element of pol. {}", pol_config);
+    spdlog::debug("Vector doesn't have element of pol. {}", pol_config);
   } else {
     output_element = all_pol_elements.at(0);
   }
   
   if ( all_pol_elements.size() > 1 ) {
-    spdlog::warn(
+    spdlog::debug(
       "Vector has more than one element of pol. {} , returning first", 
       pol_config
     );

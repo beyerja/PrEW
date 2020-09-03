@@ -95,5 +95,17 @@ PredDistr DistrUtils::combine_bins(const PredDistr &distr) {
 
 //------------------------------------------------------------------------------
 
+PredDistrVec DistrUtils::combine_bins(const PredDistrVec &distrs) {
+  /** Combine the bins for each distribution in the vector.
+   **/
+  PredDistrVec new_distrs{};
+  for (const auto &distr : distrs) {
+    new_distrs.push_back(combine_bins(distr));
+  }
+  return new_distrs;
+}
+
+//------------------------------------------------------------------------------
+
 } // Namespace Data
 } // Namespace PrEW
