@@ -39,6 +39,8 @@ namespace DistrUtils {
   
   DiffDistr combine_bins(const DiffDistr & distr);
   PredDistr combine_bins(const PredDistr & distr);
+  PredDistrVec combine_bins(const PredDistrVec & distrs);
+  
   
 } // Namespace DistrUtils
   
