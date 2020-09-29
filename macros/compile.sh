@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # -------------------------------------------------#
-# Bash script for compiling the processor of the
-# analysis.
+# Bash script for compiling the source code.
 # To be run simply by using: ./compile.sh [--rebuild] [--jobs=n_jobs]
 # Be sure a modern software is sourced! (E.g. sourcing load_env.sh)
 # -------------------------------------------------#

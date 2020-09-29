@@ -5,7 +5,7 @@ namespace PrEW {
 namespace CppUtils {
 
 namespace Num {
-  template<class T> bool equal_to_eps(const T & v1, const T & v2, const T eps=1e-9);
+  template<class T> bool equal_to_eps(const T & v1, const T & v2, const T eps=T(1e-9));
   
   double log_factorial (int x);
 }

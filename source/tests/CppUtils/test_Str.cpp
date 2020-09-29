@@ -1,3 +1,4 @@
+#include <CppUtils/Num.h>
 #include <CppUtils/Str.h>
 
 #include <gtest/gtest.h>
@@ -8,6 +9,35 @@ using namespace PrEW::CppUtils;
 
 //------------------------------------------------------------------------------
 // Tests string helper functions
+//------------------------------------------------------------------------------
+
+TEST(TestStr, StrCasting) {
+  // Test numeric casting of string
+  std::string str1 = "1";
+  std::string str2 = "2.00001";
+  
+  // Expected results
+  int res_1_int = 1;
+  float res_1_float = 1.0f;
+  double res_1_double = 1.0;
+  int res_2_int = 2;
+  float res_2_float = 2.00001f;
+  double res_2_double = 2.00001;
+  
+  // Check that the results of the conversion is correct (within reason) 
+  ASSERT_EQ(Str::cast_string<int>(str1), res_1_int);
+  ASSERT_TRUE(Num::equal_to_eps(Str::cast_string<float>(str1), res_1_float));
+  ASSERT_TRUE(Num::equal_to_eps(Str::cast_string<double>(str1), res_1_double));
+  ASSERT_EQ(Str::cast_string<int>(str2), res_2_int);
+  ASSERT_TRUE(Num::equal_to_eps(Str::cast_string<float>(str2), res_2_float));
+  ASSERT_TRUE(Num::equal_to_eps(Str::cast_string<double>(str2), res_2_double));
+  
+  // Expect an error when asking for an unknown numerics type
+  ASSERT_THROW(Str::cast_string<long double>(str1), std::invalid_argument);
+}
+
+
+//------------------------------------------------------------------------------
 
 TEST(TestStr, StringSplitting) {
   // Test splitting of string into vector using a delimiter

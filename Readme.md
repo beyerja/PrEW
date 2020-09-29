@@ -12,20 +12,24 @@
  ```
 3. Clone and build spdlog from github:
  ```sh
- git clone https://github.com/gabime/spdlog.git external/spdlog
+ git clone -b 'v1.7.0' --depth 1 https://github.com/gabime/spdlog.git external/spdlog
  cd external/spdlog && mkdir build && cd build
  cmake .. && make -j
  cd ../../..
  ```
 4. Clone the googletest repository from github:
  ```sh
- git clone https://github.com/google/googletest.git external/googletest
+ git clone -b 'release-1.10.0' --depth 1 https://github.com/google/googletest.git external/googletest
  ```
-5. Unzip data files needed for testing:
+5. Clone the CSVParser repository from github:
+ ```sh
+ git clone -b '2.0.0-beta' --depth 1 https://github.com/vincentlaucsb/csv-parser csv_parser
+ ```
+6. Unzip data files needed for testing:
  ```sh
  cd testdata && unzip *.zip && cd ..
  ```
-6. Compile the code:
+7. Compile the code:
  ```sh
  cd macros && chmod u+x compile.sh && ./compile.sh && cd ..
  ```
@@ -47,7 +51,7 @@ The rest of the `PrEW` framework is dedicated to setting up the components for t
 
 The current usage of `PrEW` framework itself is still quite complicated.
 It is recommended to use classes provided in the `PrEWUtils` package.
-An example for such a usage is provided in the `PrEWRunRK` package.
+An example for such a usage is provided in the `PrEWRunExample` package.
  
 ## PrOut
 

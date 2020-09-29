@@ -16,12 +16,14 @@ add_definitions( ${ROOT_DEFINITIONS} )
 include_directories(
   source/prew/include
   external/spdlog/include
+  external/csv_parser/single_include
 )
 
 # Code subdirectories with own CMakelists
 add_subdirectory(source/prew)
 add_subdirectory(source/tests)
 add_subdirectory(external/googletest)
+add_subdirectory(external/csv_parser)
 
 # Install in local folder instead of system
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})

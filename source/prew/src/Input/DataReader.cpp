@@ -30,6 +30,9 @@ void DataReader::read_file() {
   if ( m_input_info->m_input_style == "RK" ) {
     spdlog::debug("Reading RK style file, these only contain predictions and coefficients, no measurement.");
     Reading::read_RK_file(m_input_info, &m_pred_distrs, &m_coef_distrs);
+  } else if ( m_input_info->m_input_style == "CSV" ) {
+    spdlog::debug("Reading CSV file containing info for one chiral distribution.");
+    Reading::read_csv_file(m_input_info, &m_pred_distrs, &m_coef_distrs);
   } else {
     throw std::invalid_argument(
       ("Invalid file style " + m_input_info->m_input_style).c_str() );
