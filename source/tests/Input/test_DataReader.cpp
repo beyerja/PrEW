@@ -23,6 +23,28 @@ TEST(TestDataReader, ExceptionOnWrongInputStyle) {
   ASSERT_THROW(reader.read_file(), std::invalid_argument);
 }
 
+//------------------------------------------------------------------------------
+
+TEST(TestDataReader, TestCSVFileReading) {
+  /** Check that reading of an CSV example file runs and gives right number of 
+      distributions.
+  **/
+  InputInfo i {"../testdata/test.csv", "CSV"};
+  DataReader reader(&i);
+  reader.read_file();
+  auto measured_distributions = reader.get_meas_distrs();
+  auto predicted_distributions = reader.get_pred_distrs();
+  auto prediction_coefficients = reader.get_coef_distrs();
+  
+  // CSV files don't contain measurements or coefficients right now
+  ASSERT_EQ(measured_distributions.size(), 0); 
+  ASSERT_EQ(prediction_coefficients.size(), 0);
+  // Contains 1 distribution
+  ASSERT_EQ(predicted_distributions.size(), 1);
+}
+
+//------------------------------------------------------------------------------
+
 TEST(TestDataReader, TestRKFileReading) {
   /** Check that reading of an RK example file runs and gives right number of 
       distributions.

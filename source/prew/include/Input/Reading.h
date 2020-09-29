@@ -13,6 +13,12 @@ namespace Reading {
   **/
   
   //----------------------------------------------------------------------------
+  
+  void read_csv_file(const InputInfo *input_info, 
+                     Data::PredDistrVec *pred_distrs, 
+                     Data::CoefDistrVec *coef_distrs);
+  
+  //----------------------------------------------------------------------------
 
   void read_RK_file(const InputInfo *input_info, 
                     Data::PredDistrVec *pred_distrs, 
