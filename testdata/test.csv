@@ -4,9 +4,9 @@ Energy: 250
 e-Chirality: -1.0
 e+Chirality: 1.0
 #END-METADATA
-,Bin centers,Cross sections
-0,0.01,0
-1,0.02,1
-2,0.03,2
-3,0.04,3
-4,0.05,4
+,BinCenters:coord1,BinCenters:coord2,BinCenters:coord3,Coef:coef1,Coef:coef2,Cross sections
+0,0.01,-1,1.1,0.4,0.01,0
+1,0.02,-1,1.2,0.3,0.02,1
+2,0.03,-2,1.1,0.2,0.03,2
+3,0.04,-2,1.2,0.1,0.04,3
+4,0.05,-3,1.1,0.0,0.05,4
