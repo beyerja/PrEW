@@ -22,6 +22,13 @@ namespace Data {
     std::vector<double> m_bkg_distr {}; // Predicted background distribution
     
     const DistrInfo & get_info() const { return m_info; }
+    
+    bool operator==(const PredDistr &other) const {
+      return (m_info == other.m_info) && 
+             (m_bin_centers == other.m_bin_centers) &&
+             (m_sig_distr == other.m_sig_distr) &&
+             (m_bkg_distr == other.m_bkg_distr);
+    }
   };
   
   typedef std::vector<PredDistr> PredDistrVec;
