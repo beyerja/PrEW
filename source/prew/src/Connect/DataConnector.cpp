@@ -2,6 +2,7 @@
 #include <Connect/Linker.h>
 #include <Connect/LinkHelp.h>
 #include <Data/DistrUtils.h>
+#include <Data/PredDistr.h>
 #include <GlobalVar/Chiral.h>
 
 #include "spdlog/spdlog.h"
@@ -135,6 +136,43 @@ void DataConnector::fill_bins(
                                                 GlobalVar::Chiral::eLpL);
   auto coefs_RR = Data::DistrUtils::subvec_pol( coefficients, 
                                                 GlobalVar::Chiral::eRpR);
+  // ---------------------------------------------------------------------------
+  
+  // --- Check if any chiral distributions are missing -------------------------
+  // Not every chiral distribution has to be provided.
+  // Those that aren't will be assumed as 0.
+  
+  std::vector<double> zero_distr (bin_centers.size(), 0.0);
+  int n_not_found = 0;
+  if (pred_LR == Data::PredDistr()) {
+    spdlog::debug("No LR prediction available for {}, assume zero.", distr_name);
+    pred_LR.m_sig_distr = zero_distr;
+    pred_LR.m_bkg_distr = zero_distr;
+    n_not_found++;
+  }
+  if (pred_RL == Data::PredDistr()) {
+    spdlog::debug("No RL prediction available for {}, assume zero.", distr_name);
+    pred_RL.m_sig_distr = zero_distr;
+    pred_RL.m_bkg_distr = zero_distr;
+    n_not_found++;
+  }
+  if (pred_LL == Data::PredDistr()) {
+    spdlog::debug("No LL prediction available for {}, assume zero.", distr_name);
+    pred_LL.m_sig_distr = zero_distr;
+    pred_LL.m_bkg_distr = zero_distr;
+    n_not_found++;
+  }
+  if (pred_RR == Data::PredDistr()) {
+    spdlog::debug("No RR prediction available for {}, assume zero.", distr_name);
+    pred_RR.m_sig_distr = zero_distr;
+    pred_RR.m_bkg_distr = zero_distr;
+    n_not_found++;
+  }
+  
+  if (n_not_found == 4) {
+    throw std::invalid_argument("No chiral distr's found for " + distr_name);
+  }
+  
   // ---------------------------------------------------------------------------
 
   // --- Get linkers for chiral alpha functions ------- ------------------------
