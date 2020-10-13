@@ -36,11 +36,11 @@ TEST(TestDataReader, TestCSVFileReading) {
   auto predicted_distributions = reader.get_pred_distrs();
   auto prediction_coefficients = reader.get_coef_distrs();
   
-  // CSV files don't contain measurements or coefficients right now
+  // CSV files don't contain measurements
   ASSERT_EQ(measured_distributions.size(), 0); 
-  ASSERT_EQ(prediction_coefficients.size(), 0);
-  // Contains 1 distribution
+  // Contains 1 distribution and 2 coefficients
   ASSERT_EQ(predicted_distributions.size(), 1);
+  ASSERT_EQ(prediction_coefficients.size(), 2);
 }
 
 //------------------------------------------------------------------------------

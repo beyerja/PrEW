@@ -5,13 +5,15 @@
 #include <Fit/FitBin.h>
 #include <GlobalVar/Chiral.h>
 #include <Input/InfoRKFile.h>
-#include <Input/CSVMetadata.h>
+#include <Input/CSVInterpreter.h>
 #include <Input/Reading.h>
 
-#include "spdlog/spdlog.h"
+// Includes from ROOT
 #include "TFile.h"
 #include "TMatrixT.h"
 #include "TTree.h"
+
+#include "spdlog/spdlog.h"
 
 namespace PrEW {
 namespace Input {
@@ -23,34 +25,11 @@ void Reading::read_csv_file(const InputInfo *input_info,
                             Data::CoefDistrVec *coef_distrs) {
   /** Read input CSV file containing info for one chiral distribution.
    **/
-  // Extract metadata and get CSV file reader
-  CSVMetadata metadata;
-  auto csv_reader = metadata.strip_metadata(input_info->m_file_path);
-
-  // Get distribution info
-  Data::DistrInfo info{};
-  info.m_distr_name = metadata.get<std::string>("name");
-  info.m_energy = metadata.get<int>("energy");
-  info.m_pol_config = GlobalVar::Chiral::transform(
-      metadata.get<int>("e- chirality"), metadata.get<int>("e+ chirality"));
-
-  // Read the bins (= rows of the csv file)
-  Data::PredDistr pred_distr{};
-  pred_distr.m_info = info;
-  for (auto &row : csv_reader) {
-    // Find and interpret the bin centers (separated by ":")
-    std::vector<double> bin_centers{};
-    auto center_strs = CppUtils::Str::string_to_vec(
-        row["Bin centers"].get<std::string>(), ":");
-    for (const auto &center : center_strs) {
-      bin_centers.push_back(CppUtils::Str::cast_string<double>(center));
-    }
-
-    // Bin centers and signal 
-    pred_distr.m_bin_centers.push_back(bin_centers);
-    pred_distr.m_sig_distr.push_back(row["Cross sections"].get<double>());
-  }
-  pred_distrs->push_back(pred_distr);
+  CSVInterpreter interpreter(input_info->m_file_path);
+  pred_distrs->push_back(interpreter.get_pred_distr());
+  
+  auto coefs = interpreter.get_coef_distrs();
+  coef_distrs->insert(coef_distrs->end(), coefs.begin(), coefs.end());
 }
 
 //------------------------------------------------------------------------------
