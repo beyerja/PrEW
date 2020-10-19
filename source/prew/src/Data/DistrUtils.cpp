@@ -1,4 +1,5 @@
 // Includes from PrEW
+#include <Data/BinCoord.h>
 #include <Data/DistrUtils.h>
 #include <Fit/FitBin.h>
 
@@ -11,30 +12,46 @@ namespace Data {
 
 //------------------------------------------------------------------------------
 
-std::vector<double>
-DistrUtils::bin_middle(const CppUtils::Vec::Matrix2D<double> &bin_centers) {
-  /** Find center of the bins in all axes.
+Data::BinCoord DistrUtils::bin_middle(const CoordVec &coords) {
+  /** Find center of the bins in all axes, edges will be set to outermost
+    *values.
    **/
-  int n_dims = bin_centers.at(0).size();
+  int n_dims = coords.at(0).get_dim();
 
-  // Find minimum and maximum value of each axis
-  std::vector<double> bin_center_max = bin_centers[0];
-  std::vector<double> bin_center_min = bin_centers[0];
-  std::vector<double> bin_middle(n_dims, 0);
+  // Find minimum and maximum value of each axis and min,max edges
+  auto coord_max = coords[0].get_center();
+  auto coord_min = coords[0].get_center();
+  auto edge_max = coords[0].get_edge_up();
+  auto edge_min = coords[0].get_edge_low();
 
-  for (const auto & bin: bin_centers) {
+  for (const auto &bin : coords) {
+    auto center = bin.get_center();
+    auto edge_up = bin.get_edge_up();
+    auto edge_low = bin.get_edge_low();
     for (int d = 0; d < n_dims; d++) {
-      if (bin_center_max[d] < bin[d]) { bin_center_max[d] = bin[d]; }
-      if (bin_center_min[d] > bin[d]) { bin_center_min[d] = bin[d]; }
+      if (coord_max[d] < center[d]) {
+        coord_max[d] = center[d];
+      }
+      if (coord_min[d] > center[d]) {
+        coord_min[d] = center[d];
+      }
+
+      if (edge_max[d] < edge_up[d]) {
+        edge_max[d] = edge_up[d];
+      }
+      if (edge_min[d] > edge_low[d]) {
+        edge_min[d] = edge_low[d];
+      }
     }
   }
 
   // Find middle
+  std::vector<double> bin_middle(n_dims, 0);
   for (int d = 0; d < n_dims; d++) {
-    bin_middle[d] = 0.5 * (bin_center_min[d] + bin_center_max[d]);
+    bin_middle[d] = 0.5 * (coord_min[d] + coord_max[d]);
   }
-  
-  return bin_middle;
+
+  return BinCoord(bin_middle, edge_min, edge_max);
 }
 
 //------------------------------------------------------------------------------

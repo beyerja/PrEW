@@ -1,5 +1,6 @@
 #include <CppUtils/Num.h>
 #include <CppUtils/Vec.h>
+#include <Data/BinCoord.h>
 #include <Data/DistrInfo.h>
 #include <Data/DiffDistr.h>
 #include <Data/DistrUtils.h>
@@ -105,19 +106,16 @@ TEST(TestDistrUtils, ElementPol) {
 
 TEST(TestDistrUtils, FindBinMiddle) {
   // Find middle of all bins
-  Vec::Matrix2D<double> bin_centers {
-    {0.0, -10.0, 0.5, 0.002},
-    {1.0,  20.0, 0.5, 0.001},
-    {2.0, -20.0, 0.5, 0.002}
-  };
+  CoordVec coords{
+      BinCoord({0.0, -10.0, 0.5}, {-0.5, -15.0, 0.1}, {1.5, 0.0, 0.9}),
+      BinCoord({1.0, 20.0, 0.5}, {1.5, 0.0, 0.1}, {2.5, 40.0, 0.9}),
+      BinCoord({2.0, -20.0, 0.5}, {2.5, -30.0, 0.1}, {3.5, -15, 0.9})};
+
+  BinCoord middle_expected({1.0, 0.0, 0.5}, {-0.5, -30.0, 0.1},
+                           {3.5, 40.0, 0.9});
+  auto middle_found = DistrUtils::bin_middle(coords);
   
-  std::vector<double> middle_expected { 1.0, 0.0, 0.5, 0.0015 };
-  std::vector<double> middle_found = DistrUtils::bin_middle(bin_centers);
-  
-  for (size_t d=0; d<middle_expected.size(); d++) {
-    ASSERT_EQ( Num::equal_to_eps( middle_expected[d], middle_found[d]), true )
-      << "Expected " << middle_expected[d] << " got " << middle_found[d];
-  } 
+  ASSERT_EQ(middle_expected, middle_found);
 }
 
 //------------------------------------------------------------------------------
