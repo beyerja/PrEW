@@ -28,8 +28,8 @@ TEST(TestCSVInterpreter, TestDataReading) {
   // Contains 2 coefficients
   ASSERT_EQ(coef_distrs.size(), 2);
   // Number of bins is 5, bin dimension is 3
-  ASSERT_EQ(pred_distr.m_bin_centers.size(), 5);
-  ASSERT_EQ(pred_distr.m_bin_centers.at(0).size(), 3);
+  ASSERT_EQ(pred_distr.m_coords.size(), 5);
+  ASSERT_EQ(pred_distr.m_coords.at(0).get_dim(), 2);
 }
 
 //------------------------------------------------------------------------------
