@@ -62,11 +62,10 @@ DiffDistr DistrUtils::combine_bins(const DiffDistr &distr) {
       Bin values are added up.
       Bin value uncertainties are combined in root-mean-square.
   **/
-  int n_bins = distr.m_bin_centers.size();
+  int n_bins = distr.m_coords.size();
 
   // Vectors to find bin middle
-  CppUtils::Vec::Matrix2D<double> bin_center = 
-    { bin_middle(distr.m_bin_centers) };
+  auto coord = {bin_middle(distr.m_coords)};
 
   // Average distribution value
   double val_comb = 0;
@@ -83,7 +82,7 @@ DiffDistr DistrUtils::combine_bins(const DiffDistr &distr) {
   // Find final uncertainty
   unc_comb = std::sqrt(unc_comb_sqr);
 
-  return DiffDistr{distr.m_info, bin_center, {Fit::FitBin(val_comb, unc_comb)}};
+  return DiffDistr{distr.m_info, coord, {Fit::FitBin(val_comb, unc_comb)}};
 }
 
 //------------------------------------------------------------------------------
@@ -93,11 +92,10 @@ PredDistr DistrUtils::combine_bins(const PredDistr &distr) {
       Bin center is set to the center of each axis.
       Bin values are added up.
   **/
-  int n_bins = distr.m_bin_centers.size();
+  int n_bins = distr.m_coords.size();
 
   // Vectors to find bin middle
-  CppUtils::Vec::Matrix2D<double> bin_center = 
-    { bin_middle(distr.m_bin_centers) };
+  auto coord = {bin_middle(distr.m_coords)};
 
   // Average distribution value
   double val_sig_comb = 0, val_bkg_comb = 0;
@@ -107,7 +105,7 @@ PredDistr DistrUtils::combine_bins(const PredDistr &distr) {
     val_bkg_comb += distr.m_bkg_distr[b];
   }
 
-  return PredDistr{distr.m_info, bin_center, {val_sig_comb}, {val_bkg_comb}};
+  return PredDistr{distr.m_info, coord, {val_sig_comb}, {val_bkg_comb}};
 }
 
 //------------------------------------------------------------------------------

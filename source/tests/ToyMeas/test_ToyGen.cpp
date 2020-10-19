@@ -31,12 +31,12 @@ TEST(TestToyGen, SimpleConstructor) {
   DistrInfo info_RL {"test", Chiral::eRpL, 500};
   DistrInfo info_LL {"test", Chiral::eLpL, 500};
   DistrInfo info_RR {"test", Chiral::eRpR, 500};
-  Vec::Matrix2D<double> bin_centers = {{0}, {1}};
+  CoordVec coords = {{{0},{0},{0}}, {{1},{1},{1}}};
   PredDistrVec pred_distrs { 
-    { info_LR, bin_centers, {1}, {0} },
-    { info_RL, bin_centers, {1}, {0} },
-    { info_LL, bin_centers, {1}, {0} },
-    { info_RR, bin_centers, {1}, {0} },
+    { info_LR, coords, {1}, {0} },
+    { info_RL, coords, {1}, {0} },
+    { info_LL, coords, {1}, {0} },
+    { info_RR, coords, {1}, {0} },
   };
   ParVec input_pars { 
     {"A_pol", 2, 0},

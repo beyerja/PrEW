@@ -80,7 +80,7 @@ ToyGen::ToyGen(
       // Get distribution setup bin centers from first prediction
       auto predictions = 
         Data::DistrUtils::subvec_energy_and_name(m_connector.get_pred_distrs(),energy,distr_name);
-      auto bin_centers = predictions.at(0).m_bin_centers;
+      auto coords = predictions.at(0).m_coords;
         
       // Loop over all polarisations for the given energy
       for (const auto& pol_config: pol_configs_per_energies.at(energy)) {
@@ -94,8 +94,8 @@ ToyGen::ToyGen(
         Data::DistrInfo current_info { distr_name, pol_config, energy };
         Data::DiffDistr distribution {};
         distribution.m_info = current_info;
-        distribution.m_bin_centers = bin_centers;
-        distribution.m_distribution = Fit::BinVec(bin_centers.size());
+        distribution.m_coords = coords;
+        distribution.m_distribution = Fit::BinVec(coords.size());
         
         // Fix the bin predictions and link them to the given fit parameters
         Fit::BinVec connected_bins {};

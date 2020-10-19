@@ -2,6 +2,7 @@
 #define LIBRARY_PREDDISTR_H
 
 #include <CppUtils/Vec.h>
+#include <Data/BinCoord.h>
 #include <Data/DistrInfo.h>
 
 #include <vector>
@@ -17,7 +18,7 @@ namespace Data {
     DistrInfo m_info {}; // Info which identifies this distribution
     
     // Values of observables at bin center
-    CppUtils::Vec::Matrix2D<double> m_bin_centers {}; 
+    CoordVec m_coords {}; 
     std::vector<double> m_sig_distr {}; // Predicted signal distribution
     std::vector<double> m_bkg_distr {}; // Predicted background distribution
     
@@ -25,7 +26,7 @@ namespace Data {
     
     bool operator==(const PredDistr &other) const {
       return (m_info == other.m_info) && 
-             (m_bin_centers == other.m_bin_centers) &&
+             (m_coords == other.m_coords) &&
              (m_sig_distr == other.m_sig_distr) &&
              (m_bkg_distr == other.m_bkg_distr);
     }
