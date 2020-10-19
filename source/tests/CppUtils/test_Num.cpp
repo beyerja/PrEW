@@ -60,6 +60,22 @@ TEST(TestNum, EqEpsWorksForAllFloatingTypes) {
 }
 
 //------------------------------------------------------------------------------
+// Test for vector version of equal_to_eps
+
+TEST(TestNum, EqEpsVecInvalidVecs) {
+  std::vector<double> v1 {1.0,2.0,3.0};
+  std::vector<double> v2 {1.0,2.0};
+  ASSERT_THROW(Num::equal_to_eps(v1,v2), std::invalid_argument); 
+}
+
+TEST(TestNum, EqEpsVecSimpleDoubleVec) {
+  std::vector<double> v1 {1.0,2.0,3.0};
+  std::vector<double> v2 {1.0,2.0,4.0};
+  ASSERT_TRUE(Num::equal_to_eps(v1,v1)); 
+  ASSERT_FALSE(Num::equal_to_eps(v1,v2)); 
+}
+
+//------------------------------------------------------------------------------
 
 TEST(TestNum, LogFactorialRangeException) {
   // Test that log factorial function throws error when integer out of 
