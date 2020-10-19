@@ -1,4 +1,5 @@
 #include <CppUtils/Num.h>
+#include <Data/BinCoord.h>
 #include <Fcts/Polynomial.h>
 
 #include <gtest/gtest.h>
@@ -6,6 +7,7 @@
 #include <vector>
 
 using namespace PrEW::CppUtils;
+using namespace PrEW::Data;
 using namespace PrEW::Fcts;
 
 //------------------------------------------------------------------------------
@@ -73,26 +75,17 @@ TEST(TestPolynomial, Quadratic1D) {
   std::vector<double*> p_ptrs {};
   for (double & p: p_vals) { p_ptrs.push_back(&p); }
 
-  ASSERT_EQ( 
-    Num::equal_to_eps( Polynomial::quadratic_1D( {-1.} ,c,p_ptrs), -0.5, 1e-9), 
-    true 
-  ) << "Expected " << -0.5 
-    << " got " << Polynomial::quadratic_1D({-1.},c,p_ptrs);
-  ASSERT_EQ(
-    Num::equal_to_eps( Polynomial::quadratic_1D( {0.0} ,c,p_ptrs), 1.0, 1e-9),
-    true
-  ) << "Expected " << 1.0 
-    << " got " << Polynomial::quadratic_1D({0.0},c,p_ptrs);
-  ASSERT_EQ(
-    Num::equal_to_eps( Polynomial::quadratic_1D( {1.0} ,c,p_ptrs), 3.5, 1e-9),
-    true
-  ) << "Expected " << 3.5 
-    << " got " << Polynomial::quadratic_1D({1.0},c,p_ptrs);
-  ASSERT_EQ(
-    Num::equal_to_eps( Polynomial::quadratic_1D( {1.5} ,c,p_ptrs), 5.125, 1e-9),
-    true
-  ) << "Expected " << 5.125 
-    << " got " << Polynomial::quadratic_1D({1.5},c,p_ptrs);
+  std::vector<double> x_vals {-1., 0.0, 1.0, 1.5};
+  std::vector<double> pred {-0.5 , 1.0, 3.5, 5.125};
+  
+  for (size_t b=0; b<x_vals.size(); b++) {
+    BinCoord x ({x_vals[b]},{x_vals[b]},{x_vals[b]});
+    ASSERT_EQ( 
+      Num::equal_to_eps( Polynomial::quadratic_1D( {x},c,p_ptrs), pred[b], 1e-9), 
+      true 
+    ) << "Expected " << pred[b] 
+    << " got " << Polynomial::quadratic_1D(x,c,p_ptrs);
+  }
 }
 
 TEST(TestPolynomial, Quadratic3DCoeff) {

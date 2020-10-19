@@ -9,7 +9,7 @@ namespace Fcts {
 //------------------------------------------------------------------------------
 
 double Statistic::gaussian_1D ( 
-  const std::vector<double> &x,
+  const Data::BinCoord &x,
   const std::vector<double> &/*c*/,
   const std::vector<double*> &p
 ) {
@@ -21,7 +21,7 @@ double Statistic::gaussian_1D (
   **/
   
   return (*(p[0])) / (  (*(p[2])) * std::sqrt(2.0*M_PI) ) 
-         * std::exp( -0.5 * std::pow( ( x[0] - (*(p[1])) ) / (*(p[2])) ,2) );
+         * std::exp( -0.5 * std::pow( ( x.get_center()[0] - (*(p[1])) ) / (*(p[2])) ,2) );
 }
 
 }

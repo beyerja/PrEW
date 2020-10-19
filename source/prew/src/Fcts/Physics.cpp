@@ -14,7 +14,7 @@ namespace Fcts {
 **/
 
 double Physics::asymm_2chixs_a0 (
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord   &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -28,7 +28,7 @@ double Physics::asymm_2chixs_a0 (
 }
                         
 double Physics::asymm_2chixs_a1 (
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -53,7 +53,7 @@ double Physics::asymm_2chixs_a1 (
 **/
 
 double Physics::asymm_3chixs_a0 (
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -69,7 +69,7 @@ double Physics::asymm_3chixs_a0 (
 }
 
 double Physics::asymm_3chixs_a1 (
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -85,7 +85,7 @@ double Physics::asymm_3chixs_a1 (
 }
 
 double Physics::asymm_3chixs_a2 (
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -114,7 +114,7 @@ double Physics::asymm_3chixs_a2 (
 **/
 
 double Physics::asymm_Af_2f_LR (
-  const std::vector<double>   &x,
+  const Data::BinCoord &x,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -127,11 +127,11 @@ double Physics::asymm_Af_2f_LR (
       Coordinates: x[c[2]] - cosine of the polar angle of the fermion 
       Parameters: p[0] - change in asymmetry DeltaA_f
   **/
-  return 1.0 + 0.75 * c[0] / c[1] * x[int(c[2])] * (*(p[0]));
+  return 1.0 + 0.75 * c[0] / c[1] * x.get_center()[int(c[2])] * (*(p[0]));
 }
 
 double Physics::asymm_Af_2f_RL (
-  const std::vector<double>   &x,
+  const Data::BinCoord &x,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -144,7 +144,7 @@ double Physics::asymm_Af_2f_RL (
       Coordinates: x[c[2]] - cosine of the polar angle of the fermion 
       Parameters: p[0] - change in asymmetry DeltaA_f
   **/
-  return 1.0 - 0.75 * c[0] / c[1] * x[int(c[2])] * (*(p[0]));
+  return 1.0 - 0.75 * c[0] / c[1] * x.get_center()[int(c[2])] * (*(p[0]));
 }
 
 //------------------------------------------------------------------------------

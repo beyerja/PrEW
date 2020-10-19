@@ -1,4 +1,5 @@
 #include <CppUtils/Num.h>
+#include <Data/BinCoord.h>
 #include <Fcts/Systematics.h>
 
 #include <gtest/gtest.h>
@@ -6,6 +7,7 @@
 #include <vector>
 
 using namespace PrEW::CppUtils;
+using namespace PrEW::Data;
 using namespace PrEW::Fcts;
 
 //------------------------------------------------------------------------------
@@ -51,10 +53,10 @@ TEST(TestSystematics, LuminosityFraction) {
 
 TEST(TestSystematics, AcceptanceBox) {
   // Test if box acceptance function works properly
-  std::vector<double> x0 { -0.6 }; // Outside acceptance
-  std::vector<double> x1 { 0.1 }; // Fully contained in acceptance
-  std::vector<double> x2 { -0.45 }; // Contains lower limit
-  std::vector<double> x3 { 0.575 }; // Contains upper limit
+  BinCoord x0 ({-0.6}, {-0.6}, {-0.6}); // Outside acceptance
+  BinCoord x1 ({0.1}, {0.1}, {0.1}); // Fully contained in acceptance
+  BinCoord x2 ({-0.45}, {-0.45}, {-0.45}); // Contains lower limit
+  BinCoord x3 ({0.575}, {0.575}, {0.575}); // Contains upper limit
   std::vector<double> c {
     0,  // Index of relevant coordinate
     0.1 // Bin width
@@ -71,10 +73,10 @@ TEST(TestSystematics, AcceptanceBox) {
   double pred2 = 0.5;
   double pred3 = 0.25;
   
-  double res0 = Systematics::acceptance_box(x0,c,p_ptrs);
-  double res1 = Systematics::acceptance_box(x1,c,p_ptrs);
-  double res2 = Systematics::acceptance_box(x2,c,p_ptrs);
-  double res3 = Systematics::acceptance_box(x3,c,p_ptrs);
+  double res0 = Systematics::acceptance_box({x0},c,p_ptrs);
+  double res1 = Systematics::acceptance_box({x1},c,p_ptrs);
+  double res2 = Systematics::acceptance_box({x2},c,p_ptrs);
+  double res3 = Systematics::acceptance_box({x3},c,p_ptrs);
   
   ASSERT_EQ( Num::equal_to_eps( pred0, res0, 1e-9), true ) 
     << "(0)Expected " << pred0 << " got " << res0;

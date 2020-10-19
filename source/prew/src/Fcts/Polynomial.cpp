@@ -8,7 +8,7 @@ namespace Fcts {
 //------------------------------------------------------------------------------
 
 double Polynomial::constant_coef ( 
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &/*p*/
 ) {
@@ -21,7 +21,7 @@ double Polynomial::constant_coef (
 //------------------------------------------------------------------------------
 
 double Polynomial::constant_par ( 
-  const std::vector<double>   &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &/*c*/,
   const std::vector<double*>  &p
 ) {
@@ -34,7 +34,7 @@ double Polynomial::constant_par (
 //------------------------------------------------------------------------------
 
 double Polynomial::linear_3D_coeff ( 
-  const std::vector<double> &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double> &c,
   const std::vector<double*> &p
 ) {
@@ -49,7 +49,7 @@ double Polynomial::linear_3D_coeff (
 //------------------------------------------------------------------------------
 
 double Polynomial::quadratic_1D ( 
-  const std::vector<double> &x,
+  const Data::BinCoord &x,
   const std::vector<double> &/*c*/,
   const std::vector<double*> &p
 ) {
@@ -60,13 +60,14 @@ double Polynomial::quadratic_1D (
       No coefficients required.
   **/
   
-  return (*(p[0])) + (*(p[1])) * x[0] + (*(p[2])) * std::pow( x[0], 2);
+  return (*(p[0])) + (*(p[1])) * x.get_center()[0] 
+                   + (*(p[2])) * std::pow( x.get_center()[0], 2);
 }
 
 //------------------------------------------------------------------------------
 
 double Polynomial::quadratic_3D_coeff ( 
-  const std::vector<double> &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double> &c,
   const std::vector<double*> &p
 ) {

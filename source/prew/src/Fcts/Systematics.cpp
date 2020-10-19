@@ -6,7 +6,7 @@ namespace Fcts {
 //------------------------------------------------------------------------------
 
 double Systematics::polarisation_factor ( 
-  const std::vector<double> &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double> &c,
   const std::vector<double*> &p
 ) {
@@ -29,7 +29,7 @@ double Systematics::polarisation_factor (
 //------------------------------------------------------------------------------
 
 double Systematics::luminosity_fraction ( 
-  const std::vector<double> &/*x*/,
+  const Data::BinCoord &/*x*/,
   const std::vector<double> &c,
   const std::vector<double*> &p
 ) {
@@ -44,7 +44,7 @@ double Systematics::luminosity_fraction (
 //------------------------------------------------------------------------------
 
 double Systematics::acceptance_box (
-  const std::vector<double>   &x,
+  const Data::BinCoord &x,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
@@ -61,10 +61,10 @@ double Systematics::acceptance_box (
   double edge_up = box_center + box_width/2.0;
   double edge_low = box_center - box_width/2.0;
   
-  double bin_center = x[int(c[0])];
+  double coord = x.get_center()[int(c[0])];
   double bin_width = c[1];
-  double bin_max = bin_center + bin_width/2.0;
-  double bin_min = bin_center - bin_width/2.0;
+  double bin_max = coord + bin_width/2.0;
+  double bin_min = coord - bin_width/2.0;
   
   double factor = 0.0; // Default assumes x outside acceptance
   
