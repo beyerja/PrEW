@@ -2,6 +2,7 @@
 #define LIB_LINKER_H 1
 
 #include <CppUtils/Vec.h>
+#include <Data/BinCoord.h>
 #include <Data/CoefDistr.h>
 #include <Data/FctLink.h>
 #include <Fit/FitPar.h>
@@ -20,13 +21,13 @@ namespace Connect {
     **/
     
     Data::FctLinkVec m_fcts_links {};
-    CppUtils::Vec::Matrix2D<double> m_bin_centers {};
+    Data::CoordVec m_coords {};
     Data::CoefDistrVec m_coefs {};
     
     public:
       // Constructors
       Linker( Data::FctLinkVec fcts_links,
-              CppUtils::Vec::Matrix2D<double> bin_centers,
+              Data::CoordVec coords,
               Data::CoefDistrVec coefs
              );
       
