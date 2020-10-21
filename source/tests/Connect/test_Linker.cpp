@@ -25,9 +25,11 @@ TEST(TestLinker, GaussianTest) {
   
   // --- Prediction data:
   // x values to look at (1D)
-  Vec::Matrix2D<double> bin_centers {
-    {{-1}},{{0}},{{1}},{{1.5}},{{2}}
-  };
+  CoordVec coords{{{-1}, {-1}, {-1}},
+                               {{0}, {0}, {0}},
+                               {{1}, {1}, {1}},
+                               {{1.5}, {1.5}, {1.5}},
+                               {{2}, {2}, {2}}};
   // No coefficients for now
   CoefDistrVec coefs {};
   // Fit parameters (which will change during minimization in other stage)
@@ -46,7 +48,7 @@ TEST(TestLinker, GaussianTest) {
   };
   
   // --- Get functions from linker which are linked to parameters
-  Linker linker = Linker(fct_links, bin_centers, coefs);
+  Linker linker = Linker(fct_links, coords, coefs);
   
   int n_fcts = linker.get_all_bonded_fcts_at_bin(0,&pars).size();
   ASSERT_EQ(n_fcts, 1) << "Got more than one function";
@@ -91,9 +93,9 @@ TEST(TestLinker, GaussianManyValuesTest) {
   
   // --- Prediction data:
   // x values to look at (1D)
-  Vec::Matrix2D<double> bin_centers {};
+  CoordVec coords {};
   for (double center=-20; center<20; center+=0.001) {
-    bin_centers.push_back({center});
+    coords.push_back({{center},{center},{center}});
   } // 40/0.01 = 40000 bins -> as many functions
   // No coefficients for now
   CoefDistrVec coefs {};
@@ -113,11 +115,11 @@ TEST(TestLinker, GaussianManyValuesTest) {
   };
   
   // --- Get functions from linker which are linked to parameters
-  Linker linker = Linker(fct_links, bin_centers, coefs);
+  Linker linker = Linker(fct_links, coords, coefs);
   
   // Get all bin functions
   std::vector<std::function<double()>> gaussian_at_bins {};
-  for (int bin=0; bin<bin_centers.size(); bin++) {
+  for (int bin=0; bin<coords.size(); bin++) {
     auto bin_fcts = linker.get_all_bonded_fcts_at_bin(bin,&pars);
     ASSERT_EQ(bin_fcts.size(), 1) << "Got more than one function";
     gaussian_at_bins.push_back(bin_fcts[0]);
@@ -153,7 +155,7 @@ TEST(TestLinker, MultiFunctionTest) {
   
   // --- Prediction data:
   // x values to look at (1D)
-  Vec::Matrix2D<double> bin_centers { {1.0} }; // Just one bin at x=1
+  CoordVec coords { {{1.0},{1.0},{1.0}} }; // Just one bin at x=1
   // No coefficients for now
   CoefDistrVec coefs {};
   
@@ -173,7 +175,7 @@ TEST(TestLinker, MultiFunctionTest) {
   };
   
   // --- Get functions from linker which are linked to parameters
-  Linker linker = Linker(fct_links, bin_centers, coefs);
+  Linker linker = Linker(fct_links, coords, coefs);
   auto all_bin_fcts = linker.get_all_bonded_fcts_at_bin(0,&pars);
   ASSERT_EQ( all_bin_fcts.size(), 2 );
   

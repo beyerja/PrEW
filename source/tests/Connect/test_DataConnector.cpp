@@ -1,6 +1,7 @@
 #include <Connect/DataConnector.h>
 #include <CppUtils/Num.h>
 #include <CppUtils/Vec.h>
+#include <Data/BinCoord.h>
 #include <Data/CoefDistr.h>
 #include <Data/DistrInfo.h>
 #include <Data/PolLink.h>
@@ -33,10 +34,10 @@ TEST(TestDataConnector, ReadFunctions) {
   // Simple sanity check that read functions return correct vectors
   DistrInfo info_LR {"test", Chiral::eLpR, 500};
   DistrInfo info_RL {"test", Chiral::eRpL, 500};
-  Vec::Matrix2D<double> bin_centers = {{0}, {1}};
+  CoordVec coords = {{}, {}};
   PredDistrVec pred_distrs { 
-    { info_LR, bin_centers, {1}, {0} }, 
-    { info_LR, bin_centers, {2}, {0} } 
+    { info_LR, coords, {1}, {0} }, 
+    { info_LR, coords, {2}, {0} } 
   };
   CoefDistrVec coef_distrs {};
   PredLinkVec  pred_links {
@@ -64,13 +65,13 @@ TEST(TestDataConnector, DistrFilling) {
   DistrInfo info_RL {"test", Chiral::eRpL, 500};
   DistrInfo info_LL {"test", Chiral::eLpL, 500};
   DistrInfo info_RR {"test", Chiral::eRpR, 500};
-  Vec::Matrix2D<double> bin_centers = {{0}, {1}};
-  DiffDistr diff_distr { info_pol, bin_centers, {{0.8,0.2},{1,0.2}} };
+  CoordVec coords = {{{0}, {-0.5}, {0.5}}, {{1}, {0.5}, {1.5}}};
+  DiffDistr diff_distr { info_pol, coords, {{0.8,0.2},{1,0.2}} };
   PredDistrVec pred_distrs { 
-    { info_LR, bin_centers, {1}, {0} },
-    { info_RL, bin_centers, {1}, {0} },
-    { info_LL, bin_centers, {1}, {0} },
-    { info_RR, bin_centers, {1}, {0} },
+    { info_LR, coords, {1}, {0} },
+    { info_RL, coords, {1}, {0} },
+    { info_LL, coords, {1}, {0} },
+    { info_RR, coords, {1}, {0} },
   };
   ParVec pars { 
     {"A_pol", 1, 0},

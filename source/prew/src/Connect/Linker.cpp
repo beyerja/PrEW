@@ -15,10 +15,10 @@ namespace Connect {
 // Constructors
 
 Linker::Linker( Data::FctLinkVec fcts_links,
-                CppUtils::Vec::Matrix2D<double> bin_centers,
+                Data::CoordVec coords,
                 Data::CoefDistrVec coefs 
 ) : m_fcts_links(fcts_links),
-    m_bin_centers(bin_centers),
+    m_coords(coords),
     m_coefs(coefs) 
 {}
 
@@ -36,10 +36,10 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
       function will change.
   **/
   
-  if (bin > m_bin_centers.size()) {
+  if (bin > m_coords.size()) {
     throw std::out_of_range("Asking for function for non-existing bin!");
   }
-  std::vector<double> bin_center = m_bin_centers[bin];
+  auto coord = m_coords[bin];
 
   // Find needed coefficient values
   spdlog::debug("Looking for {} coefficients.", fct_link.m_coefs.size());
@@ -86,7 +86,7 @@ std::function<double()> Linker::get_bonded_fct_at_bin (
   std::function<double()> bound_fct = 
    std::bind( 
      Fcts::prew_fct_map.at(fct_name),
-     bin_center,
+     coord,
      bin_coefs,
      bin_pars
    );

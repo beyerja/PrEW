@@ -1,6 +1,6 @@
-,BinCenters:coord1,BinCenters:coord2,BinCenters:coord3,Coef:coef1,Coef:coef2,Cross sections
-0,0.01,-1,1.1,0.4,0.01,0
-1,0.02,-1,1.2,0.3,0.02,1
-2,0.03,-2,1.1,0.2,0.03,2
-3,0.04,-2,1.2,0.1,0.04,3
-4,0.05,-3,1.1,0.0,0.05,4
+,BinCenters:coord1,BinLow:coord1,BinUp:coord1,BinCenters:coord2,BinLow:coord2,BinUp:coord2,Coef:coef1,Coef:coef2,Cross sections
+0,0.01,0.005,0.015,-1,-1.5,-0.5,0.4,0.01,0
+1,0.02,0.015,0.025,-1,-1.5,-0.5,0.3,0.02,1
+2,0.03,0.025,0.035,-2,-2.5,-1.5,0.2,0.03,2
+3,0.04,0.035,0.045,-2,-2.5,-1.5,0.1,0.04,3
+4,0.05,0.045,0.055,-3,-3.5,-2.5,0.0,0.05,4

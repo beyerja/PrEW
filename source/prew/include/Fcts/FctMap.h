@@ -1,11 +1,11 @@
 #ifndef LIB_FNCTMAP_H
 #define LIB_FNCTMAP_H 1
 
+#include <Fcts/ParametrisationFct.h>
 #include <Fcts/Physics.h>
 #include <Fcts/Polynomial.h>
 #include <Fcts/Statistic.h>
 #include <Fcts/Systematics.h>
-#include <CppUtils/Fct.h>
 
 #include <map>
 #include <string>
@@ -14,7 +14,7 @@ namespace PrEW {
 namespace Fcts {
   // Kind of map pointing from a string (function-ID) to a function 
   // which has three input parameter vectors: coordinate,parameters,coefficients
-  using FctMap = std::map<std::string, CppUtils::Fct::ParametrisationFct>;
+  using FctMap = std::map<std::string, ParametrisationFct>;
         
   // This fixes the association of a funtion-ID string to an actual function.
   // All parameterisation functions must have their own unique ID!

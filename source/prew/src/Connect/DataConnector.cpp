@@ -89,7 +89,7 @@ void DataConnector::fill_bins(
   std::string pol_config = diff_distr.m_info.m_pol_config;
   int energy             = diff_distr.m_info.m_energy;
   
-  CppUtils::Vec::Matrix2D<double> bin_centers = diff_distr.m_bin_centers;
+  auto coords = diff_distr.m_coords;
   
   // Find polarisation link for this energy
   spdlog::debug("Finding polarisation links at energy {}.", energy);
@@ -142,7 +142,7 @@ void DataConnector::fill_bins(
   // Not every chiral distribution has to be provided.
   // Those that aren't will be assumed as 0.
   
-  std::vector<double> zero_distr (bin_centers.size(), 0.0);
+  std::vector<double> zero_distr (coords.size(), 0.0);
   int n_not_found = 0;
   if (pred_LR == Data::PredDistr()) {
     spdlog::debug("No LR prediction available for {}, assume zero.", distr_name);
@@ -179,24 +179,24 @@ void DataConnector::fill_bins(
   spdlog::debug("Setting up linkers.");
 
   Connect::Linker linker_sig_LR = 
-    Connect::Linker(links_LR.m_fcts_links_sig, bin_centers, coefs_LR);
+    Connect::Linker(links_LR.m_fcts_links_sig, coords, coefs_LR);
   Connect::Linker linker_bkg_LR = 
-    Connect::Linker(links_LR.m_fcts_links_bkg, bin_centers, coefs_LR);
+    Connect::Linker(links_LR.m_fcts_links_bkg, coords, coefs_LR);
 
   Connect::Linker linker_sig_RL = 
-    Connect::Linker(links_RL.m_fcts_links_sig, bin_centers, coefs_RL);
+    Connect::Linker(links_RL.m_fcts_links_sig, coords, coefs_RL);
   Connect::Linker linker_bkg_RL = 
-    Connect::Linker(links_RL.m_fcts_links_bkg, bin_centers, coefs_RL);
+    Connect::Linker(links_RL.m_fcts_links_bkg, coords, coefs_RL);
 
   Connect::Linker linker_sig_LL = 
-    Connect::Linker(links_LL.m_fcts_links_sig, bin_centers, coefs_LL);
+    Connect::Linker(links_LL.m_fcts_links_sig, coords, coefs_LL);
   Connect::Linker linker_bkg_LL = 
-    Connect::Linker(links_LL.m_fcts_links_bkg, bin_centers, coefs_LL);
+    Connect::Linker(links_LL.m_fcts_links_bkg, coords, coefs_LL);
 
   Connect::Linker linker_sig_RR = 
-    Connect::Linker(links_RR.m_fcts_links_sig, bin_centers, coefs_RR);
+    Connect::Linker(links_RR.m_fcts_links_sig, coords, coefs_RR);
   Connect::Linker linker_bkg_RR = 
-    Connect::Linker(links_RR.m_fcts_links_bkg, bin_centers, coefs_RR);
+    Connect::Linker(links_RR.m_fcts_links_bkg, coords, coefs_RR);
   // ---------------------------------------------------------------------------
 
   // --- Get linkers for polarised alpha functions -----------------------------
@@ -204,9 +204,9 @@ void DataConnector::fill_bins(
   auto coefs_pol = Data::DistrUtils::subvec_pol(coefficients, pol_config);
 
   Connect::Linker linker_sig_pol = 
-    Connect::Linker(links_pol.m_fcts_links_sig, bin_centers, coefs_pol);
+    Connect::Linker(links_pol.m_fcts_links_sig, coords, coefs_pol);
   Connect::Linker linker_bkg_pol = 
-    Connect::Linker(links_pol.m_fcts_links_bkg, bin_centers, coefs_pol);
+    Connect::Linker(links_pol.m_fcts_links_bkg, coords, coefs_pol);
   // ---------------------------------------------------------------------------
 
   // --- Get polarisation factor alpha functions -------------------------------
@@ -221,7 +221,7 @@ void DataConnector::fill_bins(
   // ---------------------------------------------------------------------------
 
   // Set the prediction of each distribution
-  for ( size_t bin=0; bin<bin_centers.size(); bin++ ) {
+  for ( size_t bin=0; bin<coords.size(); bin++ ) {
     spdlog::debug("Binding functions for bin {}.", bin);
     
     // -------------------- Get chiral signal prediction -----------------------

@@ -55,6 +55,7 @@ void Reading::read_RK_file(
   std::string *process {};
   int n_bins {};
   TMatrixT < double > *bin_centers = 0;
+  TMatrixT < double > *bin_widths = 0;
   
   const unsigned int number_init = 10000;
   double diff_sigma_signal_LR[number_init] {};
@@ -82,6 +83,7 @@ void Reading::read_RK_file(
   tree->SetBranchAddress("describtion", &process );
   tree->SetBranchAddress("angular_number", &n_bins );
   tree->SetBranchAddress("angular_center", &bin_centers );
+  tree->SetBranchAddress("angular_width", &bin_widths );
   
   tree->SetBranchAddress("differential_sigma_LR", diff_sigma_signal_LR );
   tree->SetBranchAddress("differential_sigma_RL", diff_sigma_signal_RL );
@@ -122,10 +124,27 @@ void Reading::read_RK_file(
     // Reading of actual distribution and coefficients
     CppUtils::Vec::Matrix2D<double> bin_center_mtx 
       = CppUtils::Root::matrix2D_from_TMatrixT( *bin_centers );
-    pred_LL.m_bin_centers = bin_center_mtx;
-    pred_LR.m_bin_centers = bin_center_mtx;
-    pred_RL.m_bin_centers = bin_center_mtx;
-    pred_RR.m_bin_centers = bin_center_mtx;
+    CppUtils::Vec::Matrix2D<double> bin_width_mtx 
+      = CppUtils::Root::matrix2D_from_TMatrixT( *bin_widths );
+    
+    Data::CoordVec coords (n_bins);
+    for (int bin=0; bin<n_bins; bin++) {
+      auto this_bin_center = bin_center_mtx[bin];
+      auto this_bin_width = bin_width_mtx[bin];
+      int n_dims = this_bin_center.size();
+      std::vector<double> edge_low (n_dims);
+      std::vector<double> edge_up (n_dims);
+      for (int dim=0; dim<n_dims; dim++) {
+        edge_low[dim] = this_bin_center[dim] - this_bin_width[dim] / 2.0;
+        edge_up[dim]  = this_bin_center[dim] + this_bin_width[dim] / 2.0;
+      }
+      coords[bin] = Data::BinCoord(this_bin_center, edge_low, edge_up);
+    }
+    
+    pred_LL.m_coords = coords;
+    pred_LR.m_coords = coords;
+    pred_RL.m_coords = coords;
+    pred_RR.m_coords = coords;
     
     std::vector<std::string> coef_labels = CppUtils::Str::string_to_vec( *diff_TGC_coeff_label, ";");
     size_t n_coefs = coef_labels.size();
