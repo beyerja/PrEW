@@ -25,9 +25,9 @@ TEST(TestCSVInterpreter, TestDataReading) {
   DistrInfo info_pred {"test", Chiral::eLpR, 250};
   ASSERT_EQ(info, info_pred);
   
-  // Contains 2 coefficients
-  ASSERT_EQ(coef_distrs.size(), 2);
-  // Number of bins is 5, bin dimension is 3
+  // Contains 4 coefficients (2 differential + 2 global)
+  ASSERT_EQ(coef_distrs.size(), 4);
+  // Number of bins is 5, bin dimension is 2
   ASSERT_EQ(pred_distr.m_coords.size(), 5);
   ASSERT_EQ(pred_distr.m_coords.at(0).get_dim(), 2);
 }

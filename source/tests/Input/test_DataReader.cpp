@@ -38,9 +38,9 @@ TEST(TestDataReader, TestCSVFileReading) {
   
   // CSV files don't contain measurements
   ASSERT_EQ(measured_distributions.size(), 0); 
-  // Contains 1 distribution and 2 coefficients
+  // Contains 1 distribution and 4 coefficients
   ASSERT_EQ(predicted_distributions.size(), 1);
-  ASSERT_EQ(prediction_coefficients.size(), 2);
+  ASSERT_EQ(prediction_coefficients.size(), 4);
 }
 
 //------------------------------------------------------------------------------
