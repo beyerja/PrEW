@@ -47,10 +47,19 @@ const Data::CoefDistrVec &CSVInterpreter::get_coef_distrs() const {
 void CSVInterpreter::read_metadata(const CSVMetadata &metadata) {
   /** Use the given metadata to read the distribution info.
    **/
+  // Read the distribution info from the metadata
   m_info.m_distr_name = metadata.get<std::string>("name");
   m_info.m_energy = metadata.get<int>("energy");
   m_info.m_pol_config = GlobalVar::Chiral::transform(
       metadata.get<int>("e- chirality"), metadata.get<int>("e+ chirality"));
+
+  // Look for global coefficients in the metadata
+  for (const auto &coef_ID : metadata.keys("coefs")) {
+    auto coef_name = CppUtils::Str::string_to_vec(coef_ID, "|").at(1);
+    auto coef_val = metadata.get<double>(coef_ID);
+    // Create the global coefficient
+    m_coef_distrs.push_back(Data::CoefDistr(coef_name, m_info, coef_val));
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -82,7 +91,7 @@ void CSVInterpreter::read_csv(csv::CSVReader &csv_reader) {
       edges_low.push_back(row[csv_coord.edge_low()].get<double>());
       edges_up.push_back(row[csv_coord.edge_up()].get<double>());
     }
-    coords.push_back(Data::BinCoord(bin_centers,edges_low,edges_up));
+    coords.push_back(Data::BinCoord(bin_centers, edges_low, edges_up));
 
     // Collect bin values
     bin_values.push_back(row["Cross sections"].get<double>());
