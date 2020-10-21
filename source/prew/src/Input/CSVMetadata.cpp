@@ -32,6 +32,18 @@ csv::CSVReader CSVMetadata::strip_metadata(const std::string &file_path) {
 
 //------------------------------------------------------------------------------
 
+std::vector<std::string> CSVMetadata::keys() const {
+  /** Return the keys of all the available metadata from the header.
+   **/
+  std::vector<std::string> keys{};
+  for (const auto &[key, _] : m_metadata) {
+    keys.push_back(key);
+  }
+  return keys;
+}
+
+//------------------------------------------------------------------------------
+
 void CSVMetadata::interpret(const std::vector<std::string> &metadata_lines) {
   /** Interpret the header lines.
    **/

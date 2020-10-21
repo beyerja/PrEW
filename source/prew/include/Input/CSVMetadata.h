@@ -36,6 +36,7 @@ public:
 
   // Access functions
   template <class OutClass> OutClass get(const std::string &name) const;
+  std::vector<std::string> keys() const;
 
 protected:
   void interpret(const std::vector<std::string> &metadata_lines);
