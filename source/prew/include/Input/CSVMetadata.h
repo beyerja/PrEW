@@ -37,10 +37,10 @@ public:
 
   // Access functions
   template <class OutClass> OutClass get(const std::string &name) const;
-  std::vector<std::string> keys() const;
+  std::vector<std::string> keys(const std::string & which="all") const;
 
 protected:
-  bool ID_is_coef(const std::string & ID_str);
+  bool ID_is_coef(const std::string & ID_str) const;
   void interpret(const std::vector<std::string> &metadata_lines);
   std::vector<std::string>
   get_metadata_lines(const std::string &file_path) const;

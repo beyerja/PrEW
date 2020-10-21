@@ -5,6 +5,9 @@
 // Standard library
 #include <fstream>
 
+// Third party libraries
+#include "spdlog/spdlog.h"
+
 namespace PrEW {
 namespace Input {
 
@@ -32,21 +35,36 @@ csv::CSVReader CSVMetadata::strip_metadata(const std::string &file_path) {
 
 //------------------------------------------------------------------------------
 
-std::vector<std::string> CSVMetadata::keys() const {
-  /** Return the keys of all the available metadata from the header.
+std::vector<std::string> CSVMetadata::keys(const std::string &which) const {
+  /** Return the keys of the available metadata from the header.
+      A string can be given to state which keys should be given.
+      Options:
+        all   -> all keys
+        coefs -> only coefficient keys
    **/
   std::vector<std::string> keys{};
   for (const auto &[key, _] : m_metadata) {
-    keys.push_back(key);
+    // Determine if this key was requested
+    bool use_key =
+        (which == "all") || ((which == "coefs") && this->ID_is_coef(key));
+    if (use_key) {
+      keys.push_back(key);
+    }
   }
+  
+  // Check if any keys were found at all (not always necessary)
+  if (keys.size() == 0) {
+    spdlog::debug("No CSV metadata keys found of type {}", which);
+  }
+  
   return keys;
 }
 
 //------------------------------------------------------------------------------
 
-bool CSVMetadata::ID_is_coef(const std::string &ID_str) {
+bool CSVMetadata::ID_is_coef(const std::string &ID_str) const{
   /** Check if the given metadata ID string describes a global coefficient for
-    *the distribution.
+   *the distribution.
    **/
   auto split = CppUtils::Str::string_to_vec(ID_str, "|");
   return (split.size() == 2) && (split.at(0) == CSVMetadata::coef_ID);

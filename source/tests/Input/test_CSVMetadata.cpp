@@ -36,7 +36,9 @@ TEST(TestCSVMetadata, TestDataReading) {
   std::vector<std::string> pred_keys{"Coef|Test1",   "Coef|Test2",
                                      "e+ chirality", "e- chirality",
                                      "energy",       "name"};
-  ASSERT_EQ(metadata.keys(), pred_keys);
+  std::vector<std::string> pred_coef_keys{"Coef|Test1",   "Coef|Test2"};
+  ASSERT_EQ(metadata.keys("all"), pred_keys);
+  ASSERT_EQ(metadata.keys("coefs"), pred_coef_keys);
 }
 
 //------------------------------------------------------------------------------
