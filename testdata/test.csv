@@ -3,6 +3,8 @@ Name: test
 Energy: 250
 e-Chirality: -1.0
 e+Chirality: 1.0
+Coef|Test1: 0.001
+Coef|Test2: -50.5
 #END-METADATA
 ,BinCenters:coord1,BinLow:coord1,BinUp:coord1,BinCenters:coord2,BinLow:coord2,BinUp:coord2,Coef:coef1,Coef:coef2,Cross sections
 0,0.01,0.005,0.015,-1,-1.5,-0.5,0.4,0.01,0

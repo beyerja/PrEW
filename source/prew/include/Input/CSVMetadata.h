@@ -23,6 +23,7 @@ class CSVMetadata {
       {"Energy", "energy"},
       {"e-Chirality", "e- chirality"},
       {"e+Chirality", "e+ chirality"}};
+  const std::string coef_ID{"Coef"};
 
   // Map holding the metadata strings by its identifiers (to be interpreted)
   std::map<std::string, std::string> m_metadata{};
@@ -39,6 +40,7 @@ public:
   std::vector<std::string> keys() const;
 
 protected:
+  bool ID_is_coef(const std::string & ID_str);
   void interpret(const std::vector<std::string> &metadata_lines);
   std::vector<std::string>
   get_metadata_lines(const std::string &file_path) const;

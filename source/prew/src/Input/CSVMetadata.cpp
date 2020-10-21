@@ -44,6 +44,16 @@ std::vector<std::string> CSVMetadata::keys() const {
 
 //------------------------------------------------------------------------------
 
+bool CSVMetadata::ID_is_coef(const std::string &ID_str) {
+  /** Check if the given metadata ID string describes a global coefficient for
+    *the distribution.
+   **/
+  auto split = CppUtils::Str::string_to_vec(ID_str, "|");
+  return (split.size() == 2) && (split.at(0) == CSVMetadata::coef_ID);
+}
+
+//------------------------------------------------------------------------------
+
 void CSVMetadata::interpret(const std::vector<std::string> &metadata_lines) {
   /** Interpret the header lines.
    **/
@@ -61,13 +71,17 @@ void CSVMetadata::interpret(const std::vector<std::string> &metadata_lines) {
     auto ID_str = CppUtils::Str::string_to_vec(split_line[0], ":").at(0);
     auto value = split_line[1];
 
-    if (CSVMetadata::metadata_IDs.find(ID_str) ==
+    // Try to identify and store the value
+    if (CSVMetadata::metadata_IDs.find(ID_str) !=
         CSVMetadata::metadata_IDs.end()) {
+      // Known metadata
+      m_metadata[CSVMetadata::metadata_IDs.at(ID_str)] = value;
+    } else if (this->ID_is_coef(ID_str)) {
+      // It's a global coefficient for this distribution
+      m_metadata[ID_str] = value;
+    } else {
       throw std::invalid_argument("Unknown CSV metadata ID: " + ID_str);
     }
-
-    // Store the value
-    m_metadata[CSVMetadata::metadata_IDs.at(ID_str)] = value;
   }
 }
 

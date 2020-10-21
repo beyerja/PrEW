@@ -1,12 +1,14 @@
 #include <gtest/gtest.h>
 
 // Inputs from PrEW
+#include <CppUtils/Num.h>
 #include <Input/CSVMetadata.h>
 
 // Standard library
 #include <string>
 #include <vector>
 
+using namespace PrEW::CppUtils;
 using namespace PrEW::Input;
 
 //------------------------------------------------------------------------------
@@ -27,10 +29,13 @@ TEST(TestCSVMetadata, TestDataReading) {
   ASSERT_EQ(metadata.get<int>("energy"), 250);
   ASSERT_EQ(metadata.get<int>("e- chirality"), -1);
   ASSERT_EQ(metadata.get<int>("e+ chirality"), 1);
+  ASSERT_TRUE(Num::equal_to_eps(metadata.get<double>("Coef|Test1"), 0.001));
+  ASSERT_TRUE(Num::equal_to_eps(metadata.get<double>("Coef|Test2"), -50.5));
 
   // Check that all available keys were read
-  std::vector<std::string> pred_keys{"e+ chirality", "e- chirality", "energy",
-                                     "name"};
+  std::vector<std::string> pred_keys{"Coef|Test1",   "Coef|Test2",
+                                     "e+ chirality", "e- chirality",
+                                     "energy",       "name"};
   ASSERT_EQ(metadata.keys(), pred_keys);
 }
 
