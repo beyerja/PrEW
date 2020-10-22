@@ -89,3 +89,30 @@ TEST(TestSystematics, AcceptanceBox) {
 }
 
 //------------------------------------------------------------------------------
+
+TEST(TestSystematics, AcceptanceBoxPolynomial) {
+  // Test box acceptance function that uses 2nd order polynomial
+  BinCoord x ({-0.6}, {-0.65}, {-0.55}); // Bin coordinate (has no influence)
+  std::vector<double> c {
+    0.7,   // constant polynomial term
+    10.0,  // linear polyn. term in center deviation
+    12.5,  // linear polyn. term in width deviation
+    -50.5, // quadratic polyn. term in center deviation
+    -30.5, // quadratic polyn. term in width deviation
+    -4.5   // mixed polynomial term in width and center deviations
+  };
+  std::vector<double> p_vals { 
+    0.05, // Box center deviation
+    -0.01,   // Box width deviation
+  };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  double pred = 0.94795;
+  double res = Systematics::acceptance_box_polynomial({x},c,p_ptrs);
+  
+  ASSERT_TRUE( Num::equal_to_eps( pred, res, 1e-9) ) 
+    << "Expected " << pred << " got " << res;
+}
+
+//------------------------------------------------------------------------------

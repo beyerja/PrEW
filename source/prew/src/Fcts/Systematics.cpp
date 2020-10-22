@@ -1,5 +1,8 @@
 #include <Fcts/Systematics.h>
 
+// Standard library
+#include <cmath>
+
 namespace PrEW {
 namespace Fcts {
 
@@ -77,6 +80,46 @@ double Systematics::acceptance_box (
   } else if ( ( edge_up > bin_min) && ( edge_up < bin_max) ) {
     // Upper edge within bin
     factor = ( edge_up - bin_min ) / bin_width;
+  }
+  
+  return factor;
+}
+
+//------------------------------------------------------------------------------
+
+double Systematics::acceptance_box_polynomial (
+  const Data::BinCoord &/*x*/,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /** Calculate factor from detector acceptance for box-like detector 
+      acceptance.
+      Small deviations of the edges on both sides of the box lead to deviations
+      which are described by a second order polynomial. The coefficients for 
+      that polynomial should be calculated from Monte Carlo events.
+      An additional restriction is applied so that the factor can only be 
+      between 0 and 1.
+      Coefficients: c[0] - constant polynomial term
+                    c[1] - linear polyn. term in center deviation
+                    c[2] - linear polyn. term in width deviation
+                    c[3] - quadratic polyn. term in center deviation
+                    c[4] - quadratic polyn. term in width deviation
+                    c[5] - mixed polynomial term in width and center deviations
+      Parameters: p[0] - deviation in the box center
+                  p[1] - deviation in the box width
+  **/
+  double dc = (*(p[0]));
+  double dw = (*(p[1]));
+  
+  double factor = c[0] + c[1] * dc + c[2] * dw
+                  + c[3] * std::pow(dc,2) + c[4] * std::pow(dw,2)
+                  + c[5] * dc * dw;
+  
+  // Enforce that the factor can only be between 0 and 1
+  if (factor > 1) {
+    factor = 1.0;
+  } else if (factor < 0) {
+    factor = 0.0;
   }
   
   return factor;
