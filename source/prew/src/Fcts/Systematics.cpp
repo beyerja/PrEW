@@ -88,57 +88,32 @@ double Systematics::acceptance_box (
 //------------------------------------------------------------------------------
 
 double Systematics::acceptance_box_polynomial (
-  const Data::BinCoord &x,
+  const Data::BinCoord &/*x*/,
   const std::vector<double>   &c,
   const std::vector<double*>  &p
 ) {
   /** Calculate factor from detector acceptance for box-like detector 
-      acceptance in a given coordinate.
+      acceptance.
       Small deviations of the edges on both sides of the box lead to deviations
       which are described by a second order polynomial. The coefficients for 
       that polynomial should be calculated from Monte Carlo events.
-      Additional restrictions are put that bins completely outside (inside) of 
-      acceptance are exactly 0 (1) and the factor only be between 0 and 1.
-      Coordinates: x[c[0]] - coordinate of the acceptance range
-      Coefficients: c[0] - index of the relevant coordinate (must be int!)
-                    c[1] - the initial cut value (symmetric on + and - side)
-                    c[2] - constant polynomial term
-                    c[3] - linear polyn. term in center deviation
-                    c[4] - linear polyn. term in width deviation
-                    c[5] - quadratic polyn. term in center deviation
-                    c[6] - quadratic polyn. term in width deviation
-                    c[7] - mixed polynomial term in width and center deviations
+      An additional restriction is applied so that the factor can only be 
+      between 0 and 1.
+      Coefficients: c[0] - constant polynomial term
+                    c[1] - linear polyn. term in center deviation
+                    c[2] - linear polyn. term in width deviation
+                    c[3] - quadratic polyn. term in center deviation
+                    c[4] - quadratic polyn. term in width deviation
+                    c[5] - mixed polynomial term in width and center deviations
       Parameters: p[0] - deviation in the box center
                   p[1] - deviation in the box width
   **/
-  int coord_index = int(c[0]);
-  double edge_low = x.get_edge_low()[coord_index];
-  double edge_up = x.get_edge_up()[coord_index];
-  
-  double initial_cut = c[1];
   double dc = (*(p[0]));
   double dw = (*(p[1]));
-  double cut_low = - initial_cut + dc - dw/2.0;
-  double cut_up = initial_cut + dc + dw/2.0;
   
-  double factor = 0;
-  
-  if ( edge_up < cut_low ) {
-    // Bin completely outside of acceptance on negative side
-    factor = 0.0;
-  } else if ( edge_low > cut_up ) {
-    // Bin completely outside of acceptance on positive side
-    factor = 0.0;
-  } else if ( (edge_low > cut_low) && (edge_up < cut_up) ) {
-    // Bin completely inside acceptance
-    factor = 1.0;
-  } else {
-    // Bin is partially in acceptance, apply polynomial
-    factor = c[2] 
-             + c[3] * dc + c[4] * dw
-             + c[5] * std::pow(dc,2) + c[6] * std::pow(dw,2)
-             + c[7] * dc * dw;
-  }
+  double factor = c[0] + c[1] * dc + c[2] * dw
+                  + c[3] * std::pow(dc,2) + c[4] * std::pow(dw,2)
+                  + c[5] * dc * dw;
   
   // Enforce that the factor can only be between 0 and 1
   if (factor > 1) {
