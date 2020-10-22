@@ -33,6 +33,10 @@ namespace Systematics {
                          const std::vector<double>   &c,
                          const std::vector<double*>  &p);
     
+  double acceptance_box_polynomial (const Data::BinCoord       &x,
+                                    const std::vector<double>  &c,
+                                    const std::vector<double*> &p);
+    
   //----------------------------------------------------------------------------
   
 } // Namespace Systematics

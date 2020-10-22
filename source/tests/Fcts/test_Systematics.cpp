@@ -89,3 +89,48 @@ TEST(TestSystematics, AcceptanceBox) {
 }
 
 //------------------------------------------------------------------------------
+
+TEST(TestSystematics, AcceptanceBoxPolynomial) {
+  // Test box acceptance function that uses 2nd order polynomial
+  BinCoord x0 ({-0.6}, {-0.65}, {-0.55}); // Outside lower acceptance
+  BinCoord x1 ({0.7}, {0.6}, {0.8}); // Outside upper acceptance
+  BinCoord x2 ({0.1}, {0.0}, {0.2}); // Fully contained in acceptance
+  BinCoord x3 ({0.5}, {0.4}, {0.6}); // Contains upper limit
+  std::vector<double> c {
+    0,     // Index of relevant coordinate
+    0.5,   // Inital cut
+    0.7,   // constant polynomial term
+    10.0,  // linear polyn. term in center deviation
+    12.5,  // linear polyn. term in width deviation
+    -50.5, // quadratic polyn. term in center deviation
+    -30.5, // quadratic polyn. term in width deviation
+    -4.5   // mixed polynomial term in width and center deviations
+  };
+  std::vector<double> p_vals { 
+    0.05, // Box center deviation
+    -0.01,   // Box width deviation
+  };
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  double pred0 = 0.0;
+  double pred1 = 0.0;
+  double pred2 = 1.0;
+  double pred3 = 0.94795;
+  
+  double res0 = Systematics::acceptance_box_polynomial({x0},c,p_ptrs);
+  double res1 = Systematics::acceptance_box_polynomial({x1},c,p_ptrs);
+  double res2 = Systematics::acceptance_box_polynomial({x2},c,p_ptrs);
+  double res3 = Systematics::acceptance_box_polynomial({x3},c,p_ptrs);
+  
+  ASSERT_TRUE( Num::equal_to_eps( pred0, res0, 1e-9) ) 
+    << "(0)Expected " << pred0 << " got " << res0;
+  ASSERT_TRUE( Num::equal_to_eps( pred1, res1, 1e-9) ) 
+    << "(1)Expected " << pred1 << " got " << res1;
+  ASSERT_TRUE( Num::equal_to_eps( pred2, res2, 1e-9) ) 
+    << "(2)Expected " << pred2 << " got " << res2;
+  ASSERT_TRUE( Num::equal_to_eps( pred3, res3, 1e-9) ) 
+    << "(3)Expected " << pred3 << " got " << res3;
+}
+
+//------------------------------------------------------------------------------
