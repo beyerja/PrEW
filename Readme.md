@@ -23,7 +23,7 @@
  ```
 5. Clone the CSVParser repository from github:
  ```sh
- git clone -b '2.0.0-beta' --depth 1 https://github.com/vincentlaucsb/csv-parser csv_parser
+ git clone -b '2.0.0-beta' --depth 1 https://github.com/vincentlaucsb/csv-parser external/csv_parser
  ```
 6. Unzip data files needed for testing:
  ```sh
