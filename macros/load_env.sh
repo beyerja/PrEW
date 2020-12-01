@@ -5,7 +5,7 @@ echo "### Loading needed software versions ####################################"
 echo "#########################################################################"
 
 # Loading CMake version >= 3.8
-export PATH=/cvmfs/sft.cern.ch/lcg/releases/CMake/3.8.2-ece19/x86_64-centos7-gcc8-opt/bin:${PATH}
+export PATH=/cvmfs/sft.cern.ch/lcg/releases/CMake/3.17.3-75516/x86_64-centos7-gcc8-opt/bin:${PATH}
 
 # Loading gcc8
 source /cvmfs/sft.cern.ch/lcg/contrib/gcc/8/x86_64-centos7-gcc8-opt/setup.sh
