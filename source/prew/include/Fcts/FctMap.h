@@ -39,7 +39,7 @@ namespace Fcts {
     {"PolarisationFactor", Systematics::polarisation_factor},
     {"LuminosityFraction", Systematics::luminosity_fraction},
     {"AcceptanceBox", Systematics::acceptance_box},
-    {"AcceptanceBoxPolynomial", Systematics::acceptance_box}
+    {"AcceptanceBoxPolynomial", Systematics::acceptance_box_polynomial}
   };
 
   
