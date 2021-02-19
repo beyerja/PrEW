@@ -81,26 +81,31 @@ void PoissonNLLMinimizer::update_nll() {
   
   m_nll = 0.0; // Reset NLL before summing it up again
   
+  // For numerically safer Kahan sum
+  double num{0}, c{0}, y{0}, t{0};
+  
   // Find log-likelihood contributions from bin values
   for ( const auto & bin : m_container->m_fit_bins ) {
     int n = int( bin.get_val_mst() ); // Measurements have to be integer
     double mu = bin.get_val_prd();    // Prediction
     
+    num = 0; // Reset current number, to be determined below
+    
     // Handle all possible cases of n and mu
     if ( n == 0 ) {
       if ( mu > 0 ) {
         // Poisson NLL behaves well under these conditions
-        m_nll += this->nll_poisson(n, mu);
+        num = this->nll_poisson(n, mu);
       } else {
         // Poisson NLL goes to zero for mu->0 for n==0, continue at 0 for
         // mu < 0 as well.
         // => Negative pred. not punished, assume will be fixed by other bins
-        m_nll += 0;
+        // num = 0; // redundant
       }
     } else if ( n <= 25 ) {
       if ( mu > 0 ) {
         // Poisson NLL behaves well under these conditions
-        m_nll += this->nll_poisson(n, mu);
+        num = this->nll_poisson(n, mu);
       } else {
         // Poisson NLL goes to infinity for mu->0 for n>0, continue at inf. for
         // mu < 0 as well.
@@ -111,7 +116,7 @@ void PoissonNLLMinimizer::update_nll() {
       // Measured value big enough that a gaussian can be assumed
       if ( mu > 0 ) {
         // Gaussian well behaved
-        m_nll += this->nll_gaussian(double(n), mu, std::sqrt(mu));
+        num = this->nll_gaussian(double(n), mu, std::sqrt(mu));
       } else {
         // Gaussian assumption leads to infinity
         m_nll = std::numeric_limits<double>::infinity();
@@ -119,18 +124,29 @@ void PoissonNLLMinimizer::update_nll() {
       }
     }    
     
+    // Perform the numerically safer Kahan sum
+    y = num - c;
+    t = m_nll + y;
+    c = (t - m_nll) - y;
+    m_nll = t;
   } // End bin loop
   
   // Find log-likelihood contributions from parameter constraints
   for ( const auto & par : m_container->m_fit_pars ) {
     if ( (! par.is_fixed()) && par.has_constraint()) { 
       // Parameter constraints are assumed to be gaussian
-      m_nll += 
+      num = 
         this->nll_gaussian( 
           par.m_val_mod, 
           par.get_constr_val(), 
           par.get_constr_unc()
         );
+        
+      // Perform the numerically safer Kahan sum
+      y = num - c;
+      t = m_nll + y;
+      c = (t - m_nll) - y;
+      m_nll = t;
     }
   }
 }
