@@ -45,6 +45,16 @@ bool Num::equal_to_eps(const std::vector<T> &v1, const std::vector<T> &v2,
 
 //------------------------------------------------------------------------------
 
+template <class T>
+void Num::csum(T &a,T b,T &c) { //this function adds a and b, and passes c as a compensation term
+    T y = b-c; //y is the correction of b argument
+    b = a+y; //add corrected b argument to a argument. The output of the current summation
+    c = (b-a)-y; //find new error to be passed as a compensation term
+    a = b;
+}
+
+//------------------------------------------------------------------------------
+
 } // namespace CppUtils
 } // namespace PrEW
 

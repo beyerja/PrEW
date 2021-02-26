@@ -1,3 +1,4 @@
+#include <CppUtils/Num.h>
 #include <Fcts/Systematics.h>
 
 // Standard library
@@ -111,9 +112,18 @@ double Systematics::acceptance_box_polynomial (
   double dc = (*(p[0]));
   double dw = (*(p[1]));
   
-  double factor = c[0] + c[1] * dc + c[2] * dw
-                  + c[3] * std::pow(dc,2) + c[4] * std::pow(dw,2)
-                  + c[5] * dc * dw;
+  double factor = 0;
+  double corr = 0;
+  CppUtils::Num::csum(factor,   c[0], corr);
+  CppUtils::Num::csum(factor, c[1] * dc, corr);
+  CppUtils::Num::csum(factor, c[2] * dw, corr);
+  CppUtils::Num::csum(factor, c[3] * std::pow(dc,2), corr);
+  CppUtils::Num::csum(factor, c[4] * std::pow(dw,2), corr);
+  CppUtils::Num::csum(factor, c[5] * dc * dw, corr);
+  
+  // c[0] + c[1] * dc + c[2] * dw
+  //                 + c[3] * std::pow(dc,2) + c[4] * std::pow(dw,2)
+  //                 + c[5] * dc * dw;
   
   // Enforce that the factor can only be between 0 and 1
   if (factor > 1) {

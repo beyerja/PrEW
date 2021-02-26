@@ -1,8 +1,12 @@
 #include <Connect/Linker.h>
 #include <Connect/LinkHelp.h>
+#include <CppUtils/Num.h>
 #include <Data/CoefDistr.h>
 #include <Data/FctLink.h>
 #include <GlobalVar/Chiral.h>
+
+// Standard library 
+#include <cmath>
 
 namespace PrEW {
 namespace Connect {
@@ -76,9 +80,21 @@ std::function<double()> LinkHelp::get_modified_sigma(
   **/
   auto sigma_mod_fct = 
     [sigma,alphas](){
-      double sigma_mod = sigma;
-      for (const auto & alpha: alphas) {sigma_mod *= alpha();}
-      return sigma_mod;
+      // double sigma_mod = sigma;
+      // for (const auto & alpha: alphas) {sigma_mod *= alpha();}
+      // return sigma_mod;
+      double log_sigma = std::log(sigma);
+      double c = 0;
+      for (const auto & alpha: alphas){
+        double alpha_val = alpha();
+        if (alpha_val > 0 ) {
+          CppUtils::Num::csum(log_sigma,std::log(alpha_val),c);
+          // log_sigma += std::log(alpha_val);
+        } else {
+          return 0.0;
+        }
+      }
+      return std::exp(log_sigma);
     };
   return sigma_mod_fct;
 }

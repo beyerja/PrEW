@@ -1,12 +1,14 @@
 #include <Connect/DataConnector.h>
 #include <Connect/Linker.h>
 #include <Connect/LinkHelp.h>
+#include <CppUtils/Num.h>
 #include <Data/DistrUtils.h>
 #include <Data/PredDistr.h>
 #include <GlobalVar/Chiral.h>
 
 #include "spdlog/spdlog.h"
 
+#include <cmath>
 #include <exception>
 #include <string>
 
@@ -280,11 +282,29 @@ void DataConnector::fill_bins(
         sigma_sig_RR_mod, pol_factor_RR,
         alphas_sig_pol
       ] () {
-        double sigma_mod =  pol_factor_LR() * sigma_sig_LR_mod() +
-                            pol_factor_RL() * sigma_sig_RL_mod() +
-                            pol_factor_LL() * sigma_sig_LL_mod() +
-                            pol_factor_RR() * sigma_sig_RR_mod();
-        for (const auto & alpha: alphas_sig_pol) {sigma_mod *= alpha();}
+        double sigma_mod = 0;
+        double c = 0;
+        CppUtils::Num::csum(sigma_mod, pol_factor_LR() * sigma_sig_LR_mod(),c);
+        CppUtils::Num::csum(sigma_mod, pol_factor_RL() * sigma_sig_RL_mod(),c);
+        CppUtils::Num::csum(sigma_mod, pol_factor_LL() * sigma_sig_LL_mod(),c);
+        CppUtils::Num::csum(sigma_mod, pol_factor_RR() * sigma_sig_RR_mod(),c);
+        // pol_factor_LR() * sigma_sig_LR_mod() +
+        // pol_factor_RL() * sigma_sig_RL_mod() +
+        // pol_factor_LL() * sigma_sig_LL_mod() +
+        // pol_factor_RR() * sigma_sig_RR_mod();
+        // for (const auto & alpha: alphas_sig_pol) { sigma_mod *= alpha(); }
+        double log_sigma = std::log(sigma_mod);
+        c = 0;
+        for (const auto & alpha: alphas_sig_pol){
+          double alpha_val = alpha();
+          if (alpha_val > 0 ) {
+            CppUtils::Num::csum(log_sigma,std::log(alpha_val),c);
+            // log_sigma += std::log(alpha_val);
+          } else {
+            return 0.0;
+          }
+        }
+        sigma_mod = std::exp(log_sigma);
         return sigma_mod;
       };
     // -------------------------------------------------------------------------
