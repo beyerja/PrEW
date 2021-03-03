@@ -149,5 +149,71 @@ double Physics::asymm_Af_2f_RL (
 
 //------------------------------------------------------------------------------
 
+double Physics::general_2f_param_LR (
+  const Data::BinCoord &x,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /**
+      c[0] - cross section in bin (completely replaced)
+      c[1] - index of cos(theta) coordinate in coordinate vector
+      
+      p[0] - xs0
+      p[1] - Ae
+      p[2] - Af
+      p[3] - AR
+      p[4] - kL
+      p[5] - kR
+  **/
+
+  double x_up = x.get_edge_up()[int(c[1])];
+  double x_low = x.get_edge_low()[int(c[1])];
+  double integral_const = x_up - x_low;
+  double integral_lin = 0.5 * ( std::pow(x_up,2) - std::pow(x_low,2) );
+  double integral_quad = 1.0/3.0 * ( std::pow(x_up,3) - std::pow(x_low,3) );
+
+  double factor = (*(p[0]))/c[0] * (
+      ( (1.0 + (*(p[1])))/2.0 + (*(p[4])) ) * integral_const
+    + ( 1.0 + (*(p[3])) ) * (*(p[2])) * integral_lin
+    + ( (1.0 + (*(p[1])))/2.0 - 3.0 * (*(p[4])) ) * integral_quad
+  );
+  if (factor < 0) { factor = 0; }
+  return factor;
+}
+
+double Physics::general_2f_param_RL (
+  const Data::BinCoord &x,
+  const std::vector<double>   &c,
+  const std::vector<double*>  &p
+) {
+  /**
+      c[0] - cross section in bin (completely replaced)
+      c[1] - index of cos(theta) coordinate in coordinate vector
+      
+      p[0] - xs0
+      p[1] - Ae
+      p[2] - Af
+      p[3] - AR
+      p[4] - kL
+      p[5] - kR
+  **/
+
+  double x_up = x.get_edge_up()[int(c[1])];
+  double x_low = x.get_edge_low()[int(c[1])];
+  double integral_const = x_up - x_low;
+  double integral_lin = 0.5 * ( std::pow(x_up,2) - std::pow(x_low,2) );
+  double integral_quad = 1.0/3.0 * ( std::pow(x_up,3) - std::pow(x_low,3) );
+
+  double factor = (*(p[0]))/c[0] * (
+      ( (1.0 - (*(p[1])))/2.0 + (*(p[5])) ) * integral_const
+    - ( 1.0 - (*(p[3])) ) * (*(p[2])) * integral_lin
+    + ( (1.0 - (*(p[1])))/2.0 - 3.0 * (*(p[5])) ) * integral_quad
+  );
+  if (factor < 0) { factor = 0; }
+  return factor;
+}
+
+//------------------------------------------------------------------------------
+
 } // Namespace Fcts
 } // Namespace PrEW

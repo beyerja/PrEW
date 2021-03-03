@@ -35,6 +35,8 @@ namespace Fcts {
     {"AsymmFactor2_3allowed", Physics::asymm_3chixs_a2},
     {"AsymmFactorLR_Af_2f", Physics::asymm_Af_2f_LR},
     {"AsymmFactorRL_Af_2f", Physics::asymm_Af_2f_RL},
+    {"General2fParam_LR", Physics::general_2f_param_LR},
+    {"General2fParam_RL", Physics::general_2f_param_RL},
     // Systematic effects
     {"PolarisationFactor", Systematics::polarisation_factor},
     {"LuminosityFraction", Systematics::luminosity_fraction},
