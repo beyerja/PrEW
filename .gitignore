@@ -5,3 +5,6 @@
 /lib
 *.root
 /source/prout/__pycache__
+/source/prout/build
+/source/prout/dist
+/source/prout/PrOut_beyerja.egg-info
