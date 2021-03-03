@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 // Inputs from PrEW
+#include <CppUtils/Num.h>
 #include <Data/DistrInfo.h>
 #include <GlobalVar/Chiral.h>
 #include <Input/CSVInterpreter.h>
@@ -8,6 +9,7 @@
 // Standard library
 #include <string>
 
+using namespace PrEW::CppUtils;
 using namespace PrEW::Data;
 using namespace PrEW::GlobalVar;
 using namespace PrEW::Input;
@@ -30,6 +32,11 @@ TEST(TestCSVInterpreter, TestDataReading) {
   // Number of bins is 5, bin dimension is 2
   ASSERT_EQ(pred_distr.m_coords.size(), 5);
   ASSERT_EQ(pred_distr.m_coords.at(0).get_dim(), 2);
+  // Check the first direction of the first coordinate
+  auto first_coord = pred_distr.m_coords.at(0);
+  ASSERT_TRUE( Num::equal_to_eps(first_coord.get_center()[0], 0.01) );
+  ASSERT_TRUE( Num::equal_to_eps(first_coord.get_edge_low()[0], 0.005) );
+  ASSERT_TRUE( Num::equal_to_eps(first_coord.get_edge_up()[0], 0.015) );
 }
 
 //------------------------------------------------------------------------------

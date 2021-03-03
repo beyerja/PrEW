@@ -13,8 +13,8 @@ namespace Input {
 // Marker definition
 
 const std::string CSVInterpreter::BinCenterMarker = "BinCenters";
-const std::string CSVInterpreter::BinLowMarker = "BinUp";
-const std::string CSVInterpreter::BinUpMarker = "BinLow";
+const std::string CSVInterpreter::BinLowMarker = "BinLow";
+const std::string CSVInterpreter::BinUpMarker = "BinUp";
 const std::string CSVInterpreter::CoefficientMarker = "Coef";
 
 //------------------------------------------------------------------------------
