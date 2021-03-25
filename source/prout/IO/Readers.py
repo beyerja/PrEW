@@ -1,80 +1,31 @@
-""" Python module providing classes for reading PrEW output.
+#-------------------------------------------------------------------------------
+
+""" Reader classes to interpret the output of a PrEW run.
 """
 
 #-------------------------------------------------------------------------------
 
+# Local modules
+import Markers # PrEW output markers
+import Results # PrEW result storage classes
+
+#-------------------------------------------------------------------------------
+
+# External packages
 import numpy as np
-  
-#-------------------------------------------------------------------------------
-#=== Storage classes ===========================================================
-# Storage classes that can be used by user to further analyse fit results
-#-------------------------------------------------------------------------------
-  
-class FitResult:
-  """ Storage class for results of an individual fit.
-  """
-  def __init__(self):
-    self.pars_fin   = np.array([]) # Final parameter values after fit
-    self.uncs_fin   = np.array([]) # Final parameter uncertainties after fit
-    self.cov_matrix = np.array([[]]) # Covariance matrix after fit
-    self.cor_matrix = np.array([[]]) # Correlation matrix after fit
-    self.n_bins = -1;      # Number of bins that the minimization was performed on
-    self.n_free_pars = -1; # Number of non-fixed parameters
-    self.n_fct_calls = -1; # Number of chi^2-function calls by minimizer
-    self.n_iters = -1;     # Number of iterations in minimization stepping
-    self.chisq_fin  = -1 # Chi-Squared at fit result
-    self.edm_fin    = 0  # Expected distance from minimum at fit result
-    self.min_status = -1 # Status of minimization (see Minuit2, 0=success)
-    self.cov_status = -1 # Status of covariance matrix calculation (see Minuit2)
-  
-#-------------------------------------------------------------------------------
-  
-class RunResult:
-  """ Storage class for results of a whole run of potentially multiple fits.
-  """
-  def __init__(self):
-    self.par_names = []  # Names of parameters used in fit
-    self.fit_results = []  # Results of individual fits performed in this setup
 
-#-------------------------------------------------------------------------------
-#===============================================================================
-#-------------------------------------------------------------------------------
-
-class Markers:
-  """ Define markers in a standard PrEW output file.
-  """
-  run_sep_beg = "<=========================== BEGIN ==========================>"
-  run_sep_end = "<============================ END ===========================>"
-  setup_beg = "<SETUP>"
-  setup_end = "<END SETUP>"
-  fits_beg = "<FITS>"
-  fits_end = "<END FITS>"
-  fit_id_beg = "[F"
-  fit_id_end = "[END F"
-  fit_id_cls = "]"
-  
-  def is_fit_id_beg(self,str):
-    """ Check if string fits shape of fit beginning identifier. """
-    return str.startswith(self.fit_id_beg) and str.endswith(self.fit_id_cls)
-  
-  def is_fit_id_end(self,str):
-    """ Check if string fits shape of fit end identifier. """
-    return str.startswith(self.fit_id_end) and str.endswith(self.fit_id_cls)
-    
 #-------------------------------------------------------------------------------
 
 class RunReader:
   """ Class to read one PrEW run (which can contain many fits in the same 
       setup).
   """
-  markers = Markers() # The output markers which are used by PrEW
-  
   def __init__(self,run_lines):
     """ Class takes array of string lines representing the output of one PrEW 
         run.
     """
     self.run_lines = run_lines
-    self.run_result = RunResult() # The final result
+    self.run_result = Results.RunResult() # The final result
         
   def find_fits(self):
     """ Find the string lines of the run which represent the individual fit 
@@ -83,11 +34,11 @@ class RunReader:
     fits = []
     found_fits = False
     for line in self.run_lines:
-      if line == self.markers.fits_beg:
+      if line == Markers.fits_beg:
         # Found the beginning marker, start taking lines from here
         found_fits = True
         continue
-      elif line == self.markers.fits_end:
+      elif line == Markers.fits_end:
         # Found the ending marker, stop taking lines
         break
       elif found_fits == True:
@@ -99,7 +50,7 @@ class RunReader:
     """ Interpret the lines that describe one individual fit result and store 
         the corresponding values.
     """
-    fit_result = FitResult() # Class object decribing the resulting values
+    fit_result = Results.FitResult() # Class object decribing the resulting values
     
     for l in range(len(fit_result_lines)):
       split_line = fit_result_lines[l].split(" ")
@@ -169,10 +120,10 @@ class RunReader:
       if (len(split_line) > 0) and (split_line[0] == "Parameters:"):
         # Found the line that has the parameter names
         self.run_result.par_names = [par for par in split_line[1:]]
-      elif self.markers.is_fit_id_beg(line):
+      elif Markers.is_fit_id_beg(line):
         # Found the beginning of one individual fit result
         current_fit_result = []
-      elif self.markers.is_fit_id_end(line):
+      elif Markers.is_fit_id_end(line):
         # Found the end of this individual result -> Interpret it
         self.add_fit_result(current_fit_result)
       else:
@@ -197,7 +148,6 @@ class Reader:
       Return array of RunResult objects which contain the information which was 
       output by PrEW.
   """
-  markers = Markers() # Line markers used by PrEW
   
   def __init__(self,file_path):
     """ Constructor take the PrEW output file path
@@ -215,10 +165,10 @@ class Reader:
     found_run = False
     for line in self.lines:
       line = line.strip() # Remove trailing/leading whitespaces etc.
-      if line == self.markers.run_sep_beg:
+      if line == Markers.run_sep_beg:
         # Found beginning of run -> Start reading lines
         found_run = True
-      elif (line == self.markers.run_sep_end) and (current_run != []):
+      elif (line == Markers.run_sep_end) and (current_run != []):
         # Found end of one run, don't read lines unless new one found
         runs.append(current_run)
         found_run = False
