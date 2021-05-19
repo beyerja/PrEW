@@ -157,7 +157,9 @@ double Physics::asymm_Af_2f_RL (
     Coordinates: x[c[1]] - cosine of polar angle in ffbar system
     Coefficients:
       c[0] - cross section in bin (completely replaced)
-      c[1] - index of cos(theta) coordinate in coordinate vector
+      c[1] - integrated LR cross section
+      c[2] - integrated RL cross section
+      c[3] - index of cos(theta) coordinate in coordinate vector
     Parameters:
       p[0] - xs0
       p[1] - Ae
@@ -172,13 +174,15 @@ double Physics::general_2f_param_LR(const Data::BinCoord &x,
                                     const std::vector<double *> &p) {
   /** LR factor of generalised difermion parametrisation (see above).
    **/
-  double x_up = x.get_edge_up()[int(c[1])];
-  double x_low = x.get_edge_low()[int(c[1])];
+  double x_up = x.get_edge_up()[int(c[3])];
+  double x_low = x.get_edge_low()[int(c[3])];
   double integral_const = x_up - x_low;
   double integral_lin = 0.5 * (std::pow(x_up, 2) - std::pow(x_low, 2));
   double integral_quad = 1.0 / 3.0 * (std::pow(x_up, 3) - std::pow(x_low, 3));
+  
+  double xs_fraction = c[0] / (c[1] + c[2]);
 
-  double factor = 3.0 / 8.0 * (*(p[0])) / c[0] * (1.0 + (*(p[1]))) / 2.0 *
+  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * (1.0 + (*(p[1]))) / 2.0 *
                   ((1.0 + *(p[4])) * integral_const +
                    ((*(p[3])) + 2.0 * (*(p[2]))) * integral_lin +
                    (1.0 - 3.0 * *(p[4])) * integral_quad);
@@ -193,13 +197,15 @@ double Physics::general_2f_param_RL(const Data::BinCoord &x,
                                     const std::vector<double *> &p) {
   /** RL factor of generalised difermion parametrisation (see above).
    **/                                      
-  double x_up = x.get_edge_up()[int(c[1])];
-  double x_low = x.get_edge_low()[int(c[1])];
+  double x_up = x.get_edge_up()[int(c[3])];
+  double x_low = x.get_edge_low()[int(c[3])];
   double integral_const = x_up - x_low;
   double integral_lin = 0.5 * (std::pow(x_up, 2) - std::pow(x_low, 2));
   double integral_quad = 1.0 / 3.0 * (std::pow(x_up, 3) - std::pow(x_low, 3));
+  
+  double xs_fraction = c[0] / (c[1] + c[2]);
 
-  double factor = 3.0 / 8.0 * (*(p[0])) / c[0] * (1.0 - (*(p[1]))) / 2.0 *
+  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * (1.0 - (*(p[1]))) / 2.0 *
                   ((1.0 + *(p[5])) * integral_const +
                    ((*(p[3])) - 2.0 * (*(p[2]))) * integral_lin +
                    (1.0 - 3.0 * *(p[5])) * integral_quad);
