@@ -39,6 +39,8 @@ namespace Fit {
         bool is_fixed=false
       );
       
+      FitPar clone(const std::string &name) const;
+      
       const std::string & get_name() const; // Get name
       double get_val_ini() const;   // Get initial value
       double get_unc_ini() const;   // Get initial value

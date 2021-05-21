@@ -127,3 +127,23 @@ TEST(TestFitPar, LimitSetting) {
   ASSERT_EQ(fp.get_lower_lim(), -1.5);
   ASSERT_EQ(fp.get_upper_lim(), 1000);
 }
+
+TEST(TestFitPar, Cloning) {
+  FitPar fp1 ("fp1", 0.1, 0.001, false);
+  fp1.set_limits(0.,2.);
+  fp1.set_constrgauss(0.1,0.05);
+  
+  auto fp2 = fp1.clone("fp2");
+  ASSERT_FALSE(fp1 == fp2);
+  ASSERT_STREQ(fp1.get_name().c_str(), "fp1");
+  ASSERT_STREQ(fp2.get_name().c_str(), "fp2");
+  ASSERT_EQ(fp1.m_val_mod, fp2.m_val_mod);
+  ASSERT_EQ(fp1.get_val_ini(), fp2.get_val_ini());
+  ASSERT_EQ(fp1.get_unc_ini(), fp2.get_unc_ini());
+  ASSERT_EQ(fp1.is_limited(), fp2.is_limited());
+  ASSERT_EQ(fp1.get_lower_lim(), fp2.get_lower_lim());
+  ASSERT_EQ(fp1.get_upper_lim(), fp2.get_upper_lim());
+  ASSERT_EQ(fp1.has_constraint(), fp2.has_constraint());
+  ASSERT_EQ(fp1.get_constr_val(), fp2.get_constr_val());
+  ASSERT_EQ(fp1.get_constr_unc(), fp2.get_constr_unc());
+}
