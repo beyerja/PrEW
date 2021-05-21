@@ -19,6 +19,22 @@ FitPar::FitPar(
   m_val_mod = m_val_ini;
 }
 
+FitPar FitPar::clone(const std::string &name) const {
+  /** Clone this FitPar into a new one that has all the same values and only
+      changes the name.
+   **/
+  auto new_par = FitPar(name, m_val_ini, m_unc_ini, m_is_fixed);
+  new_par.m_val_mod = m_val_mod;
+  if (this->is_limited()) {
+    new_par.set_limits(this->get_lower_lim(),this->get_upper_lim());
+  }
+  
+  if (this->has_constraint()) {
+    new_par.set_constrgauss(this->get_constr_val(),this->get_constr_unc());
+  }
+  return new_par;
+}
+
 //------------------------------------------------------------------------------
 // get functions
 
