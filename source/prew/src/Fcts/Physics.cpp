@@ -165,8 +165,8 @@ double Physics::asymm_Af_2f_RL (
       p[1] - Ae
       p[2] - Af
       p[3] - epsilon_f
-      p[4] - kL
-      p[5] - kR
+      p[4] - k0
+      p[5] - Delta k
 **/
 
 double Physics::general_2f_param_LR(const Data::BinCoord &x,
@@ -181,11 +181,13 @@ double Physics::general_2f_param_LR(const Data::BinCoord &x,
   double integral_quad = 1.0 / 3.0 * (std::pow(x_up, 3) - std::pow(x_low, 3));
   
   double xs_fraction = c[0] / (c[1] + c[2]);
+  
+  double kL = (*(p[4]) + *(p[5])) / 2.0;
 
-  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * (1.0 + (*(p[1]))) / 2.0 *
-                  ((1.0 + *(p[4])) * integral_const +
+  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * 
+                  (1.0 + (*(p[1]))) / 2.0 * ((1.0 + kL) * integral_const +
                    ((*(p[3])) + 2.0 * (*(p[2]))) * integral_lin +
-                   (1.0 - 3.0 * *(p[4])) * integral_quad);
+                   (1.0 - 3.0 * kL) * integral_quad);
   if (factor < 0.0) {
     factor = 0.0;
   }
@@ -204,11 +206,13 @@ double Physics::general_2f_param_RL(const Data::BinCoord &x,
   double integral_quad = 1.0 / 3.0 * (std::pow(x_up, 3) - std::pow(x_low, 3));
   
   double xs_fraction = c[0] / (c[1] + c[2]);
+  
+  double kR = (*(p[4]) - *(p[5])) / 2.0;
 
-  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * (1.0 - (*(p[1]))) / 2.0 *
-                  ((1.0 + *(p[5])) * integral_const +
+  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * 
+                  (1.0 - (*(p[1]))) / 2.0 * ((1.0 + kR) * integral_const +
                    ((*(p[3])) - 2.0 * (*(p[2]))) * integral_lin +
-                   (1.0 - 3.0 * *(p[5])) * integral_quad);
+                   (1.0 - 3.0 * kR) * integral_quad);
   if (factor < 0.0) {
     factor = 0.0;
   }
