@@ -115,9 +115,9 @@ TEST(TestPhysics, General2fParam) {
   // Test the general 2f parametrisation
   BinCoord x {{0.45}, {0.4}, {0.5}};
   std::vector<double> c {2.5e4,2.7e7,0.3e7,0};
-  std::vector<double> p_vals {1.1,0.7,0.3,-0.3,0.1,-0.1};
-  double res_LR = 57.95129999999999;
-  double res_RL = 5.63805;
+  std::vector<double> p_vals {1.1,0.7,0.3,-0.3,0.1,-0.01};
+  double res_LR = 57.04879124999998;
+  double res_RL = 6.08689125;
   
   std::vector<double*> p_ptrs {};
   for (double & p: p_vals) { p_ptrs.push_back(&p); }
