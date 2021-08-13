@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES // To access mathematical constants such as pi
 #include <cmath>
 #include <limits> // For numerical limits (e.g. infinity)
+#include <stdexcept>
 
 // External 
 #include "Math/Functor.h"
@@ -230,6 +231,62 @@ void PoissonNLLMinimizer::minimize() {
   // Form a usable output collection
   this->collect_par_names();
   this->update_result();
+  
+  
+  
+  m_result.m_uncs_fin = std::vector<double>(n_pars, 0);
+  
+  double nll_opt = m_minimizer->MinValue();
+  int MAX_UNC_TEST_STEPS = 5000;
+  for ( unsigned int i_par=0; i_par<n_pars; i_par++ ){
+    FitPar par = m_container->m_fit_pars[i_par];
+    if (par.is_fixed()) {
+      continue;
+    }
+    
+    double p_val_opt = m_minimizer->X()[i_par];
+    double p_val {};
+    double step = m_minimizer->Errors()[i_par] / 50.;
+    
+    double p_val_min {}, p_val_max {};
+    
+    m_minimizer->FixVariable(i_par);
+    for (int s=0; s <= MAX_UNC_TEST_STEPS; s++) {
+      p_val = p_val_opt + double(s) * step;
+      m_minimizer->SetVariableValue( i_par, p_val );
+      m_minimizer->Minimize(); 
+      
+      if (m_minimizer->MinValue() >= nll_opt + 1.0) {
+        p_val_max = p_val;
+        break;
+      }
+
+      if (s == MAX_UNC_TEST_STEPS) {
+        throw std::out_of_range("Reached more than " + std::to_string(MAX_UNC_TEST_STEPS) + " steps for " + par.get_name());
+      }
+    }
+    
+    for (int s=0; s <= MAX_UNC_TEST_STEPS; s++) {
+      p_val = p_val_opt - double(s) * step;
+      m_minimizer->SetVariableValue( i_par, p_val );
+      m_minimizer->Minimize(); 
+      
+      if (m_minimizer->MinValue() >= nll_opt + 1.0) {
+        p_val_min = p_val;
+        break;
+      }
+
+      if (s == MAX_UNC_TEST_STEPS) {
+        throw std::out_of_range("Reached more than " + std::to_string(MAX_UNC_TEST_STEPS) + " steps for " + par.get_name());
+      }
+    }
+    
+    m_result.m_uncs_fin[i_par] = (p_val_max - p_val_min)/2.0;
+
+    // Reset to optimum
+    m_minimizer->SetVariableValue( i_par, p_val_opt );
+    m_minimizer->ReleaseVariable(i_par); 
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -262,7 +319,7 @@ void PoissonNLLMinimizer::update_result() {
   }
   
   m_result.m_pars_fin = std::vector<double>( m_minimizer->X(), m_minimizer->X()+n_pars );
-  m_result.m_uncs_fin = std::vector<double>( m_minimizer->Errors(), m_minimizer->Errors()+n_pars );
+  // m_result.m_uncs_fin = std::vector<double>( m_minimizer->Errors(), m_minimizer->Errors()+n_pars );
   
   m_result.m_n_bins = m_container->m_fit_bins.size();
   m_result.m_n_free_pars = m_minimizer->NFree();

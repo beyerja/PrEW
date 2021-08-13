@@ -15,26 +15,29 @@ using namespace PrEW::Fcts;
 TEST(TestPhysics, AsymmetryFactors2Allowed) {
   // Test the factors on the chiral cross section describing a shift of the 
   // asymmetry when two chiral cross sections are allowed.
-  std::vector<double> c { // Random test cross section values
-    145.7, // E.g. LR
-    63.4   // E.g. RL
-  }; 
-  std::vector<double> p_vals { 0.1 }; // Asymmetry shift
-  std::vector<double*> p_ptrs {};
-  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  double sigma_LR = 4699.82;
+  double sigma_RL = 43.50;
+  double sigma_0 = (sigma_LR + sigma_RL);
+  double A_LR = (sigma_LR - sigma_RL) / sigma_0;
+  double d_A_LR = -0.1;
+  
+  std::vector<double> c { sigma_LR, sigma_RL }; 
+  std::vector<double> p_vals { -0.1 }; // Asymmetry shift
+  std::vector<double*> p_ptrs { &d_A_LR };
+  // for (double & p: p_vals) { p_ptrs.push_back(&p); }
 
-  // Test function against values I got from hand-calculator
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_2chixs_a0({},c,p_ptrs), 1.071757035, 1e-9), 
-    true 
-  ) << "Expected " << 1.071757035 
-    << " got " << Physics::asymm_2chixs_a0({},c,p_ptrs);
-    
-  ASSERT_EQ(
-    Num::equal_to_eps(Physics::asymm_2chixs_a1({},c,p_ptrs), 0.8350946372, 1e-9), 
-    true 
-  ) << "Expected " << 0.8350946372 
-    << " got " << Physics::asymm_2chixs_a1({},c,p_ptrs);
+  double factor_LR = Physics::asymm_2chixs_a0({},c,p_ptrs);
+  double factor_RL = Physics::asymm_2chixs_a1({},c,p_ptrs);
+  
+  double sigma_LR_new = sigma_LR * factor_LR;
+  double sigma_RL_new = sigma_RL * factor_RL;
+  double sigma_0_new = sigma_LR_new + sigma_RL_new;
+  double A_LR_new = (sigma_LR_new - sigma_RL_new) / sigma_0_new;
+  
+  ASSERT_TRUE(Num::equal_to_eps(A_LR + d_A_LR, A_LR_new))
+      << "Expected " << A_LR + d_A_LR << " got " << A_LR_new;
+  ASSERT_TRUE(Num::equal_to_eps(sigma_0, sigma_0_new))
+      << "Expected " << sigma_0 << " got " << sigma_0_new;
 }
 
 //------------------------------------------------------------------------------
