@@ -60,6 +60,10 @@ namespace Physics {
   double general_2f_param_RL (const Data::BinCoord         &x,
                               const std::vector<double>   &c,
                               const std::vector<double*>  &p);
+                              
+  double unpol_2f_param (const Data::BinCoord         &x,
+                         const std::vector<double>   &c,
+                         const std::vector<double*>  &p);
   
   //----------------------------------------------------------------------------
 }

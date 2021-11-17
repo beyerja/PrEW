@@ -129,4 +129,18 @@ TEST(TestPhysics, General2fParam) {
     << "Expected " << res_RL << " got " << Physics::general_2f_param_RL(x,c,p_ptrs);
 }
 
+TEST(TestPhysics, Unpol2fParam) {
+  // Test the unpolaried 2f parametrisation
+  BinCoord x {{0.45}, {0.4}, {0.5}};
+  std::vector<double> c {2.5e4,2.7e7,0.3e7,0};
+  std::vector<double> p_vals {1.1,0.018,0.075};
+  double res = 62.08207499999998; // Externally checked
+  
+  std::vector<double*> p_ptrs {};
+  for (double & p: p_vals) { p_ptrs.push_back(&p); }
+  
+  ASSERT_TRUE(Num::equal_to_eps(Physics::unpol_2f_param(x,c,p_ptrs), res))
+    << "Expected " << res << " got " << Physics::unpol_2f_param(x,c,p_ptrs);
+}
+
 //------------------------------------------------------------------------------

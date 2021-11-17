@@ -35,6 +35,7 @@ namespace Fcts {
     {"AsymmFactor2_3allowed", Physics::asymm_3chixs_a2},
     {"General2fParam_LR", Physics::general_2f_param_LR},
     {"General2fParam_RL", Physics::general_2f_param_RL},
+    {"Unpol2fParam", Physics::unpol_2f_param},
       /** // DEPRECATED 
       {"AsymmFactorLR_Af_2f", Physics::asymm_Af_2f_LR},
       {"AsymmFactorRL_Af_2f", Physics::asymm_Af_2f_RL}, 
