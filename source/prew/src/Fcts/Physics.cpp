@@ -221,5 +221,50 @@ double Physics::general_2f_param_RL(const Data::BinCoord &x,
 
 //------------------------------------------------------------------------------
 
+/** Differential parametrisation in unpolarised di-fermion production.
+    Originates from general formula above.
+    It assumes that polarised quantities (e.g. Ae*epsilon_f in constant term) 
+    can be neglected and that Delta-k * Ae can be neglected as well (<=1e-4).
+    It uses the transformation: A_FB = 3/8 * (ef + 2 Ae Af)
+    Integrates over the bin to be in agreement with the datapoint.
+    
+    Coordinates: x[c[1]] - cosine of polar angle in ffbar system
+    Coefficients:
+      c[0] - cross section in bin (completely replaced)
+      c[1] - integrated LR cross section
+      c[2] - integrated RL cross section
+      c[3] - index of cos(theta) coordinate in coordinate vector
+    Parameters:
+      p[0] - xs0
+      p[1] - A_FB
+      p[4] - k0
+**/
+
+double Physics::unpol_2f_param(const Data::BinCoord &x,
+                               const std::vector<double> &c,
+                               const std::vector<double *> &p) {
+  /** Factor of unpolarised difermion parametrisation (see above).
+      Factor function is same for LR and RL (coefficient values differ).
+   **/
+  double x_up = x.get_edge_up()[int(c[3])];
+  double x_low = x.get_edge_low()[int(c[3])];
+  double integral_const = x_up - x_low;
+  double integral_lin = 0.5 * (std::pow(x_up, 2) - std::pow(x_low, 2));
+  double integral_quad = 1.0 / 3.0 * (std::pow(x_up, 3) - std::pow(x_low, 3));
+  
+  double xs_fraction = c[0] / (c[1] + c[2]);
+  
+  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * 
+                  ((1.0 + (*(p[2]))) * integral_const +
+                   8.0 / 3.0 * (*(p[1])) * integral_lin +
+                   (1.0 - 3.0 * (*(p[2]))) * integral_quad);
+  if (factor < 0.0) {
+    factor = 0.0;
+  }
+  return factor;
+}
+
+//------------------------------------------------------------------------------
+
 } // Namespace Fcts
 } // Namespace PrEW
