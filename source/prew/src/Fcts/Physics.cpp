@@ -254,7 +254,7 @@ double Physics::unpol_2f_param(const Data::BinCoord &x,
   
   double xs_fraction = c[0] / (c[1] + c[2]);
   
-  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * 
+  double factor = 3.0 / 8.0 * (*(p[0])) / xs_fraction * 0.5 *
                   ((1.0 + (*(p[2]))) * integral_const +
                    8.0 / 3.0 * (*(p[1])) * integral_lin +
                    (1.0 - 3.0 * (*(p[2]))) * integral_quad);
