@@ -134,7 +134,7 @@ TEST(TestPhysics, Unpol2fParam) {
   BinCoord x {{0.45}, {0.4}, {0.5}};
   std::vector<double> c {2.5e4,2.7e7,0.3e7,0};
   std::vector<double> p_vals {1.1,0.018,0.075};
-  double res = 62.08207499999998; // Externally checked
+  double res = 31.04103749999999; // Externally checked
   
   std::vector<double*> p_ptrs {};
   for (double & p: p_vals) { p_ptrs.push_back(&p); }
